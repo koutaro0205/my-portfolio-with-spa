@@ -3,7 +3,6 @@ import { useUser } from "./useUser";
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { useParams, Link } from 'react-router-dom';
 import { handleAjaxError } from '../../parts/helpers';
-import { isEmptyObject } from '../../parts/helpers';
 
 const User = () => {
   const { id } = useParams();
@@ -21,10 +20,11 @@ const User = () => {
 
 				const userInfo = await response.json();
 
-        if (userInfo.status === "ok" && !isEmptyObject(userInfo.image) ) {
+        if (userInfo.status === "ok" && userInfo.image ) {
           setUser(userInfo.user);
           setUserImg(userInfo.image);
-          console.log(user)
+        } else {
+          setUser(userInfo.user);
         }
 			} catch (error) {
 				handleAjaxError(error);

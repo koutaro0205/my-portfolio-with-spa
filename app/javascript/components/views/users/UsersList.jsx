@@ -13,6 +13,7 @@ const UserList = () => {
     return userArray.map((user) => (
       <li key={user.id} className="user__item">
         <div className="user__image">
+          <img src={user.image_url ? user.image_url : '/assets/default.jpeg'} alt="" />
         </div>
         <div className="user__name">
           <NavLink to={`/users/${user.id}`} className="user__name-link">{user.name}</NavLink>

@@ -4,14 +4,14 @@ class Api::UsersController < ApplicationController
 
   def index
     @users = User.all
-    render json: @users
+    render json: @users, methods: [:image_url]
   end
 
   def show
     if @user.image.attached?
       render json: { status: :ok, user: @user, image: @user.image_url }
     else
-      render json: { status: :ok, user: @user }
+      render json: { status: :ok, user: @user, image: '/assets/default.jpeg' }
     end
   end
 
