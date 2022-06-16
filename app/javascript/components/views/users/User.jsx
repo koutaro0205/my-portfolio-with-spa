@@ -1,13 +1,38 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useUser } from "./useUser";
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { useParams, Link } from 'react-router-dom';
+import { handleAjaxError } from '../../parts/helpers';
+import { isEmptyObject } from '../../parts/helpers';
 
 const User = () => {
   const { id } = useParams();
   const { users, isLoading, isError} = useUser();
 
-  const user = users.find((e) => e.id === Number(id));
+  // const user = users.find((e) => e.id === Number(id));
+  const [user, setUser] = useState({});
+  const [userImg, setUserImg] = useState();
+
+  useEffect(() => {
+    const getUser = async () => {
+			try {
+				const response = await window.fetch(`/api/users/${id}`);
+				if (!response.ok) throw Error(response.statusText);
+
+				const userInfo = await response.json();
+
+        if (userInfo.status === "ok" && !isEmptyObject(userInfo.image) ) {
+          setUser(userInfo.user);
+          setUserImg(userInfo.image);
+          console.log(user)
+        }
+			} catch (error) {
+				handleAjaxError(error);
+			};
+		};
+
+    getUser();
+  }, []);
 
   return (
     <>
@@ -26,6 +51,7 @@ const User = () => {
               <div className="profileCard profileCard--margin-top">
                 <ul className="profileCard__info">
                   <li className="profileCard__image">
+                    <img src={userImg && userImg} alt="" />
                   </li>
                   <li className="profileCard__user">
                     <p className="profileCard__user-name">{user.name}</p>

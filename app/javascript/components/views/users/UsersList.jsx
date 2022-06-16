@@ -2,8 +2,11 @@ import React from 'react';
 import { useUser } from "./useUser";
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { NavLink } from 'react-router-dom';
+import Auth from '../../providers/Auth';
 
 const UserList = () => {
+  Auth();
+
   const { users, isLoading, isError} = useUser();
 
   const renderUsers = (userArray) => {

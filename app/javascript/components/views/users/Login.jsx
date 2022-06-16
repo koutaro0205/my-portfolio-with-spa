@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { success } from "../../parts/notifications";
 import { handleAjaxError } from '../../parts/helpers';
@@ -8,6 +8,7 @@ const Login = ({setCurrentUser, setLoggedInStatus}) => {
   const [loginInfo, setLoginInfo] = useState({
     email: '',
     password: '',
+    remember_me: false,
   });
   const navigate = useNavigate();
   const [loginError, setLoginError] = useState([]);
@@ -15,7 +16,7 @@ const Login = ({setCurrentUser, setLoggedInStatus}) => {
   const handleInputChange = (e) => {
     const { target } = e;
     const { name } = target;
-    const value = target.value;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
 
     setLoginInfo({ ...loginInfo, [name]: value });
   };
@@ -34,9 +35,10 @@ const Login = ({setCurrentUser, setLoggedInStatus}) => {
       if (!response.ok) throw Error(response.statusText);
 
       const authenticatedUserStatus = await response.json();
+      console.log(authenticatedUserStatus);
 
       if (authenticatedUserStatus.logged_in) {
-        setLoggedInStatus("ログイン中");
+        setLoggedInStatus(true);
         setCurrentUser(authenticatedUserStatus.user);
 
         success('ログイン認証成功');
@@ -111,9 +113,14 @@ const Login = ({setCurrentUser, setLoggedInStatus}) => {
               onChange={handleInputChange}
             />
 
+            <label className='checkbox' htmlFor="remember_me">
+              <input type="checkbox" name="remember_me" id="remember_me" onChange={handleInputChange} />
+              <span className="remember_me">次回から自動的にログインする</span>
+            </label>
+
             <input type="submit" value={"ユーザー登録"} className="form__btn btn" />
           </form>
-          <p className="signup">ユーザー登録されていない方は<a href="#">こちら</a></p>
+          <p className="signup">ユーザー登録されていない方は<Link to={`/users/new`}>こちら</Link></p>
           <p className="reset">パスワードをお忘れの方は<a href="#">こちら</a></p>
         </div>
       </section>

@@ -2,14 +2,12 @@ import React from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { DropDownMenu } from '../parts/animations';
 import { success } from "../parts/notifications";
-// import { useSession } from '../views/users/useSession';
 
 const Header = ({ setCurrentUser, setLoggedInStatus, currentUser }) => {
   const navigate = useNavigate();
-  // const { setCurrentUser, setLoggedInStatus } = useSession();
 
   const handleLogout = () => {
-    setLoggedInStatus("未ログイン");
+    setLoggedInStatus(false);
     setCurrentUser({});
   };
 

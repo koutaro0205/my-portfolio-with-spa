@@ -11,6 +11,7 @@ const UserForm = ({onSave, users}) => {
     email: '',
     password: '',
     password_confirmation: '',
+    image: {data: '', filename: ''},
   };
 
   const currUser = id? users.find((e) => e.id === Number(id)) : {};
@@ -48,6 +49,22 @@ const UserForm = ({onSave, users}) => {
 
     setUser({ ...user, [name]: value });
   };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      setUser({
+        ...user,
+        image: {
+          data: reader.result,
+          filename: file ? file.name : "unknownfile"
+        },
+      });
+    }
+    reader.readAsDataURL(file);
+  }
 
   const validateUser = () => {
     const errors = [];
@@ -112,7 +129,8 @@ const UserForm = ({onSave, users}) => {
       setFormErrors(errors);
     } else {
       onSave(user);
-      console.log("submit, success!");
+      console.log("submit...");
+      console.log(`送信された情報：${user}`);
     }
   };
 
@@ -156,6 +174,16 @@ const UserForm = ({onSave, users}) => {
         id="password_confirmation"
         name="password_confirmation"
         onChange={handleInputChange}
+      />
+
+      <label className='form__label' htmlFor="image">イメージ画像</label>
+      <input
+        className='image__field'
+        type="file"
+        name="image"
+        id="image"
+        accept="image/*,.png,.jpg,.jpeg,.gif"
+        onChange={handleFileChange}
       />
 
       <input type="submit" value={id ? "登録情報更新" : "ユーザー登録"} className="form__btn btn" />

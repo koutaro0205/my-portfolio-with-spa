@@ -6,6 +6,7 @@ class Api::SessionsController < ApplicationController
     user = User.find_by(email: params[:session][:email].downcase)
     if user && user.authenticate(params[:session][:password])
       log_in user
+      params[:session][:remember_me] ? remember(user) : forget(user)
       render json: { logged_in: true, user: user, status: :ok }
     else
       render json: { status: :unauthorized, errors: ['認証に失敗しました。正しいメールアドレス・パスワードを入力し直すか、新規登録を行ってください。'] }
@@ -21,7 +22,7 @@ class Api::SessionsController < ApplicationController
     if current_user
       render json: { user: current_user, logged_in: true }
     else
-      render json: { logged_in: false, message: 'ユーザーが存在しません'}
+      render json: { logged_in: false, message: 'ユーザーが存在しません' }
     end
   end
 

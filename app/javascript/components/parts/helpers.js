@@ -7,6 +7,10 @@ export const handleAjaxError = (err) => {
 };
 
 export const isEmptyObject = obj => Object.keys(obj) === 0;
+
+export const loggedInNow = (loggedInUser) => {
+  return Object.keys(loggedInUser) !== 0;
+}
 // export const LoginSuccessful = (user) => {
 //   setLoggedInStatus("ログイン中");
 //   setCurrentUser(user);

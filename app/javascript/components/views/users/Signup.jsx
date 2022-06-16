@@ -27,7 +27,7 @@ const Signup = ({setCurrentUser, setLoggedInStatus}) => {
       const savedUser = newUserData.user;
       const newUsers = [...users, savedUser];
       setUsers(newUsers);
-      setLoggedInStatus("ログイン中");
+      setLoggedInStatus(true);
       setCurrentUser(savedUser);
       success('ユーザー登録しました。');
       navigate(`/users/${savedUser.id}`);

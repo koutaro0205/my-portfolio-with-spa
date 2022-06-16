@@ -8,11 +8,23 @@ class Api::UsersController < ApplicationController
   end
 
   def show
-    render json: @user
+    if @user.image.attached?
+      render json: { status: :ok, user: @user, image: @user.image_url }
+    else
+      render json: { status: :ok, user: @user }
+    end
   end
 
   def create
     @user = User.new(user_params)
+    if params[:image]
+      blob = ActiveStorage::Blob.create_and_upload!(
+        io: StringIO.new(decode(params[:image][:data]) + "\n"),
+        filename: params[:image][:filename]
+        )
+      @user.image.attach(blob)
+    end
+
     if @user.save
       log_in @user
       render json: { user: @user, logged_in: true, status: :created }
@@ -43,7 +55,11 @@ class Api::UsersController < ApplicationController
     end
 
     def user_params
-      params.permit(:name, :email, :password, :password_confirmation)
+      params.permit(:name, :email, :password, :password_confirmation, :image)
+    end
+
+    def decode(str)
+      Base64.decode64(str.split(',').last)
     end
 
     def correct_user

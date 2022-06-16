@@ -12,8 +12,6 @@ const EditUser = ({setCurrentUser, currentUser}) => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  // const user = users.find((e) => e.id === Number(id));
-
   useEffect(() => {
     const getUser = async (userId) => {
       try {
@@ -39,9 +37,7 @@ const EditUser = ({setCurrentUser, currentUser}) => {
         handleAjaxError(error);
       }
     };
-    // if (!isEmptyObject(currentUser)){
-    //   getUser(currentUser);
-    // };
+
     getUser(id);
   }, []);
 
