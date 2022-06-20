@@ -238,6 +238,12 @@ input[type=button], input[type=text], input[type=submit], input[type=image], tex
   text-align: center;
 }
 
+.loading{
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
 /* form */
 .form__inner {
   width: 50%;

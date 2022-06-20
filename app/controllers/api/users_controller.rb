@@ -38,6 +38,14 @@ class Api::UsersController < ApplicationController
   end
 
   def update
+    if params[:image]
+      blob = ActiveStorage::Blob.create_and_upload!(
+        io: StringIO.new(decode(params[:image][:data]) + "\n"),
+        filename: params[:image][:filename]
+        )
+      @user.image.attach(blob)
+    end
+
     if @user.update(user_params)
       render json: { user: @user, status: :ok, message: "ユーザー情報が更新されました" }
     else

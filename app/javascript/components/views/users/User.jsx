@@ -6,11 +6,11 @@ import { handleAjaxError } from '../../parts/helpers';
 
 const User = () => {
   const { id } = useParams();
-  const { users, isLoading, isError} = useUser();
+  const { isLoading, isError, userImg, setUserImg} = useUser();
 
   // const user = users.find((e) => e.id === Number(id));
   const [user, setUser] = useState({});
-  const [userImg, setUserImg] = useState();
+  // const [userImg, setUserImg] = useState();
 
   useEffect(() => {
     const getUser = async () => {

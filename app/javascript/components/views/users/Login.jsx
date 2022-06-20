@@ -118,10 +118,10 @@ const Login = ({setCurrentUser, setLoggedInStatus}) => {
               <span className="remember_me">次回から自動的にログインする</span>
             </label>
 
-            <input type="submit" value={"ユーザー登録"} className="form__btn btn" />
+            <input type="submit" value={"ログイン"} className="form__btn btn" />
           </form>
           <p className="signup">ユーザー登録されていない方は<Link to={`/users/new`}>こちら</Link></p>
-          <p className="reset">パスワードをお忘れの方は<a href="#">こちら</a></p>
+          <p className="reset">パスワードをお忘れの方は<Link to={`/password_resets/new`}>こちら</Link></p>
         </div>
       </section>
     </>

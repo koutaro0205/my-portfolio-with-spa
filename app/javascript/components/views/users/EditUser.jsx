@@ -8,7 +8,7 @@ import { handleAjaxError, isEmptyObject } from "../../parts/helpers";
 // import { Link } from 'react-router-dom';
 
 const EditUser = ({setCurrentUser, currentUser}) => {
-  const { users, setUsers} = useUser();
+  const { users, setUsers } = useUser();
   const navigate = useNavigate();
   const { id } = useParams();
 

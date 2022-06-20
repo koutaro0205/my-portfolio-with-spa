@@ -6,6 +6,8 @@ import UserList from '../views/users/UsersList';
 import User from '../views/users/User';
 import EditUser from '../views/users/EditUser';
 import Login from '../views/users/Login';
+import PasswordResetForm from '../views/users/PasswordResetForm';
+import EditPassword from '../views/users/EditPassword';
 
 const Main = ({setCurrentUser, setLoggedInStatus, currentUser}) => {
 
@@ -19,6 +21,8 @@ const Main = ({setCurrentUser, setLoggedInStatus, currentUser}) => {
 				<Route path={`/users/:id/edit`} element={<EditUser setCurrentUser={setCurrentUser} currentUser={currentUser}/>} />
 
 				<Route path={`/users/`} element={<UserList />}/>
+				<Route path={`/password_resets/new`} element={<PasswordResetForm/>} />
+				<Route path={`/password_resets/:token/edit`} element={<EditPassword setCurrentUser={setCurrentUser} setLoggedInStatus={setLoggedInStatus}/>} />
 			</Routes>
 		</main>
   );

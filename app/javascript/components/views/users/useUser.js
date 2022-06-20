@@ -5,6 +5,8 @@ export const useUser = () => {
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
+  const [userImg, setUserImg] = useState();
+  // const [ exsistedEmail, setEmail ] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -12,7 +14,6 @@ export const useUser = () => {
         const response = await window.fetch('/api/users');
         if (!response.ok) throw Error(response.statusText);
         const data = await response.json();
-        console.log(data);
         setUsers(data);
       } catch (error) {
         setIsError(true);
@@ -27,8 +28,11 @@ export const useUser = () => {
 
   return {
     users,
+    setIsLoading,
     isLoading,
     isError,
-    setUsers
+    setUsers,
+    userImg,
+    setUserImg,
   };
 };
