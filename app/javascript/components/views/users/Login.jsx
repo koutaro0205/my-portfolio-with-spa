@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
-import { success } from "../../parts/notifications";
+import { success, warn } from "../../parts/notifications";
 import { handleAjaxError } from '../../parts/helpers';
+import { useUrl } from './useUrl';
 
 const Login = ({setCurrentUser, setLoggedInStatus}) => {
+  const { url } = useUrl();
   const [loginInfo, setLoginInfo] = useState({
     email: '',
     password: '',
@@ -37,11 +39,14 @@ const Login = ({setCurrentUser, setLoggedInStatus}) => {
       const authenticatedUserStatus = await response.json();
       console.log(authenticatedUserStatus);
 
-      if (authenticatedUserStatus.logged_in) {
+      if (authenticatedUserStatus.logged_in && authenticatedUserStatus.activated) {
         setLoggedInStatus(true);
         setCurrentUser(authenticatedUserStatus.user);
 
         success('ログイン認証成功');
+        navigate(`/`);
+      } else if (!authenticatedUserStatus.logged_in && !authenticatedUserStatus.activated) {
+        warn(authenticatedUserStatus.message);
         navigate(`/`);
       } else {
         const errorMessage = authenticatedUserStatus.errors;

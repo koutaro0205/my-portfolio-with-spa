@@ -14,6 +14,7 @@ export const useUser = () => {
         const response = await window.fetch('/api/users');
         if (!response.ok) throw Error(response.statusText);
         const data = await response.json();
+        // console.log(data[0].image_url);
         setUsers(data);
       } catch (error) {
         setIsError(true);
@@ -22,8 +23,8 @@ export const useUser = () => {
 
       setIsLoading(false);
     };
-
     fetchData();
+
   }, []);
 
   return {

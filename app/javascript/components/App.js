@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Footer from './templates/Footer';
 import Header from './templates/Header';
 import Main from './templates/Main';
@@ -9,6 +9,7 @@ import { handleAjaxError } from './parts/helpers';
 
 const App = () => {
 	const { loggedInStatus, currentUser, setCurrentUser, setLoggedInStatus } = useSession();
+	const [currentUserImg, setCurrentUserImg] = useState("");
 
 	useEffect(() => {
 		const checkLoginStatus = async () => {
@@ -18,7 +19,11 @@ const App = () => {
 
 				const userStatus = await response.json();
 
-				if (userStatus.logged_in && loggedInStatus === false) {
+				if (userStatus.logged_in && loggedInStatus === false && userStatus.image){
+					setLoggedInStatus(true);
+					setCurrentUser(userStatus.user);
+					setCurrentUserImg(userStatus.image);
+				} else if (userStatus.logged_in && loggedInStatus === false) {
 					setLoggedInStatus(true);
 					setCurrentUser(userStatus.user);
 				} else if (!userStatus.logged_in && loggedInStatus === true) {
@@ -36,9 +41,16 @@ const App = () => {
 	return(
 		<>
 			<Header setCurrentUser={setCurrentUser} setLoggedInStatus={setLoggedInStatus} currentUser={currentUser}/>
+			<h1>デバッグ</h1>
 			<p>ログイン状況：{loggedInStatus ? "ログイン中" : "未ログイン"}</p>
 			<p>ログイン中のユーザー：{currentUser.name ? currentUser.name : "ログイン中のユーザーはいません"}</p>
-			<Main setCurrentUser={setCurrentUser} setLoggedInStatus={setLoggedInStatus} currentUser={currentUser}/>
+			<Main
+				setCurrentUser={setCurrentUser}
+				setLoggedInStatus={setLoggedInStatus}
+				currentUser={currentUser}
+				currentUserImg={currentUserImg}
+				setCurrentUserImg={setCurrentUserImg}
+			/>
 			<Footer />
 			<ToastContainer />
 		</>

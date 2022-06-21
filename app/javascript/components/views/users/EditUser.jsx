@@ -7,7 +7,7 @@ import { success, warn } from "../../parts/notifications";
 import { handleAjaxError, isEmptyObject } from "../../parts/helpers";
 // import { Link } from 'react-router-dom';
 
-const EditUser = ({setCurrentUser, currentUser}) => {
+const EditUser = ({setCurrentUser, currentUser, currentUserImg, setCurrentUserImg}) => {
   const { users, setUsers } = useUser();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -28,7 +28,7 @@ const EditUser = ({setCurrentUser, currentUser}) => {
         if (!response.ok) throw Error(response.statusText);
 
         const data = await response.json();
-        console.log(data);
+        setCurrentUserImg(data.image);
         if(data.status === 'forbidden'){
           warn(data.message);
           navigate(`/`);
@@ -67,6 +67,7 @@ const EditUser = ({setCurrentUser, currentUser}) => {
         newUsers[idx] = updatedUser;
         setUsers(newUsers);
         setCurrentUser(updatedUser);
+        setCurrentUserImg(updatedUserInfo.image);
         success('ユーザー情報が更新されました！');
         navigate(`/users/${updatedUser.id}`);
       } else {
@@ -90,6 +91,7 @@ const EditUser = ({setCurrentUser, currentUser}) => {
           <h1 className="sectionTitle">現在の登録情報</h1>
           <ul className="profileCard__info">
             <li className="profileCard__image">
+              <img src={currentUserImg ? currentUserImg : '/assets/default.jpeg'} alt="" />
             </li>
             <li className="profileCard__user">
               <p className="profileCard__user-name">{!isEmptyObject(currentUser) ? currentUser.name : null}</p>

@@ -1,11 +1,14 @@
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import { warn } from "../parts/notifications";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useUrl } from "../views/users/useUrl";
 
 const Auth = () => {
   const navigate = useNavigate();
+	const location = useLocation();
+	const { setUrl } = useUrl();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const checkLoginStatus = async () => {
 			try {
 				const response = await window.fetch('/api/logged_in');
@@ -13,9 +16,8 @@ const Auth = () => {
 
 				const userStatus = await response.json();
 
-				console.log(userStatus);
-
 				if (!userStatus.logged_in) {
+					setUrl(location.pathname);
 					warn("ログインが必要です");
           navigate(`/login/`);
 				}

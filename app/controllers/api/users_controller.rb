@@ -17,37 +17,31 @@ class Api::UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    if params[:image]
-      blob = ActiveStorage::Blob.create_and_upload!(
-        io: StringIO.new(decode(params[:image][:data]) + "\n"),
-        filename: params[:image][:filename]
-        )
-      @user.image.attach(blob)
+    if params[:image].empty?
+      attach_image(@user)
     end
 
     if @user.save
-      log_in @user
-      render json: { user: @user, logged_in: true, status: :created }
+      @user.send_activation_email
+      render json: { user: @user, message: "アカウントの有効化を行うため、メールをご確認ください" }
     else
       render json: @user.errors, status: :unprocessable_entity
     end
   end
 
   def edit
-    render json: { status: :ok, user: @user}
+    render json: { status: :ok, user: @user, image: @user.image_url}
   end
 
   def update
-    if params[:image]
-      blob = ActiveStorage::Blob.create_and_upload!(
-        io: StringIO.new(decode(params[:image][:data]) + "\n"),
-        filename: params[:image][:filename]
-        )
-      @user.image.attach(blob)
+    if params[:image].empty?
+      attach_image(@user)
+    else
+      attach_image(@user)
     end
 
     if @user.update(user_params)
-      render json: { user: @user, status: :ok, message: "ユーザー情報が更新されました" }
+      render json: { user: @user, status: :ok, message: "ユーザー情報が更新されました", image: @user.image_url}
     else
       render json: { user: @user.errors, status: :unprocessable_entity }
     end
@@ -57,9 +51,29 @@ class Api::UsersController < ApplicationController
     @user.destroy
   end
 
+  def admin_user?
+    if current_user
+      if current_user.admin?
+        render json: { user: current_user, admin: true }
+      else
+        render json: { user: current_user, admin: false }
+      end
+    else
+      render json: { logged_in: false, message: 'ユーザーが存在しません' }
+    end
+  end
+
   private
     def set_user
       @user = User.find(params[:id])
+    end
+
+    def attach_image(user)
+      blob = ActiveStorage::Blob.create_and_upload!(
+        io: StringIO.new(decode(params[:image][:data]) + "\n"),
+        filename: params[:image][:filename]
+        )
+      user.image.attach(blob)
     end
 
     def user_params

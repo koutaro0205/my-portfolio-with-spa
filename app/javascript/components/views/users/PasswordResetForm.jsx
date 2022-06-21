@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
-// import { useUser } from './useUser';
-import { useNavigate, Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { success } from "../../parts/notifications";
 import { handleAjaxError } from '../../parts/helpers';
@@ -83,7 +82,7 @@ const PasswordResetForm = () => {
     <>
       <HelmetProvider>
         <Helmet>
-          <title></title>
+          <title>パスワードをお忘れですか？</title>
         </Helmet>
       </HelmetProvider>
       {isLoading ? (

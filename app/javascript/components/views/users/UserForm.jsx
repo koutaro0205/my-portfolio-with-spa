@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 
-const UserForm = ({onSave, users}) => {
+const UserForm = ({onSave, users, setIsLoading, isLoading}) => {
 
   const { id } = useParams();
 
@@ -89,8 +89,14 @@ const UserForm = ({onSave, users}) => {
       errors.push("正規表現パターンに一致していません。");
     }
 
-    if (user.password === '' || user.password.length < 6 || user.password_confirmation === '' || user.password_confirmation.length < 6) {
-      errors.push('パスワードを6文字以上で入力してください');
+    if(!id){
+      if (user.password === '' || user.password_confirmation === ''){
+        errors.push('パスワードを入力してください');
+      }
+  
+      if (user.password.length < 6 || user.password_confirmation.length < 6) {
+        errors.push('パスワードを6文字以上で入力してください');
+      }
     }
 
     if (user.password_confirmation !== user.password) {
@@ -129,65 +135,73 @@ const UserForm = ({onSave, users}) => {
       setFormErrors(errors);
     } else {
       onSave(user);
-      console.log("submit...");
-      console.log(`送信された情報：${user}`);
+      if ( !id ) {
+        setIsLoading(true);
+      }
     }
   };
 
   return (
-    <form className="form" onSubmit={handleSubmit}>
-      {renderErrors()}
+    <>
+      {isLoading ? (
+        <p className='loading'>メールを送信中です。今しばらくお待ちください。</p>
+        ) : (
+          <form className="form" onSubmit={handleSubmit}>
+          {renderErrors()}
 
-      <label className="form__label" htmlFor="name">名前</label>
-      <input
-        className="form__field"
-        type="text"
-        id="name"
-        name="name"
-        onChange={handleInputChange}
-        value={user.name}
-      />
+          <label className="form__label" htmlFor="name">名前</label>
+          <input
+            className="form__field"
+            type="text"
+            id="name"
+            name="name"
+            onChange={handleInputChange}
+            value={user.name}
+          />
 
-      <label className="form__label" htmlFor="email">メールアドレス</label>
-      <input
-        className="form__field"
-        type="email"
-        id="email"
-        name="email"
-        onChange={handleInputChange}
-        value={user.email}
-      />
+          <label className="form__label" htmlFor="email">メールアドレス</label>
+          <input
+            className="form__field"
+            type="email"
+            id="email"
+            name="email"
+            onChange={handleInputChange}
+            value={user.email}
+          />
 
-      <label className="form__label" htmlFor="password">パスワード{id ? "(再入力)" : null}</label>
-      <input
-        className="form__field"
-        type="password"
-        id="password"
-        name="password"
-        onChange={handleInputChange}
-      />
+          <label className="form__label" htmlFor="password">パスワード{id ? "(再入力)" : null}</label>
+          <input
+            className="form__field"
+            type="password"
+            id="password"
+            name="password"
+            onChange={handleInputChange}
+          />
 
-      <label className="form__label" htmlFor="password_confirmation">パスワード確認{id ? "(再入力)" : null}</label>
-      <input
-        className="form__field"
-        type="password"
-        id="password_confirmation"
-        name="password_confirmation"
-        onChange={handleInputChange}
-      />
+          <label className="form__label" htmlFor="password_confirmation">パスワード確認{id ? "(再入力)" : null}</label>
+          <input
+            className="form__field"
+            type="password"
+            id="password_confirmation"
+            name="password_confirmation"
+            onChange={handleInputChange}
+          />
 
-      <label className='form__label' htmlFor="image">イメージ画像</label>
-      <input
-        className='image__field'
-        type="file"
-        name="image"
-        id="image"
-        accept="image/*,.png,.jpg,.jpeg,.gif"
-        onChange={handleFileChange}
-      />
+          <label className='form__label' htmlFor="image">イメージ画像</label>
+          <input
+            className='image__field'
+            type="file"
+            name="image"
+            id="image"
+            accept="image/*,.png,.jpg,.jpeg,.gif"
+            onChange={handleFileChange}
+          />
 
-      <input type="submit" value={id ? "登録情報更新" : "ユーザー登録"} className="form__btn btn" />
-    </form>
+          <input type="submit" value={id ? "登録情報更新" : "ユーザー登録"} className="form__btn btn" />
+        </form>
+        )
+      }
+    </>
   );
 };
 

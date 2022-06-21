@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useUser } from "./useUser";
 import { Helmet, HelmetProvider } from 'react-helmet-async';
-import { success } from "../../parts/notifications";
+import { info } from "../../parts/notifications";
 import UserForm from "./UserForm";
 import { handleAjaxError } from '../../parts/helpers';
 
-const Signup = ({setCurrentUser, setLoggedInStatus}) => {
+const Signup = () => {
   const { users, setUsers } = useUser();
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -27,10 +28,8 @@ const Signup = ({setCurrentUser, setLoggedInStatus}) => {
       const savedUser = newUserData.user;
       const newUsers = [...users, savedUser];
       setUsers(newUsers);
-      setLoggedInStatus(true);
-      setCurrentUser(savedUser);
-      success('ユーザー登録しました。');
-      navigate(`/users/${savedUser.id}`);
+      info(newUserData.message);
+      navigate(`/`);
     } catch (error) {
       handleAjaxError(error);
     }
@@ -46,7 +45,7 @@ const Signup = ({setCurrentUser, setLoggedInStatus}) => {
       <section className="section content-width">
         <div className="form__inner">
           <h1 className="sectionTitle">ユーザー登録</h1>
-          <UserForm onSave={addUser} users={users} />
+          <UserForm onSave={addUser} users={users} setIsLoading={setIsLoading} isLoading={isLoading} />
         </div>
       </section>
     </>

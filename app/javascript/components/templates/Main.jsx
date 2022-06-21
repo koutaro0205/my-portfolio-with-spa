@@ -8,8 +8,9 @@ import EditUser from '../views/users/EditUser';
 import Login from '../views/users/Login';
 import PasswordResetForm from '../views/users/PasswordResetForm';
 import EditPassword from '../views/users/EditPassword';
+import AccountActivation from '../views/users/AccountActivation';
 
-const Main = ({setCurrentUser, setLoggedInStatus, currentUser}) => {
+const Main = ({setCurrentUser, setLoggedInStatus, currentUser, currentUserImg, setCurrentUserImg}) => {
 
   return (
     <main className='main'>
@@ -18,11 +19,12 @@ const Main = ({setCurrentUser, setLoggedInStatus, currentUser}) => {
 				<Route path={`/users/new/`} element={<Signup setCurrentUser={setCurrentUser} setLoggedInStatus={setLoggedInStatus}/>}/>
 				<Route path={`/login/`} element={<Login setCurrentUser={setCurrentUser} setLoggedInStatus={setLoggedInStatus}/>}/>
 				<Route path={`/users/:id/`} element={<User />} />
-				<Route path={`/users/:id/edit`} element={<EditUser setCurrentUser={setCurrentUser} currentUser={currentUser}/>} />
+				<Route path={`/users/:id/edit`} element={<EditUser setCurrentUser={setCurrentUser} currentUser={currentUser} currentUserImg={currentUserImg} setCurrentUserImg={setCurrentUserImg}/>} />
 
-				<Route path={`/users/`} element={<UserList />}/>
+				<Route path={`/users/`} element={<UserList currentUser={currentUser} currentUserImg={currentUserImg} />}/>
 				<Route path={`/password_resets/new`} element={<PasswordResetForm/>} />
 				<Route path={`/password_resets/:token/edit`} element={<EditPassword setCurrentUser={setCurrentUser} setLoggedInStatus={setLoggedInStatus}/>} />
+				<Route path={`/account_activations/:token/edit`} element={<AccountActivation setCurrentUser={setCurrentUser} setLoggedInStatus={setLoggedInStatus}/>} />
 			</Routes>
 		</main>
   );
