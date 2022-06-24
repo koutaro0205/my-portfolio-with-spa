@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
 import { useUser } from "./useUser";
-import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { useNavigate, useParams } from 'react-router-dom';
 import UserForm from "./UserForm";
 import { success, warn } from "../../parts/notifications";
 import { handleAjaxError, isEmptyObject } from "../../parts/helpers";
-// import { Link } from 'react-router-dom';
+import { HeadBlock } from '../../HeadBlock';
 
 const EditUser = ({setCurrentUser, currentUser, currentUserImg, setCurrentUserImg}) => {
   const { users, setUsers } = useUser();
@@ -81,11 +80,7 @@ const EditUser = ({setCurrentUser, currentUser, currentUserImg, setCurrentUserIm
 
   return(
     <>
-      <HelmetProvider>
-        <Helmet>
-          <title>登録情報編集</title>
-        </Helmet>
-      </HelmetProvider>
+      <HeadBlock title={"ユーザー編集"}/>
       <section className="section content-width">
         <div className="form__inner">
           <h1 className="sectionTitle">現在の登録情報</h1>

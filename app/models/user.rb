@@ -4,6 +4,27 @@ class User < ApplicationRecord
   before_create :create_activation_digest
 
   has_one_attached :image
+  has_many :recipes, dependent: :destroy
+
+  # has_many :comments, dependent: :destroy
+
+  # has_many :favorites, dependent: :destroy
+  # has_many :favorite_recipes, through: :favorites, source: :recipe
+
+  # has_many :active_relationships, class_name: "Relationship",
+  #                                 foreign_key: "follower_id",
+  #                                 dependent:   :destroy
+  # has_many :following, through: :active_relationships, source: :followed
+
+  # has_many :passive_relationships, class_name: "Relationship",
+  #                                   foreign_key: "followed_id",
+  #                                   dependent: :destroy
+  # has_many :followers, through: :passive_relationships, source: :follower
+
+  # has_many :questions, dependent: :destroy
+  # has_many :question_comments, dependent: :destroy
+  # has_many :interests, dependent: :destroy
+  # has_many :interesting_questions, through: :interests, source: :question
   include Rails.application.routes.url_helpers
 
   validates :name, presence: true, length: { maximum: 50 }

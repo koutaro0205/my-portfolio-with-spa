@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { success, warn } from "../../parts/notifications";
 import { handleAjaxError } from '../../parts/helpers';
+import { HeadBlock } from '../../HeadBlock';
 
 const EditPassword = ({setCurrentUser, setLoggedInStatus}) => {
   const { token } = useParams();
@@ -112,11 +112,7 @@ const EditPassword = ({setCurrentUser, setLoggedInStatus}) => {
 
   return (
     <>
-      <HelmetProvider>
-        <Helmet>
-          <title></title>
-        </Helmet>
-      </HelmetProvider>
+      <HeadBlock title={"パスワード再設定"}/>
       <section className="section content-width">
         <div className="form__inner">
           <h1 className="sectionTitle">パスワード再設定</h1>

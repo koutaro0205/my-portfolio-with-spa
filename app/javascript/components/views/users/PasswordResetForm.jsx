@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { success } from "../../parts/notifications";
 import { handleAjaxError } from '../../parts/helpers';
+import { HeadBlock } from '../../HeadBlock';
 
 const PasswordResetForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -80,11 +80,7 @@ const PasswordResetForm = () => {
 
   return (
     <>
-      <HelmetProvider>
-        <Helmet>
-          <title>パスワードをお忘れですか？</title>
-        </Helmet>
-      </HelmetProvider>
+      <HeadBlock title={"パスワードをお忘れですか？"}/>
       {isLoading ? (
           <p className='loading'>メールを送信中です。今しばらくお待ちください。</p>
         ) : (

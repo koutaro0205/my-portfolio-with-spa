@@ -26,9 +26,9 @@ module SessionsHelper
     cookies.permanent[:remember_token] = user.remember_token
   end
 
-  # def logged_in?
-  #   !current_user.nil?
-  # end
+  def logged_in_now?
+    !current_user.nil?
+  end
 
   # def logged_in?
   #   if @current_user

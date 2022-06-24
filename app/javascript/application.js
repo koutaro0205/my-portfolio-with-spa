@@ -5,6 +5,7 @@ import React, { StrictMode } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { createRoot } from 'react-dom/client';
 import App from './components/App';
+import { HelmetProvider } from 'react-helmet-async';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -13,7 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
   root.render(
     <StrictMode>
       <BrowserRouter>
-        <App />
+        <HelmetProvider>
+          <App />
+        </HelmetProvider>
       </BrowserRouter>
     </StrictMode>
   );

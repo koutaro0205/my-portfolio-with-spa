@@ -242,6 +242,7 @@ input[type=button], input[type=text], input[type=submit], input[type=image], tex
   text-align: center;
   font-size: 2rem;
   font-weight: bold;
+  margin-top: 60px;
 }
 
 /* form */
@@ -1220,6 +1221,11 @@ input[type=button], input[type=text], input[type=submit], input[type=image], tex
 }
 .user__delete a {
   text-decoration: underline;
+  cursor: pointer;
+}
+.user__delete span {
+  text-decoration: underline;
+  cursor: pointer;
 }
 @media screen and (max-width: 767px) {
   .user__delete {

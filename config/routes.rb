@@ -11,8 +11,14 @@ Rails.application.routes.draw do
   get 'password_resets/:id/edit', to: 'site#index', as: 'edit_password_resets'
   get 'account_activations/:id/edit', to: 'site#index', as: 'edit_account_activations'
 
+  get 'recipes', to: 'site#index'
+	get 'recipes/new', to: 'site#index'
+	get 'recipes/:id', to: 'site#index'
+	get 'recipes/:id/edit', to: 'site#index'
+
 	namespace :api do
 		resources :users, format: 'json'
+		resources :recipes, format: 'json'
     resources :password_resets, only: [:new, :create, :edit, :update], format: 'json'
     resources :account_activations, only: [:edit], format: 'json'
 
@@ -20,6 +26,7 @@ Rails.application.routes.draw do
     delete '/logout', to: 'sessions#destroy', format: 'json'
     get '/logged_in', to: 'sessions#logged_in?', format: 'json'
     get '/admin_user', to: 'users#admin_user?', format: 'json'
+    get '/home', to: 'home#index', format: 'json'
 	end
   # get '/signup', to: 'users#new'
   # get '/login', to: 'sessions#new'

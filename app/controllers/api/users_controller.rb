@@ -8,16 +8,15 @@ class Api::UsersController < ApplicationController
   end
 
   def show
-    if @user.image.attached?
-      render json: { status: :ok, user: @user, image: @user.image_url }
-    else
-      render json: { status: :ok, user: @user, image: '/assets/default.jpeg' }
-    end
+    @recipes = @user.recipes.to_json(include: {user: {methods: [:image_url]}}, methods: [:image_url])
+    user = @user.to_json(methods: [:image_url])
+    recipes_count = @user.recipes.count
+    render json: { recipes: JSON.parse(@recipes), user: JSON.parse(user), recipes_count: recipes_count}
   end
 
   def create
     @user = User.new(user_params)
-    if params[:image].empty?
+    if params[:image]
       attach_image(@user)
     end
 
@@ -34,9 +33,7 @@ class Api::UsersController < ApplicationController
   end
 
   def update
-    if params[:image].empty?
-      attach_image(@user)
-    else
+    if params[:image]
       attach_image(@user)
     end
 
@@ -48,7 +45,12 @@ class Api::UsersController < ApplicationController
   end
 
   def destroy
-    @user.destroy
+    if current_user.admin?
+      @user.destroy
+      render json: { status: :ok}
+    else
+      render json: { status: :forbidden, message: '権限がありません' }
+    end
   end
 
   def admin_user?

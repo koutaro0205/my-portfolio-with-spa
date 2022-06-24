@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useUser } from "./useUser";
-import { Helmet, HelmetProvider } from 'react-helmet-async';
-import { NavLink } from 'react-router-dom';
+import { HeadBlock } from '../../HeadBlock';
+import { NavLink, useNavigate } from 'react-router-dom';
 import Auth from '../../providers/Auth';
-import { isEmptyObject } from '../../parts/helpers';
 import { handleAjaxError } from '../../parts/helpers';
-import { success } from '../../parts/notifications';
+import { success, warn } from '../../parts/notifications';
 
-const UserList = ({currentUser, currentUserImg}) => {
+const UserList = ({currentUser, currentUserImg, loggedInStatus}) => {
   Auth();
 
   const { users } = useUser();
-  const [admin, setAdmin] = useState({});
+  const [admin, setAdmin] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const checkAdminUser = async () => {
@@ -20,7 +20,9 @@ const UserList = ({currentUser, currentUserImg}) => {
         if (!response.ok) throw Error(response.statusText);
         const adminUserStatus = await response.json();
         if (adminUserStatus.admin) {
-          setAdmin(adminUserStatus.user);
+          setAdmin(true);
+        } else {
+          setAdmin(false);
         }
       } catch (error) {
         handleAjaxError(error);
@@ -40,9 +42,15 @@ const UserList = ({currentUser, currentUserImg}) => {
         });
 
         if (!response.ok) throw Error(response.statusText);
+        const removeUserStatus = await response.json();
+        if (removeUserStatus.status === "ok"){
+          success('ユーザーを削除しました');
+          navigate('/');
+        } else {
+          warn(removeUserStatus.message);
+          navigate('/');
+        }
 
-        success('ユーザーを削除しました');
-        navigate('/');
       } catch (error) {
         handleAjaxError(error);
       };
@@ -66,7 +74,7 @@ const UserList = ({currentUser, currentUserImg}) => {
         <div className="user__name">
           <NavLink to={`/users/${user.id}`} className="user__name-link">{user.name}</NavLink>
         </div>
-        {!isEmptyObject(admin) && !isCurrntUser(user) && (
+        {admin && !isCurrntUser(user) && (
           <div className="user__delete">
             <span onClick={() => handleRemoveUser(user.id)}>ユーザーを削除（管理者権限）</span>
           </div>
@@ -80,11 +88,7 @@ const UserList = ({currentUser, currentUserImg}) => {
 
   return (
     <>
-      <HelmetProvider>
-        <Helmet>
-          <title>ユーザー一覧</title>
-        </Helmet>
-      </HelmetProvider>
+      <HeadBlock title={"ユーザー一覧"}/>
       <section className="section content-width">
         <div className="container">
           <div className="profileCard profileCard__users">

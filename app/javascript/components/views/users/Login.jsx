@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { success, warn } from "../../parts/notifications";
 import { handleAjaxError } from '../../parts/helpers';
 import { useUrl } from './useUrl';
+import { HeadBlock } from '../../HeadBlock';
 
 const Login = ({setCurrentUser, setLoggedInStatus}) => {
   const { url } = useUrl();
@@ -37,21 +37,18 @@ const Login = ({setCurrentUser, setLoggedInStatus}) => {
       if (!response.ok) throw Error(response.statusText);
 
       const authenticatedUserStatus = await response.json();
-      console.log(authenticatedUserStatus);
 
       if (authenticatedUserStatus.logged_in && authenticatedUserStatus.activated) {
         setLoggedInStatus(true);
         setCurrentUser(authenticatedUserStatus.user);
-
         success('ログイン認証成功');
         navigate(`/`);
+      } else if (authenticatedUserStatus.status === "unauthorized") {
+        const errorMessage = authenticatedUserStatus.errors;
+        setLoginError(errorMessage);
       } else if (!authenticatedUserStatus.logged_in && !authenticatedUserStatus.activated) {
         warn(authenticatedUserStatus.message);
         navigate(`/`);
-      } else {
-        const errorMessage = authenticatedUserStatus.errors;
-        setLoginError(errorMessage);
-        console.log(errorMessage);
       }
     } catch (error) {
       handleAjaxError(error);
@@ -75,7 +72,7 @@ const Login = ({setCurrentUser, setLoggedInStatus}) => {
             <li key={error} className="message">{error}</li>
           ))}
         </ul>
-        <button onClick={() => window.location.reload()}>再入力</button>
+        <button onClick={() => setLoginError([])}>再入力</button>
       </div>
     );
   }
@@ -89,11 +86,7 @@ const Login = ({setCurrentUser, setLoggedInStatus}) => {
 
   return (
     <>
-      <HelmetProvider>
-        <Helmet>
-          <title>Signup</title>
-        </Helmet>
-      </HelmetProvider>
+      <HeadBlock title={"ログイン"}/>
       <section className="section content-width">
         <div className="form__inner">
           <h1 className="sectionTitle">ログイン</h1>

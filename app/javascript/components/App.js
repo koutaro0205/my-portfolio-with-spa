@@ -7,6 +7,8 @@ import './App.css';
 import { useSession } from './views/users/useSession';
 import { handleAjaxError } from './parts/helpers';
 
+export const CurrentUserContext  = React.createContext();
+
 const App = () => {
 	const { loggedInStatus, currentUser, setCurrentUser, setLoggedInStatus } = useSession();
 	const [currentUserImg, setCurrentUserImg] = useState("");
@@ -44,13 +46,16 @@ const App = () => {
 			<h1>デバッグ</h1>
 			<p>ログイン状況：{loggedInStatus ? "ログイン中" : "未ログイン"}</p>
 			<p>ログイン中のユーザー：{currentUser.name ? currentUser.name : "ログイン中のユーザーはいません"}</p>
-			<Main
-				setCurrentUser={setCurrentUser}
-				setLoggedInStatus={setLoggedInStatus}
-				currentUser={currentUser}
-				currentUserImg={currentUserImg}
-				setCurrentUserImg={setCurrentUserImg}
-			/>
+			<CurrentUserContext.Provider value={currentUser}>
+				<Main
+					setCurrentUser={setCurrentUser}
+					setLoggedInStatus={setLoggedInStatus}
+					loggedInStatus={loggedInStatus}
+					currentUser={currentUser}
+					currentUserImg={currentUserImg}
+					setCurrentUserImg={setCurrentUserImg}
+				/>
+			</CurrentUserContext.Provider>
 			<Footer />
 			<ToastContainer />
 		</>

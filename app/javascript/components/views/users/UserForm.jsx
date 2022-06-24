@@ -11,7 +11,6 @@ const UserForm = ({onSave, users, setIsLoading, isLoading}) => {
     email: '',
     password: '',
     password_confirmation: '',
-    image: {data: '', filename: ''},
   };
 
   const currUser = id? users.find((e) => e.id === Number(id)) : {};
@@ -51,19 +50,21 @@ const UserForm = ({onSave, users, setIsLoading, isLoading}) => {
   };
 
   const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
+    if (e.target.files[0]){
+      const file = e.target.files[0];
+      const reader = new FileReader();
 
-    reader.onload = () => {
-      setUser({
-        ...user,
-        image: {
-          data: reader.result,
-          filename: file ? file.name : "unknownfile"
-        },
-      });
+      reader.onload = () => {
+        setUser({
+          ...user,
+          image: {
+            data: reader.result,
+            filename: file ? file.name : "unknownfile"
+          },
+        });
+      }
+      reader.readAsDataURL(file);
     }
-    reader.readAsDataURL(file);
   }
 
   const validateUser = () => {
