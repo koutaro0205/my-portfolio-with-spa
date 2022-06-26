@@ -1,14 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { CurrentUserContext } from "../../App";
 import { HeadBlock } from '../../HeadBlock';
 import { useParams, Link } from 'react-router-dom';
 import { handleAjaxError } from '../../parts/helpers';
 import PartialRecipes from '../recipes/PartialRecipes';
+import FollowForm from '../relationships/FollowForm';
+import { Stats } from '../../parts/Stats';
+import { useFollow } from '../relationships/useFollow';
 
 const User = () => {
   const { id } = useParams();
   const [user, setUser] = useState({});
   const [myRecipes, setMyRecipes] = useState([]);
   const [recipesCount, setCount] = useState(0);
+  const currentUser = useContext(CurrentUserContext);
+  const { followerCount, followingCount, getFollowers, getFollowing, setFollowerCount} = useFollow();
+  useEffect(() => {
+    getFollowers(id);
+  }, [followerCount]);
+
+  useEffect(() => {
+    getFollowing(id);
+  }, [followingCount])
 
   useEffect(() => {
     const getUser = async () => {
@@ -40,26 +53,12 @@ const User = () => {
             <li className="profileCard__user">
               <p className="profileCard__user-name">{user.name}</p>
               <p className="profileCard__user-postsCounts">投稿数 {recipesCount}</p>
-
-              {/* should change to a component */}
-              <ul className="profileCard__user-follow">
-                <li className="profileCard__user-following">
-                  <span className="profileCard__user-followingCounts">~~</span>
-                  <p className="profileCard__user-following-link"><a href="">フォロー</a></p>
-                </li>
-                <li className="profileCard__user-followr">
-                  <span className="profileCard__user-followersCounts">~~</span>
-                  <p className="profileCard__user-follower-link"><a href="">フォロワー</a></p>
-                </li>
-              </ul>
-
+              <Stats followerCount={followerCount} followingCount={followingCount} userId={id}/>
             </li>
           </ul>
-          <div className="user__follow_form follow_form">
-            <form action="">
-              <input value={"フォロー"} type="submit" className="profileCard__follow-btn btn" />
-            </form>
-          </div>
+          {currentUser.id && currentUser.id !== user.id && (
+            <FollowForm user={user} userId={id} setFollowerCount={setFollowerCount}/>
+          )}
         </div>
       </section>
       <section className="section content-width">

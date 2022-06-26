@@ -3,12 +3,12 @@ class Api::RecipesController < ApplicationController
   before_action :correct_user, only: %i[edit update destroy]
 
   def index
-    @recipes = Recipe.all.to_json(include: {user: {methods: [:image_url]}}, methods: [:image_url])
+    @recipes = json_with_image_and_user(Recipe.all)
     render json: @recipes
   end
 
   def show
-    render json: @recipe.to_json(include: {user: {methods: [:image_url]}}, methods: [:image_url])
+    render json: json_with_image_and_user(@recipe)
     # @comment = Comment.new
     # @comments = @recipe.comments.order(created_at: :desc)
   end
@@ -32,7 +32,7 @@ class Api::RecipesController < ApplicationController
   def edit
     # @user = @recipe.user
     # render json: { recipe: @recipe, user: @user, status: :ok, image: @recipe.image_url }
-    render json: @recipe.to_json(methods: [:image_url])
+    render json: json_with_image(@recipe)
   end
 
   def update

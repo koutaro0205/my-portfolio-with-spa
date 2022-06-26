@@ -1,11 +1,15 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
+import { CurrentUserContext } from "../App";
 import { Link } from "react-router-dom";
 import { handleAjaxError } from "../parts/helpers";
 import { HeadBlock } from "../HeadBlock";
 import PartialRecipes from "./recipes/PartialRecipes";
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
 
 const Home = () => {
   const [recentRecipes, setRecipes] = useState([]);
+  const currentUser = useContext(CurrentUserContext);
   useEffect(() => {
     const getRecipes = async () => {
 			try {
@@ -32,47 +36,60 @@ const Home = () => {
       <HeadBlock title={"ホーム"}/>
       <div className="container content-width">
         <div className="main-contents">
-          <ul className="tab-group">
-            <li className="tab tab-A is-active"><span>新着レシピ</span></li>
-            <li className="tab tab-B"><span>みんなのお気に入りレシピ</span></li>
-            {/* ログインしていたら */}
-              <li className="tab tab-C"><span>フォローユーザーのレシピ</span></li>
-          </ul>
-          <section className="section panel tab-A is-show">
-            <h1 className="sectionTitle">新着レシピ</h1>
-            <ul className="recipes recipes-latest">
-              {/* 投稿があれば */}
-              <PartialRecipes recipes={recentRecipes}/>
-              {/* 投稿がなければ */}
-                <p className="nothing">現在投稿されているレシピはありません</p>
-            </ul>
-            <div className="read-more">
-              <Link to={`/recipes`} className="read-more__btn btn">レシピ一覧へ</Link>
-            </div>
-          </section>
+          <Tabs>
+            <TabList className="tab-group">
+              <Tab className="tab"><span>新着レシピ</span></Tab>
+              <Tab className="tab"><span>みんなのお気に入りレシピ</span></Tab>
+              {currentUser.id && (
+                <Tab className="tab"><span>フォローユーザーのレシピ</span></Tab>
+              )}
+            </TabList>
+            <TabPanel>
+              <section className="section">
+                <h1 className="sectionTitle">新着レシピ</h1>
+                <ul className="recipes recipes-latest">
+                  {recentRecipes.length === 0 ? (
+                    <p className="nothing">現在投稿されているレシピはありません</p>
+                  ) : (
+                    <PartialRecipes recipes={recentRecipes}/>
+                  )}
+                </ul>
+                <div className="read-more">
+                  <Link to={`/recipes`} className="read-more__btn btn">レシピ一覧へ</Link>
+                </div>
+              </section>
+            </TabPanel>
 
-          <section className="section panel tab-B">
-            <h1 className="sectionTitle">みんなのお気に入りレシピ</h1>
-            <ul className="recipes recipes-favorites">
-              {/* 投稿があれば */}
-                {/* ループ */}
-              {/* 投稿がなければ */}
-                <p className="nothing">現在投稿されているレシピはありません</p>
-            </ul>
-          </section>
-          {/* ログインしていれば */}
-            <section className="section panel tab-C">
-              <h1 className="sectionTitle">フォローしているユーザーのレシピ</h1>
-              <ul className="recipes recipes-following">
-                {/* 投稿があれば */}
-                  {/* ループ */}
-                {/* 投稿がなければ */}
-                  <p className="nothing">現在投稿されているレシピはありません</p>
-              </ul>
-              <div className="read-more">
-                <Link to={`/`} className="read-more__btn btn">もっと見る</Link>
-              </div>
-            </section>
+            <TabPanel>
+              <section className="section">
+                <h1 className="sectionTitle">みんなのお気に入りレシピ</h1>
+                <ul className="recipes recipes-favorites">
+                  {/* {recipes.length === 0 ? (
+                    <p className="nothing">現在投稿されているレシピはありません</p>
+                  ) : (
+                    <PartialRecipes recipes={""}/>
+                  )} */}
+                </ul>
+              </section>
+            </TabPanel>
+            {currentUser.id && (
+            <TabPanel>
+              <section className="section">
+                <h1 className="sectionTitle">フォローしているユーザーのレシピ</h1>
+                <ul className="recipes recipes-following">
+                  {/* {recipes.length === 0 ? (
+                    <p className="nothing">現在投稿されているレシピはありません</p>
+                  ) : (
+                    <PartialRecipes recipes={""}/>
+                  )} */}
+                </ul>
+                <div className="read-more">
+                  <Link to={`/`} className="read-more__btn btn">もっと見る</Link>
+                </div>
+              </section>
+            </TabPanel>
+            )}
+          </Tabs>
         </div>
         <div className="sidebar">
           <h2 className="subTitle">条件を絞って検索</h2>

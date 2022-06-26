@@ -6,7 +6,7 @@ import { success, warn } from "../../parts/notifications";
 import { handleAjaxError, isEmptyObject } from "../../parts/helpers";
 import { HeadBlock } from '../../HeadBlock';
 
-const EditUser = ({setCurrentUser, currentUser, currentUserImg, setCurrentUserImg}) => {
+const EditUser = ({setCurrentUser, currentUser}) => {
   const { users, setUsers } = useUser();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -27,7 +27,7 @@ const EditUser = ({setCurrentUser, currentUser, currentUserImg, setCurrentUserIm
         if (!response.ok) throw Error(response.statusText);
 
         const data = await response.json();
-        setCurrentUserImg(data.image);
+        // setCurrentUserImg(data.image);
         if(data.status === 'forbidden'){
           warn(data.message);
           navigate(`/`);
@@ -66,7 +66,7 @@ const EditUser = ({setCurrentUser, currentUser, currentUserImg, setCurrentUserIm
         newUsers[idx] = updatedUser;
         setUsers(newUsers);
         setCurrentUser(updatedUser);
-        setCurrentUserImg(updatedUserInfo.image);
+        // setCurrentUserImg(updatedUserInfo.image);
         success('ユーザー情報が更新されました！');
         navigate(`/users/${updatedUser.id}`);
       } else {
@@ -86,7 +86,7 @@ const EditUser = ({setCurrentUser, currentUser, currentUserImg, setCurrentUserIm
           <h1 className="sectionTitle">現在の登録情報</h1>
           <ul className="profileCard__info">
             <li className="profileCard__image">
-              <img src={currentUserImg ? currentUserImg : '/assets/default.jpeg'} alt="" />
+              <img src={currentUser.image_url ? currentUser.image_url : '/assets/default.jpeg'} alt="" />
             </li>
             <li className="profileCard__user">
               <p className="profileCard__user-name">{!isEmptyObject(currentUser) ? currentUser.name : null}</p>

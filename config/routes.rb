@@ -16,17 +16,26 @@ Rails.application.routes.draw do
 	get 'recipes/:id', to: 'site#index'
 	get 'recipes/:id/edit', to: 'site#index'
 
+  get 'users/:id/following', to: 'site#index'
+  get 'users/:id/followers', to: 'site#index'
+
 	namespace :api do
-		resources :users, format: 'json'
+		resources :users, format: 'json' do
+      member do
+        get :following, :followers
+      end
+    end
 		resources :recipes, format: 'json'
     resources :password_resets, only: [:new, :create, :edit, :update], format: 'json'
     resources :account_activations, only: [:edit], format: 'json'
+    resources :relationships, only: [:create, :destroy]
 
     post '/login', to: 'sessions#create', format: 'json'
     delete '/logout', to: 'sessions#destroy', format: 'json'
     get '/logged_in', to: 'sessions#logged_in?', format: 'json'
     get '/admin_user', to: 'users#admin_user?', format: 'json'
     get '/home', to: 'home#index', format: 'json'
+    get '/follow_status/:id', to: 'users#follow_status', format: 'json'
 	end
   # get '/signup', to: 'users#new'
   # get '/login', to: 'sessions#new'
