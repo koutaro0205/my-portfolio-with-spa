@@ -4,6 +4,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { handleAjaxError } from "../../parts/helpers";
 import { HeadBlock } from "../../HeadBlock";
 import { success, warn } from "../../parts/notifications";
+import FavoriteForm from "../favorites/FavoriteForm";
 
 const Recipe = () => {
   const { id } = useParams();
@@ -98,6 +99,9 @@ const Recipe = () => {
       <div className="recipe">
         <div className="recipe__image">
           <img src={recipe.image_url ? recipe.image_url : "/assets/sampleRecipe.jpeg"} alt="" />
+          {!isCurrntUser(user) && currentUser.id && (
+            <FavoriteForm recipe={recipe} recipeId={id}/>
+          )}
         </div>
         <div className="recipe__info">
           <div className="recipe__ingredient">

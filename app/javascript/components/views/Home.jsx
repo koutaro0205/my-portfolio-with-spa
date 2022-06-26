@@ -8,7 +8,9 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 
 const Home = () => {
-  const [recentRecipes, setRecipes] = useState([]);
+  const [recentRecipes, setRecentRecipes] = useState([]);
+  const [followingRecipes, setFollowingRecipes] = useState([]);
+  const [favoriteRecipes, setFavoriteRecipes] = useState([]);
   const currentUser = useContext(CurrentUserContext);
   useEffect(() => {
     const getRecipes = async () => {
@@ -22,7 +24,10 @@ const Home = () => {
         });
 				if (!response.ok) throw Error(response.statusText);
 				const recipesData = await response.json();
-        setRecipes(recipesData.recent_recipes);
+        console.log(recipesData);
+        setRecentRecipes(recipesData.recent_recipes);
+        setFollowingRecipes(recipesData.following_recipes);
+        setFavoriteRecipes(recipesData.favorite_recipes);
 			} catch (error) {
 				handleAjaxError(error);
 			};
@@ -64,11 +69,11 @@ const Home = () => {
               <section className="section">
                 <h1 className="sectionTitle">みんなのお気に入りレシピ</h1>
                 <ul className="recipes recipes-favorites">
-                  {/* {recipes.length === 0 ? (
+                  {favoriteRecipes.length === 0 ? (
                     <p className="nothing">現在投稿されているレシピはありません</p>
                   ) : (
-                    <PartialRecipes recipes={""}/>
-                  )} */}
+                    <PartialRecipes recipes={favoriteRecipes}/>
+                  )}
                 </ul>
               </section>
             </TabPanel>
@@ -77,11 +82,11 @@ const Home = () => {
               <section className="section">
                 <h1 className="sectionTitle">フォローしているユーザーのレシピ</h1>
                 <ul className="recipes recipes-following">
-                  {/* {recipes.length === 0 ? (
+                  {followingRecipes.length === 0 ? (
                     <p className="nothing">現在投稿されているレシピはありません</p>
                   ) : (
-                    <PartialRecipes recipes={""}/>
-                  )} */}
+                    <PartialRecipes recipes={followingRecipes}/>
+                  )}
                 </ul>
                 <div className="read-more">
                   <Link to={`/`} className="read-more__btn btn">もっと見る</Link>

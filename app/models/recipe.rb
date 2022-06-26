@@ -3,8 +3,8 @@ class Recipe < ApplicationRecord
   include Rails.application.routes.url_helpers
 
   # has_many :comments, dependent: :destroy
-  # has_many :favorites, dependent: :destroy
-  # has_many :user_favorites, through: :favorites, source: :user
+  has_many :favorites, dependent: :destroy
+  has_many :user_favorites, through: :favorites, source: :user
 
   belongs_to :user
 
