@@ -2,7 +2,7 @@ class Recipe < ApplicationRecord
   has_one_attached :image
   include Rails.application.routes.url_helpers
 
-  # has_many :comments, dependent: :destroy
+  has_many :comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many :user_favorites, through: :favorites, source: :user
 

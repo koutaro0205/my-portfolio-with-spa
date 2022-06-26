@@ -27,6 +27,7 @@ Rails.application.routes.draw do
       end
     end
 		resources :recipes, format: 'json' do
+      resources :comments, only: [:create, :destroy], format: 'json'
       collection do
         get :user_favorites, :following_user, :conditional_search
       end
@@ -43,11 +44,11 @@ Rails.application.routes.draw do
     get '/home', to: 'home#index', format: 'json'
     get '/follow_status/:id', to: 'users#follow_status', format: 'json'
     get '/favorite_status/:id', to: 'users#favorite_status', format: 'json'
+    get '/recipes/:recipe_id/comments', to: 'comments#show_comments', format: 'json'
+    get '/search', to: 'recipes#search', format: 'json'
 	end
-  # get '/signup', to: 'users#new'
-  # get '/login', to: 'sessions#new'
-  # post '/login', to: 'sessions#create'
-  # delete '/logout', to: 'sessions#destroy'
+
+
   # get '/search', to: 'recipes#search'
   # get '/short_time', to: 'recipes#short_time'
   # get '/low_cost', to: 'recipes#low_cost'
@@ -56,22 +57,12 @@ Rails.application.routes.draw do
   #     get :following, :followers, :favorite_recipes, :interesting_questions
   #   end
   # end
-  # resources :recipes do
-  #   resources :comments, only: [:create, :destroy]
-  #   collection do
-  #     get :user_favorites, :following_user, :conditional_search
-  #   end
-  # end
   # resources :questions do
   #   resources :question_comments, only: [:create, :destroy]
   #   collection do
   #     get 'search'
   #   end
   # end
-  # resources :account_activations, only: [:edit]
-  # resources :password_resets, only: [:new, :create, :edit, :update]
-  # resources :relationships, only: [:create, :destroy]
-  # resources :favorites, only: [:create, :destroy]
   # resources :categories, except: [:new]
   # resources :interests, only: [:create, :destroy]
 end

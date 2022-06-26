@@ -12,6 +12,10 @@ class ApplicationController < ActionController::Base
     JSON.parse(obj.to_json(include: {user: {methods: [:image_url]}}, methods: [:image_url]))
   end
 
+  def json_with_user(obj)
+    JSON.parse(obj.to_json(include: {user: {methods: [:image_url]}}))
+  end
+
   private
     def logged_in_user
       unless logged_in_now?
