@@ -691,7 +691,8 @@ input[type=button], input[type=text], input[type=submit], input[type=image], tex
     padding-left: 5px;
   }
 }
-.tab:not(.is-active):hover {
+
+.tab:not(.react-tabs__tab--selected):hover {
   transition: all 0.2s ease-out;
   border: solid 1px #ccc;
   border-bottom: transparent;
@@ -699,11 +700,7 @@ input[type=button], input[type=text], input[type=submit], input[type=image], tex
   border-top-right-radius: 15px;
 }
 
-.panel {
-  display: none;
-}
-
-.tab.is-active {
+.tab.react-tabs__tab--selected {
   color: #000;
   background-color: #DED36E;
   transition: all 0.2s ease-out;
@@ -712,20 +709,16 @@ input[type=button], input[type=text], input[type=submit], input[type=image], tex
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
 }
-.tab.is-active > span {
+.tab.react-tabs__tab--selected > span {
   display: inline-block;
   border-left: solid 6px #C6020C;
   padding-left: 6px;
 }
 @media screen and (max-width: 767px) {
-  .tab.is-active > span {
+  .tab.react-tabs__tab--selected > span {
     border-left: solid 3px #C6020C;
     padding-left: 3px;
   }
-}
-
-.panel.is-show {
-  display: block;
 }
 
 .sidebar .form__label {

@@ -10,8 +10,7 @@ import { handleAjaxError } from './parts/helpers';
 export const CurrentUserContext  = React.createContext();
 
 const App = () => {
-	const { loggedInStatus, currentUser, setCurrentUser, setLoggedInStatus } = useSession();
-	const [currentUserImg, setCurrentUserImg] = useState("");
+	const { loggedInStatus, currentUser, setCurrentUser, setLoggedInStatus, recipesCount, setRecipesCount } = useSession();
 
 	useEffect(() => {
 		const checkLoginStatus = async () => {
@@ -20,14 +19,12 @@ const App = () => {
 				if (!response.ok) throw Error(response.statusText);
 
 				const userStatus = await response.json();
+				// console.log(userStatus.user.image_url); // 画像表示
 
-				if (userStatus.logged_in && loggedInStatus === false && userStatus.image){
+				if (userStatus.logged_in && loggedInStatus === false) {
 					setLoggedInStatus(true);
 					setCurrentUser(userStatus.user);
-					setCurrentUserImg(userStatus.image);
-				} else if (userStatus.logged_in && loggedInStatus === false) {
-					setLoggedInStatus(true);
-					setCurrentUser(userStatus.user);
+					setRecipesCount(userStatus.recipes_count);
 				} else if (!userStatus.logged_in && loggedInStatus === true) {
 					setLoggedInStatus(false);
 					setCurrentUser({});
@@ -52,8 +49,6 @@ const App = () => {
 					setLoggedInStatus={setLoggedInStatus}
 					loggedInStatus={loggedInStatus}
 					currentUser={currentUser}
-					currentUserImg={currentUserImg}
-					setCurrentUserImg={setCurrentUserImg}
 				/>
 			</CurrentUserContext.Provider>
 			<Footer />

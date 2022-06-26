@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { CurrentUserContext } from "../../App";
 import { useUser } from "./useUser";
 import { HeadBlock } from '../../HeadBlock';
 import { NavLink, useNavigate } from 'react-router-dom';
 import Auth from '../../providers/Auth';
 import { handleAjaxError } from '../../parts/helpers';
 import { success, warn } from '../../parts/notifications';
+import FollowForm from '../relationships/FollowForm';
 
-const UserList = ({currentUser, currentUserImg, loggedInStatus}) => {
-  Auth();
-
+const UserList = () => {
+  const currentUser = useContext(CurrentUserContext);
   const { users } = useUser();
   const [admin, setAdmin] = useState(false);
   const navigate = useNavigate();
@@ -80,7 +81,7 @@ const UserList = ({currentUser, currentUserImg, loggedInStatus}) => {
           </div>
         )}
         <div className="user__follow">
-          フォロー
+          <FollowForm user={user} userId={user.id}/>
         </div>
       </li>
     ));
@@ -88,29 +89,33 @@ const UserList = ({currentUser, currentUserImg, loggedInStatus}) => {
 
   return (
     <>
-      <HeadBlock title={"ユーザー一覧"}/>
-      <section className="section content-width">
-        <div className="container">
-          <div className="profileCard profileCard__users">
-          <h2 className="subTitle">現在のユーザー</h2>
-            <ul className="profileCard__info">
-              <li className="profileCard__image">
-                <img src={currentUserImg ? currentUserImg : '/assets/default.jpeg'} alt="" />
-              </li>
-              <li className="profileCard__user">
-                <p className="profileCard__user-name">{currentUser.name}</p>
-                <p className="profileCard__user-postsCounts">投稿数：~</p>
-              </li>
-            </ul>
-          </div>
-          <div className="users">
-            <h2 className="subTitle">登録ユーザー一覧</h2>
-            <ul className="users__list">
-              {renderUsers(users)}
-            </ul>
-          </div>
-        </div>
-      </section>
+      {!currentUser.id ? <Auth/> : (
+        <>
+          <HeadBlock title={"ユーザー一覧"}/>
+          <section className="section content-width">
+            <div className="container">
+              <div className="profileCard profileCard__users">
+              <h2 className="subTitle">現在のユーザー</h2>
+                <ul className="profileCard__info">
+                  <li className="profileCard__image">
+                    <img src={currentUser.image_url ? currentUser.image_url : '/assets/default.jpeg'} alt="" />
+                  </li>
+                  <li className="profileCard__user">
+                    <p className="profileCard__user-name">{currentUser.name}</p>
+                    <p className="profileCard__user-postsCounts">投稿数：~</p>
+                  </li>
+                </ul>
+              </div>
+              <div className="users">
+                <h2 className="subTitle">登録ユーザー一覧</h2>
+                <ul className="users__list">
+                  {renderUsers(users)}
+                </ul>
+              </div>
+            </div>
+          </section>
+        </>
+      )}
     </>
   );
 };

@@ -1,6 +1,7 @@
 class Api::UsersController < ApplicationController
-  before_action :set_user, only: %i[show edit update destroy]
+  before_action :set_user, only: %i[show edit update destroy follow_status following followers]
   before_action :correct_user, only: %i[edit update]
+  before_action :logged_in_now?, only: %i[follow_status]
 
   def index
     @users = User.all
@@ -8,10 +9,10 @@ class Api::UsersController < ApplicationController
   end
 
   def show
-    @recipes = @user.recipes.to_json(include: {user: {methods: [:image_url]}}, methods: [:image_url])
-    user = @user.to_json(methods: [:image_url])
+    @recipes = json_with_image_and_user(@user.recipes)
+    user = json_with_image(@user)
     recipes_count = @user.recipes.count
-    render json: { recipes: JSON.parse(@recipes), user: JSON.parse(user), recipes_count: recipes_count}
+    render json: { recipes: @recipes, user: user, recipes_count: recipes_count}
   end
 
   def create
@@ -53,6 +54,36 @@ class Api::UsersController < ApplicationController
     end
   end
 
+  def following
+    @title = "フォロー中"
+    user_json = json_with_image(@user)
+    @users = @user.following
+    users_json = json_with_image(@users)
+    following_count = @user.following.count
+    recipes_count = @user.recipes.count
+    render json: { title: @title, following_count: following_count, recipes_count: recipes_count,
+                    user: user_json, users: users_json}
+  end
+
+  def followers
+    @title = "フォロワー"
+    user_json = json_with_image(@user)
+    @users = @user.followers
+    users_json = json_with_image(@users)
+    followers_count = @user.followers.count
+    recipes_count = @user.recipes.count
+    render json: { title: @title, followers_count: followers_count, recipes_count: recipes_count,
+                    user: user_json, users: users_json}
+  end
+
+  def follow_status
+    if current_user.following?(@user)
+      render json: { following: true }
+    else
+      render json: { following: false }
+    end
+  end
+
   def admin_user?
     if current_user
       if current_user.admin?
@@ -90,6 +121,12 @@ class Api::UsersController < ApplicationController
       @checked_user = User.find_by(id: params[:id])
       unless current_user?(@checked_user)
         render json: { status: :forbidden, message: '権限がありません'}
+      end
+    end
+
+    def logged_in_now?
+      unless current_user
+        render json: { logged_in: false, message: 'ユーザーが存在しません' }
       end
     end
 end
