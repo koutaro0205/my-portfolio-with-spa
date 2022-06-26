@@ -24,7 +24,6 @@ const Home = () => {
         });
 				if (!response.ok) throw Error(response.statusText);
 				const recipesData = await response.json();
-        console.log(recipesData);
         setRecentRecipes(recipesData.recent_recipes);
         setFollowingRecipes(recipesData.following_recipes);
         setFavoriteRecipes(recipesData.favorite_recipes);

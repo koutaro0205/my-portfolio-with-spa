@@ -5,6 +5,7 @@ import { handleAjaxError } from "../../parts/helpers";
 import { HeadBlock } from "../../HeadBlock";
 import { success, warn } from "../../parts/notifications";
 import FavoriteForm from "../favorites/FavoriteForm";
+import NewComments from "../comments/NewComment";
 
 const Recipe = () => {
   const { id } = useParams();
@@ -95,7 +96,7 @@ const Recipe = () => {
           </div>
         </div>
       </div>
-    
+
       <div className="recipe">
         <div className="recipe__image">
           <img src={recipe.image_url ? recipe.image_url : "/assets/sampleRecipe.jpeg"} alt="" />
@@ -121,6 +122,7 @@ const Recipe = () => {
         </div>
       )}
     </section>
+    <NewComments recipeId={id}/>
     </>
   );
 };

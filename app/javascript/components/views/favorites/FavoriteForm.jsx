@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { handleAjaxError } from "../../parts/helpers";
-import { useLocation } from "react-router-dom";
 
 const FavoriteForm = ({recipe, recipeId}) => {
   const [favoriteStatus, setFavoriteStatus] = useState(false);
-  const location = useLocation();
 
   useEffect(() => {
 		const checkFavoriteStatus = async (id) => {
@@ -13,7 +11,6 @@ const FavoriteForm = ({recipe, recipeId}) => {
 				if (!response.ok) throw Error(response.statusText);
 
 				const data = await response.json();
-        console.log(data);
         if (data.favorite){
           setFavoriteStatus(true);
         } else if (!data.following){

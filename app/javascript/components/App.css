@@ -1532,9 +1532,9 @@ input[type=button], input[type=text], input[type=submit], input[type=image], tex
 
 /* modal CSS */
 .modalArea {
-  display: none;
+  /* display: none; */
   position: fixed;
-  z-index: 10; /* 調整 */
+  z-index: 10;
   top: 0;
   left: 0;
   width: 100%;
