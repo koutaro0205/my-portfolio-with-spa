@@ -1,7 +1,7 @@
 class Api::UsersController < ApplicationController
   before_action :set_user, only: %i[show edit update destroy follow_status following followers]
   before_action :correct_user, only: %i[edit update]
-  before_action :logged_in_now?, only: %i[follow_status]
+  before_action :logged_in_user, only: %i[follow_status]
 
   def index
     @users = User.all
@@ -84,6 +84,15 @@ class Api::UsersController < ApplicationController
     end
   end
 
+  def favorite_status
+    @recipe = Recipe.find(params[:id])
+    if current_user.favorite?(@recipe)
+      render json: { favorite: true }
+    else
+      render json: { favorite: false }
+    end
+  end
+
   def admin_user?
     if current_user
       if current_user.admin?
@@ -94,6 +103,12 @@ class Api::UsersController < ApplicationController
     else
       render json: { logged_in: false, message: 'ユーザーが存在しません' }
     end
+  end
+
+  def favorite_recipes
+    @title = "あなたのお気に入りレシピ"
+    @favorite_recipes = json_with_image_and_user(current_user.favorite_recipes)
+    render json: { favorite_recipes: @favorite_recipes, title: @title }
   end
 
   private
@@ -121,12 +136,6 @@ class Api::UsersController < ApplicationController
       @checked_user = User.find_by(id: params[:id])
       unless current_user?(@checked_user)
         render json: { status: :forbidden, message: '権限がありません'}
-      end
-    end
-
-    def logged_in_now?
-      unless current_user
-        render json: { logged_in: false, message: 'ユーザーが存在しません' }
       end
     end
 end

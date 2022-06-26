@@ -13,6 +13,11 @@ class ApplicationController < ActionController::Base
   end
 
   private
+    def logged_in_user
+      unless logged_in_now?
+        render json: { logged_in: false, message: 'ユーザーが存在しません' }
+      end
+    end
 
     # def logged_in_user
     #   unless logged_in?

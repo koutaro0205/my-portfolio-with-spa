@@ -48,7 +48,9 @@ const Header = ({ setCurrentUser, setLoggedInStatus, currentUser }) => {
         <div className="header__menu">
           <ul className="header__menu-list">
             <li className="header__menu-item"><Link to="/recipes/new" className="header__menu-link btn">レシピを投稿</Link></li>
-            <li className="header__menu-item"><a href="" className="header__menu-link btn">お気に入り</a></li>
+            {currentUser.id && (
+              <li className="header__menu-item"><Link to={`/users/${currentUser.id}/favorite_recipes`} className="header__menu-link btn">お気に入り</Link></li>
+            )}
           </ul>
         </div>
       </div>

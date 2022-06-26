@@ -15,6 +15,7 @@ import EditRecipe from '../views/recipes/EditRecipe';
 import RecipesList from '../views/recipes/RecipesList';
 import NotFound from './NotFound';
 import FollowList from '../views/relationships/FollowList';
+import FavoriteList from '../views/favorites/FavoriteList';
 
 const Main = ({setCurrentUser, setLoggedInStatus, loggedInStatus, currentUser}) => {
 
@@ -30,6 +31,7 @@ const Main = ({setCurrentUser, setLoggedInStatus, loggedInStatus, currentUser}) 
 				<Route path={`/users/`} element={<UserList currentUser={currentUser} loggedInStatus={loggedInStatus} />}/>
 				<Route path={`/users/:id/following`} element={<FollowList/>}/>
 				<Route path={`/users/:id/followers`} element={<FollowList/>}/>
+				<Route path={`/users/:id/favorite_recipes`} element={<FavoriteList/>}/>
 				<Route path={`/password_resets/new`} element={<PasswordResetForm/>} />
 				<Route path={`/password_resets/:token/edit`} element={<EditPassword setCurrentUser={setCurrentUser} setLoggedInStatus={setLoggedInStatus}/>} />
 				<Route path={`/account_activations/:token/edit`} element={<AccountActivation setCurrentUser={setCurrentUser} setLoggedInStatus={setLoggedInStatus}/>} />

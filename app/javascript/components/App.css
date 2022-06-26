@@ -1310,6 +1310,7 @@ input[type=button], input[type=text], input[type=submit], input[type=image], tex
   width: 20px;
   height: 20px;
   display: inline-block;
+  padding-left: 4px;
 }
 .recipe__favorite .favorite, .recipe__favorite .unfavorite {
   color: #EADE71;
