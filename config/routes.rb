@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   get 'users/:id/following', to: 'site#index'
   get 'users/:id/followers', to: 'site#index'
   get 'users/:id/favorite_recipes', to: 'site#index'
+  get '/search', to: 'site#index'
 
 	namespace :api do
 		resources :users, format: 'json' do

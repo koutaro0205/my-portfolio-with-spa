@@ -3,8 +3,6 @@ import { handleAjaxError } from '../../parts/helpers';
 
 export const useRecipe = () => {
   const [recipes, setRecipes] = useState([]);
-  // const [recipeImg, setRecipeImg] = useState();
-  // const [ exsistedEmail, setEmail ] = useState('');
 
   useEffect(() => {
     const getAllRecipes = async () => {

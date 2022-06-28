@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
+import { ControllLoggedInContext } from '../../App';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { success, warn } from "../../parts/notifications";
 import { handleAjaxError } from '../../parts/helpers';
 import { HeadBlock } from '../../HeadBlock';
 
-const EditPassword = ({setCurrentUser, setLoggedInStatus}) => {
+const EditPassword = () => {
   const { token } = useParams();
+  const ControllLoggedInFuncs = useContext(ControllLoggedInContext);
+  const setCurrentUser = ControllLoggedInFuncs[0];
+  const setLoggedInStatus = ControllLoggedInFuncs[1];
 
   const search = useLocation().search;
   const query = new URLSearchParams(search);

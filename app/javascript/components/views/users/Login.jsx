@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { success, warn } from "../../parts/notifications";
 import { handleAjaxError } from '../../parts/helpers';
-import { useUrl } from './useUrl';
 import { HeadBlock } from '../../HeadBlock';
+import { ControllLoggedInContext } from '../../App';
 
-const Login = ({setCurrentUser, setLoggedInStatus}) => {
-  const { url } = useUrl();
+const Login = () => {
+  const ControllLoggedInFuncs = useContext(ControllLoggedInContext);
+  const setCurrentUser = ControllLoggedInFuncs[0];
+  const setLoggedInStatus = ControllLoggedInFuncs[1];
   const [loginInfo, setLoginInfo] = useState({
     email: '',
     password: '',

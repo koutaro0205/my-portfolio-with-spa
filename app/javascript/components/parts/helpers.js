@@ -1,10 +1,7 @@
 import { error } from './notifications';
-// import { useNavigate } from 'react-router-dom';
 
 export const handleAjaxError = (err) => {
-  // const navigate = useNavigate();
   error('Something went wrong');
-  // navigate('*');
   console.log(`ERROR ! : ${err}`);
   console.error(err);
 };

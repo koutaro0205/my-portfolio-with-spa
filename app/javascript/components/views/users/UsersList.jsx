@@ -80,9 +80,11 @@ const UserList = () => {
             <span onClick={() => handleRemoveUser(user.id)}>ユーザーを削除（管理者権限）</span>
           </div>
         )}
-        <div className="user__follow">
-          <FollowForm user={user} userId={user.id}/>
-        </div>
+        {!isCurrntUser(user) && (
+          <div className="user__follow">
+            <FollowForm user={user} userId={user.id}/>
+          </div>
+        )}
       </li>
     ));
   };

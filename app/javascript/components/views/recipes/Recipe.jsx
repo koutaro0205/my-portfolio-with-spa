@@ -13,6 +13,7 @@ const Recipe = () => {
   const [user, setUser] = useState({});
   const currentUser = useContext(CurrentUserContext);
   const navigate = useNavigate();
+  const moment = require('moment');
 
   useEffect(() => {
     const getRecipe = async () => {
@@ -80,7 +81,7 @@ const Recipe = () => {
             </span>
           </div>
           <span className="recipe__timestamp">
-            投稿日: {user.created_at}
+            投稿日: {moment(recipe.created_at).format('YYYY年 MM月 DD日')}
           </span>
         </div>
         <div className="recipe__layout-points">
@@ -107,11 +108,21 @@ const Recipe = () => {
         <div className="recipe__info">
           <div className="recipe__ingredient">
             <h2 className="recipe__info-head">材料</h2>
-            <p className="recipe__info-content">{recipe.ingredient}</p>
+            <p className="recipe__info-content">
+              {recipe.ingredient &&
+                recipe.ingredient.split('\n').map((str, index) => (
+                  <React.Fragment key={index}>{str}<br /></React.Fragment>
+              ))}
+            </p>
           </div>
           <div className="recipe__body">
             <h2 className="recipe__info-head">作り方・説明</h2>
-            <p className="recipe__info-content">{recipe.body}</p>
+            <p className="recipe__info-content">
+              {recipe.body &&
+                recipe.body.split('\n').map((str, index) => (
+                  <React.Fragment key={index}>{str}<br /></React.Fragment>
+              ))}
+            </p>
           </div>
         </div>
       </div>

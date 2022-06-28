@@ -64,8 +64,34 @@ const NewComments = ({recipeId}) => {
     setShowModal(!showModal);
   };
 
-  // コメント削除（DELETE）
-  // コメントを追加addComment(POST ⇨ 定義してpropsとしてCommnetFormに渡す)
+  const removeComment = async (commentId) => {
+    const sure = window.confirm('コメントを削除しますか?');
+
+    if (sure) {
+      try {
+        const response = await window.fetch(`/api/recipes/${recipeId}/comments/${commentId}`, {
+          method: 'DELETE',
+        });
+        if (!response.ok) throw Error(response.statusText);
+        const removeData = await response.json();
+        if (removeData.status === "ok"){
+          success(removeData.message);
+          const newComments = [...comments];
+          const idx = newComments.findIndex((comment) => comment.id === commentId);
+          newComments.splice(idx, 1);
+          setComments(newComments);
+        } else {
+          warn(removeData.message);
+        }
+      } catch (error) {
+        handleAjaxError(error);
+      };
+    };
+  };
+
+  const handleClick = (commentId) =>{
+    removeComment(commentId);
+  }
 
   const renderComments = (commentArray) => {
     return commentArray.map((comment) => (
@@ -83,7 +109,7 @@ const NewComments = ({recipeId}) => {
           </span>
           {comment.user.id === currentUser.id && (
             <span className="comments__delete">
-              <span className="comments__delete-btn">コメントを削除</span>
+              <span onClick={() => handleClick(comment.id)} className="comments__delete-btn">コメントを削除</span>
             </span>
           )}
         </p>

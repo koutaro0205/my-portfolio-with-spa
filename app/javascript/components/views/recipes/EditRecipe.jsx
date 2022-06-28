@@ -6,7 +6,7 @@ import { success, warn } from "../../parts/notifications";
 import { handleAjaxError } from "../../parts/helpers";
 import { HeadBlock } from '../../HeadBlock';
 
-const EditRecipe = ({currentUser}) => {
+const EditRecipe = () => {
   const {recipes, setRecipes} = useRecipe();
   const { id } = useParams();
   const navigate = useNavigate();

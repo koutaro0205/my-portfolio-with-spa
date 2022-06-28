@@ -2,6 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 
 const PartialRecipes = ({recipes}) => {
+  const moment = require('moment');
 
   const renderRecipes = (recipeArray) => {
     return recipeArray.map((recipe) => (
@@ -18,7 +19,7 @@ const PartialRecipes = ({recipes}) => {
           <img src={recipe.image_url ? recipe.image_url : '/assets/sampleRecipe.jpeg'} alt="" />
         </NavLink>
         <div className="recipeCard__info">
-          <h2 className="recipeCard__title"><NavLink to={`/recipes/${recipe.id}`}></NavLink></h2>
+          <h2 className="recipeCard__title"><NavLink to={`/recipes/${recipe.id}`}>{recipe.title}</NavLink></h2>
           <p className="recipeCard__tag">ズボラポイント：
             <span className="recipeCard__tag-text1">未実装</span>
           </p>
@@ -34,7 +35,7 @@ const PartialRecipes = ({recipes}) => {
           </div>
 
           <span className="recipeCard__timestamp">
-            投稿日：{recipe.created_at}
+            投稿日：{moment(recipe.created_at).format('YYYY年 MM月 DD日')}
           </span>
         </div>
       </li>

@@ -2,8 +2,9 @@ import React from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { DropDownMenu } from '../parts/animations';
 import { success } from "../parts/notifications";
+import { SearchForm } from '../views/recipes/SearchForm';
 
-const Header = ({ setCurrentUser, setLoggedInStatus, currentUser }) => {
+const Header = ({ setCurrentUser, setLoggedInStatus, currentUser, searchRecipe }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -39,11 +40,7 @@ const Header = ({ setCurrentUser, setLoggedInStatus, currentUser }) => {
       <div className="header__inner content-width">
         <h1 className="header__logo"><Link to="/" className="header__logo-link">ZuboRecipes</Link></h1>
         <div className="header__search">
-          <form className="header__search-form">
-            <input type="text" className="header__search-field" />
-            <input type="submit" className="header__search-submit btn" />
-            <p className="header__search-text">検索したいキーワードを入力してください。</p>
-          </form>
+          <SearchForm searchRecipe={searchRecipe}/>
         </div>
         <div className="header__menu">
           <ul className="header__menu-list">

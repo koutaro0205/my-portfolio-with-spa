@@ -53,9 +53,9 @@ class Api::RecipesController < ApplicationController
   end
 
   def search
-    @recipes = Recipe.search(params[:keyword]).paginate(page: params[:page])
+    @recipes = json_with_image_and_user(Recipe.search(params[:keyword]))
     @keyword = params[:keyword]
-    render json: @recipes, methods: [:image_url], keyword: @keyword
+    render json: {recipes: @recipes, keyword: @keyword}
   end
 
   private

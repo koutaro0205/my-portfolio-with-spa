@@ -6,11 +6,20 @@ import { ToastContainer } from 'react-toastify';
 import './App.css';
 import { useSession } from './views/users/useSession';
 import { handleAjaxError } from './parts/helpers';
+import { useNavigate } from 'react-router-dom';
 
 export const CurrentUserContext  = React.createContext();
+export const LoggedInStatusContext  = React.createContext();
+export const ControllLoggedInContext  = React.createContext([()=>{}, ()=>{}]);
+export const SearchRecipesContext = React.createContext({});
 
 const App = () => {
-	const { loggedInStatus, currentUser, setCurrentUser, setLoggedInStatus, recipesCount, setRecipesCount } = useSession();
+	const { loggedInStatus,
+					currentUser,
+					setCurrentUser,
+					setLoggedInStatus } = useSession();
+
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const checkLoginStatus = async () => {
@@ -19,12 +28,11 @@ const App = () => {
 				if (!response.ok) throw Error(response.statusText);
 
 				const userStatus = await response.json();
-				// console.log(userStatus.user.image_url); // 画像表示
 
 				if (userStatus.logged_in && loggedInStatus === false) {
 					setLoggedInStatus(true);
 					setCurrentUser(userStatus.user);
-					setRecipesCount(userStatus.recipes_count);
+					// setRecipesCount(userStatus.recipes_count);
 				} else if (!userStatus.logged_in && loggedInStatus === true) {
 					setLoggedInStatus(false);
 					setCurrentUser({});
@@ -37,19 +45,47 @@ const App = () => {
     checkLoginStatus();
   });
 
+	const [recipes, setRecipes] = useState([]);
+	const [keyword, setKeyword] = useState('');
+
+	const searchRecipe = async (keyword) => {
+    try {
+      const response = await window.fetch(`/api/search/?keyword=${keyword}`, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      });
+      if (!response.ok) throw Error(response.statusText);
+			const data = await response.json();
+			setKeyword(data.keyword);
+			setRecipes(data.recipes);
+			navigate('/search');
+    } catch (error) {
+      handleAjaxError(error);
+    };
+  };
+
 	return(
 		<>
-			<Header setCurrentUser={setCurrentUser} setLoggedInStatus={setLoggedInStatus} currentUser={currentUser}/>
+			<Header
+				setCurrentUser={setCurrentUser}
+				setLoggedInStatus={setLoggedInStatus}
+				currentUser={currentUser}
+				searchRecipe={searchRecipe}
+			/>
 			<h1>デバッグ</h1>
 			<p>ログイン状況：{loggedInStatus ? "ログイン中" : "未ログイン"}</p>
 			<p>ログイン中のユーザー：{currentUser.name ? currentUser.name : "ログイン中のユーザーはいません"}</p>
 			<CurrentUserContext.Provider value={currentUser}>
-				<Main
-					setCurrentUser={setCurrentUser}
-					setLoggedInStatus={setLoggedInStatus}
-					loggedInStatus={loggedInStatus}
-					currentUser={currentUser}
-				/>
+				<LoggedInStatusContext.Provider value={loggedInStatus}>
+					<ControllLoggedInContext.Provider value={[setCurrentUser, setLoggedInStatus]}>
+						<SearchRecipesContext.Provider value={{recipes: recipes, keyword: keyword}}>
+							<Main/>
+						</SearchRecipesContext.Provider>
+					</ControllLoggedInContext.Provider>
+				</LoggedInStatusContext.Provider>
 			</CurrentUserContext.Provider>
 			<Footer />
 			<ToastContainer />

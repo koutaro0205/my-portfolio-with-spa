@@ -1,13 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
+import { ControllLoggedInContext } from '../../App';
 import { success, warn } from '../../parts/notifications';
 import { handleAjaxError } from '../../parts/helpers';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 
-const AccountActivation = ({setCurrentUser, setLoggedInStatus}) => {
+const AccountActivation = () => {
   const { token } = useParams();
   const search = useLocation().search;
   const query = new URLSearchParams(search);
   const navigate = useNavigate();
+  const ControllLoggedInFuncs = useContext(ControllLoggedInContext);
+  const setCurrentUser = ControllLoggedInFuncs[0];
+  const setLoggedInStatus = ControllLoggedInFuncs[1];
 
   useEffect(() => {
     const fetchData = async () => {

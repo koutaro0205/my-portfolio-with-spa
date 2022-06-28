@@ -15,7 +15,7 @@ class Api::CommentsController < ApplicationController
   def destroy
     @comment = Comment.find(params[:id])
     if @comment.destroy
-      render json: { status: :ok, message: "コメントを削除しました" }
+      render json: { status: :ok, message: "コメントを削除しました", comment: @comment }
     else
       render json: { status: :unprocessable_entity, message: "コメントの削除に失敗しました" }
     end

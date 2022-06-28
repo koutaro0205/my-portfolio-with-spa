@@ -471,6 +471,7 @@ input[type=button], input[type=text], input[type=submit], input[type=image], tex
   padding: 5px;
   height: 34px;
   padding: 6px 12px;
+  margin-right: 6px;
   font-size: 14px;
   line-height: 1.4;
   color: #555555;
@@ -1528,6 +1529,7 @@ input[type=button], input[type=text], input[type=submit], input[type=image], tex
 
 .comments__delete-btn {
   text-decoration: underline;
+  cursor: pointer;
 }
 
 /* modal CSS */
@@ -1614,9 +1616,33 @@ input[type=button], input[type=text], input[type=submit], input[type=image], tex
 /* pagenation */
 .pagination {
   margin-top: 45px;
-  text-align: center;
+  justify-content: center;
+  display: flex;
+  list-style-type: none;
 }
-.pagination .next_page::after {
+.page-link{
+  cursor: pointer;
+  font-size: 1.4rem;
+  display: inline-block;
+  padding: 10px;
+  margin-right: 8px;
+  margin-top: 5px;
+  border: #000 solid 0.5px;
+  background-color: #DED36E;
+}
+.current{
+  padding: 8.5px;
+  cursor: auto;
+  background-color: #fff;
+  border: #DED36E solid 2px;
+}
+@media screen and (max-width: 767px) {
+  .page-link {
+    font-size: 1rem;
+    padding: 6px;
+  }
+}
+/* .pagination .next_page::after {
   content: "次へ";
 }
 .pagination .previous_page::before {
@@ -1643,7 +1669,7 @@ input[type=button], input[type=text], input[type=submit], input[type=image], tex
 }
 .pagination a {
   color: #000;
-}
+} */
 
 /* questions page */
 .questions-page .sectionTitle {

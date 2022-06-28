@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
+import { ControllLoggedInContext, CurrentUserContext } from '../../App';
 import { useUser } from "./useUser";
 import { useNavigate, useParams } from 'react-router-dom';
 import UserForm from "./UserForm";
@@ -6,10 +7,13 @@ import { success, warn } from "../../parts/notifications";
 import { handleAjaxError, isEmptyObject } from "../../parts/helpers";
 import { HeadBlock } from '../../HeadBlock';
 
-const EditUser = ({setCurrentUser, currentUser}) => {
+const EditUser = () => {
   const { users, setUsers } = useUser();
   const navigate = useNavigate();
   const { id } = useParams();
+  const ControllLoggedInFuncs = useContext(ControllLoggedInContext);
+  const setCurrentUser = ControllLoggedInFuncs[0];
+  const currentUser = useContext(CurrentUserContext);
 
   useEffect(() => {
     const getUser = async (userId) => {
@@ -27,7 +31,6 @@ const EditUser = ({setCurrentUser, currentUser}) => {
         if (!response.ok) throw Error(response.statusText);
 
         const data = await response.json();
-        // setCurrentUserImg(data.image);
         if(data.status === 'forbidden'){
           warn(data.message);
           navigate(`/`);
@@ -66,7 +69,6 @@ const EditUser = ({setCurrentUser, currentUser}) => {
         newUsers[idx] = updatedUser;
         setUsers(newUsers);
         setCurrentUser(updatedUser);
-        // setCurrentUserImg(updatedUserInfo.image);
         success('ユーザー情報が更新されました！');
         navigate(`/users/${updatedUser.id}`);
       } else {
