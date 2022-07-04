@@ -5,9 +5,11 @@ import RecipeForm from './RecipeForm';
 import { success, warn } from "../../parts/notifications";
 import { handleAjaxError } from "../../parts/helpers";
 import { HeadBlock } from '../../HeadBlock';
+import { useCategories } from "../categories/useCategories";
 
 const EditRecipe = () => {
   const {recipes, setRecipes} = useRecipe();
+  const {categories} = useCategories();
   const { id } = useParams();
   const navigate = useNavigate();
   const [recipe, setRecipe] = useState({});
@@ -101,7 +103,7 @@ const EditRecipe = () => {
       <section className="section content-width">
         <div className="form__inner form__inner-editPage">
           <h1 className="sectionTitle">レシピ内容の編集</h1>
-          <RecipeForm onSave={updateRecipe} recipes={recipes}/>
+          <RecipeForm onSave={updateRecipe} recipes={recipes} categories={categories}/>
         </div>
       </section>
     </>

@@ -6,12 +6,17 @@ import { HeadBlock } from "../HeadBlock";
 import PartialRecipes from "./recipes/PartialRecipes";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
+import CategoriesList from "./categories/CategoriesList";
+import { useQuestion } from "./questions/useQuestion";
 
 const Home = () => {
   const [recentRecipes, setRecentRecipes] = useState([]);
   const [followingRecipes, setFollowingRecipes] = useState([]);
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
   const currentUser = useContext(CurrentUserContext);
+  const { questions } = useQuestion();
+  const moment = require('moment');
+
   useEffect(() => {
     const getRecipes = async () => {
 			try {
@@ -34,6 +39,19 @@ const Home = () => {
 
     getRecipes();
   }, []);
+
+  const renderQuestions = (questionArray) =>{
+    return questionArray.map((question) => (
+      <li key={question.id} className="sidebar__questions-item">
+        <h3 className="sidebar__questions-title">
+          <Link to={`/questions/${question.id}`} >{question.title}</Link>
+        </h3>
+        <span className="sidebar__questions-timestamp">
+          {moment(question.created_at).format('YYYY年 MM月 DD日')}
+        </span>
+      </li>
+    ));
+  };
 
   return (
     <>
@@ -158,24 +176,14 @@ const Home = () => {
             <input type="submit" value={"検索"} className="sidebar__btn btn" />
           </form>
 
-          <h2 className="subTitle">カテゴリから探す</h2>
-          <ul className="categories">
-            <li className="categories__item">
-              <Link to={`/`} className="categories__link">カテゴリー名</Link>
-            </li>
-          </ul>
+          <CategoriesList/>
 
           <div className="sidebar__questions">
             <h2 className="subTitle">みんなの質問</h2>
             <ul className="sidebar__questions-list">
-              <li className="sidebar__questions-item">
-                <h3 className="sidebar__questions-title">
-                  <Link to={`/`} >質問タイトル</Link>
-                </h3>
-                <span className="sidebar__questions-timestamp">0101010</span>
-              </li>
+              {renderQuestions(questions)}
             </ul>
-            <Link to={`/`} className="sidebar__btn btn">質問一覧へ</Link>
+            <Link to={`/questions`} className="sidebar__btn btn">質問一覧へ</Link>
           </div>
         </div>
       </div>

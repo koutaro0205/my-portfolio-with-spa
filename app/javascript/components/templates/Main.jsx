@@ -17,6 +17,11 @@ import NotFound from './NotFound';
 import FollowList from '../views/relationships/FollowList';
 import FavoriteList from '../views/favorites/FavoriteList';
 import Search from '../views/recipes/Search';
+import Category from '../views/categories/Category';
+import QuestionsList from '../views/questions/QuestionsList';
+import NewQuestion from '../views/questions/NewQuestion';
+import Question from '../views/questions/Question';
+import EditQuestion from '../views/questions/EditQuestion';
 
 const Main = () => {
 
@@ -41,6 +46,13 @@ const Main = () => {
 				<Route path={`/recipes/new`} element={<NewRecipe/>} />
 				<Route path={`/recipes/:id/edit`} element={<EditRecipe/>}/>
 				<Route path={`/search`} element={<Search/>}/>
+
+				<Route path={`/categories/:id`} element={<Category/>}/>
+
+				<Route path={`/questions`} element={<QuestionsList/>}/>
+				<Route path={`/questions/new`} element={<NewQuestion/>}/>
+				<Route path={`/questions/:id`} element={<Question/>}/>
+				<Route path={`/questions/:id/edit`} element={<EditQuestion/>}/>
 
 				<Route path="*" element={<NotFound/>}/>
 			</Routes>
