@@ -3,14 +3,12 @@ class Api::RecipesController < ApplicationController
   before_action :correct_user, only: %i[edit update destroy]
 
   def index
-    @recipes = json_with_image_and_user(Recipe.all)
+    @recipes = associate(Recipe.all)
     render json: @recipes
   end
 
   def show
-    render json: json_with_image_and_user(@recipe)
-    # @comment = Comment.new
-    # @comments = @recipe.comments.order(created_at: :desc)
+    render json: associate(@recipe)
   end
 
   def new
@@ -32,7 +30,7 @@ class Api::RecipesController < ApplicationController
   def edit
     # @user = @recipe.user
     # render json: { recipe: @recipe, user: @user, status: :ok, image: @recipe.image_url }
-    render json: json_with_image(@recipe)
+    render json: associate(@recipe)
   end
 
   def update
@@ -64,7 +62,7 @@ class Api::RecipesController < ApplicationController
     end
 
     def recipe_params
-      params.permit(:title, :ingredient, :body, :image, :duration, :cost)
+      params.require(:recipe).permit(:title, :ingredient, :body, :image, :duration, :cost, :category_id)
     end
 
     def attach_image(recipe)
@@ -82,5 +80,9 @@ class Api::RecipesController < ApplicationController
     def correct_user
       @user = @recipe.user
       render json: { status: :forbidden, message: '権限がありません' } unless current_user?(@user)
+    end
+
+    def associate(obj)
+      JSON.parse(obj.to_json(include: [:category, {user: {methods: [:image_url]}}], methods: [:image_url]))
     end
 end

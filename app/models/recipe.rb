@@ -1,6 +1,6 @@
 class Recipe < ApplicationRecord
-  has_one_attached :image
   include Rails.application.routes.url_helpers
+  has_one_attached :image
 
   has_many :comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
@@ -8,7 +8,7 @@ class Recipe < ApplicationRecord
 
   belongs_to :user
 
-  # belongs_to :category
+  belongs_to :category
 
   default_scope -> { order(created_at: :desc) }
   validates :user_id, presence: true

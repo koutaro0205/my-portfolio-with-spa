@@ -55,7 +55,7 @@ const Header = ({ setCurrentUser, setLoggedInStatus, currentUser, searchRecipe }
         <div className="header__nav__inner">
           <ul className="header__nav-list">
             <li className="header__nav-item"><Link to="/" className="header__nav-link">ホーム</Link></li>
-            <li className="header__nav-item"><a href="" className="header__nav-link">質問一覧</a></li>
+            <li className="header__nav-item"><Link to="/questions" className="header__nav-link">質問一覧</Link></li>
             {(() => {
               if (isEmptyCurrentUser(currentUser)) {
                 return (

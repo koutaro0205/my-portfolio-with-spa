@@ -24,11 +24,11 @@ const FavoriteForm = ({recipe, recipeId}) => {
     checkFavoriteStatus(recipeId);
   }, []);
 
-  const Favorite = async (user) => {
+  const Favorite = async (recipe) => {
     try {
       const response = await window.fetch(`/api/favorites`, {
         method: 'POST',
-        body: JSON.stringify(user),
+        body: JSON.stringify(recipe),
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',

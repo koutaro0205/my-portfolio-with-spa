@@ -6,6 +6,7 @@ import { HeadBlock } from "../../HeadBlock";
 import { success, warn } from "../../parts/notifications";
 import FavoriteForm from "../favorites/FavoriteForm";
 import NewComments from "../comments/NewComment";
+import { timeStamp, isCurrntUser } from "../../parts/helpers";
 
 const Recipe = () => {
   const { id } = useParams();
@@ -13,7 +14,6 @@ const Recipe = () => {
   const [user, setUser] = useState({});
   const currentUser = useContext(CurrentUserContext);
   const navigate = useNavigate();
-  const moment = require('moment');
 
   useEffect(() => {
     const getRecipe = async () => {
@@ -60,10 +60,6 @@ const Recipe = () => {
     RemoveRecipe(recipeId);
   }
 
-  const isCurrntUser = (user) => {
-    return user.id === currentUser.id;
-  }
-
   return (
     <>
       <HeadBlock title={recipe.title}/>
@@ -81,7 +77,7 @@ const Recipe = () => {
             </span>
           </div>
           <span className="recipe__timestamp">
-            投稿日: {moment(recipe.created_at).format('YYYY年 MM月 DD日')}
+            投稿日: {timeStamp(recipe)}
           </span>
         </div>
         <div className="recipe__layout-points">
@@ -101,7 +97,7 @@ const Recipe = () => {
       <div className="recipe">
         <div className="recipe__image">
           <img src={recipe.image_url ? recipe.image_url : "/assets/sampleRecipe.jpeg"} alt="" />
-          {!isCurrntUser(user) && currentUser.id && (
+          {!isCurrntUser(user, currentUser) && currentUser.id && (
             <FavoriteForm recipe={recipe} recipeId={id}/>
           )}
         </div>
@@ -126,7 +122,7 @@ const Recipe = () => {
           </div>
         </div>
       </div>
-      {isCurrntUser(user) && (
+      {isCurrntUser(user, currentUser) && (
         <div className="recipe__btn">
           <Link to={`/recipes/${id}/edit`} className="recipe__edit-btn btn">レシピを編集する</Link>
           <span className="recipe__delete-btn btn" onClick={() => handleRemoveRecipe(recipe.id)}>レシピを削除する</span>

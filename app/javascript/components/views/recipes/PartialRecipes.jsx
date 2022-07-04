@@ -21,7 +21,7 @@ const PartialRecipes = ({recipes}) => {
         <div className="recipeCard__info">
           <h2 className="recipeCard__title"><NavLink to={`/recipes/${recipe.id}`}>{recipe.title}</NavLink></h2>
           <p className="recipeCard__tag">ズボラポイント：
-            <span className="recipeCard__tag-text1">未実装</span>
+            <span className="recipeCard__tag-text1">nothing</span>
           </p>
           <div className="recipeCard__performance">
             <p className="recipeCard__duration">

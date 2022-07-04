@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 
-const CommentForm = ({recipeId, addComment}) => {
+const CommentForm = ({Id, saveComment}) => {
+  const location = useLocation();
+  const id = location.pathname === `/recipes/${Id}/` ? {recipe_id: Id} : {question_id: Id};
   const [comment, setComment] = useState({
     content: '',
-    recipe_id: recipeId,
+    ...id,
   });
 
   const [formErrors, setFormErrors] = useState([]);
@@ -58,7 +61,7 @@ const CommentForm = ({recipeId, addComment}) => {
     if (!isEmptyArray(errors)) {
       setFormErrors(errors);
     } else {
-      addComment(comment);
+      saveComment(comment);
     }
   };
 

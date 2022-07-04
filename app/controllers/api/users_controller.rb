@@ -1,7 +1,7 @@
 class Api::UsersController < ApplicationController
-  before_action :set_user, only: %i[show edit update destroy follow_status following followers]
+  before_action :set_user, only: %i[show edit update destroy follow_status following followers interesting_questions]
   before_action :correct_user, only: %i[edit update]
-  before_action :logged_in_user, only: %i[follow_status]
+  before_action :logged_in_user, only: %i[follow_status interest_status]
 
   def index
     @users = User.all
@@ -76,6 +76,17 @@ class Api::UsersController < ApplicationController
                     user: user_json, users: users_json}
   end
 
+  def favorite_recipes
+    @title = "あなたのお気に入りレシピ"
+    @favorite_recipes = json_with_image_and_user(current_user.favorite_recipes)
+    render json: { favorite_recipes: @favorite_recipes, title: @title }
+  end
+
+  def interesting_questions
+    interest_count =  @user.interesting_questions.count
+    render json: { interest_count: @interest_count }
+  end
+
   def follow_status
     if current_user.following?(@user)
       render json: { following: true }
@@ -93,6 +104,15 @@ class Api::UsersController < ApplicationController
     end
   end
 
+  def interest_status
+    @question = Question.find(params[:id])
+    if current_user.interested_in?(@question)
+      render json: { interest: true }
+    else
+      render json: { interest: false }
+    end
+  end
+
   def admin_user?
     if current_user
       if current_user.admin?
@@ -103,12 +123,6 @@ class Api::UsersController < ApplicationController
     else
       render json: { logged_in: false, message: 'ユーザーが存在しません' }
     end
-  end
-
-  def favorite_recipes
-    @title = "あなたのお気に入りレシピ"
-    @favorite_recipes = json_with_image_and_user(current_user.favorite_recipes)
-    render json: { favorite_recipes: @favorite_recipes, title: @title }
   end
 
   private

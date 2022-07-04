@@ -1867,6 +1867,10 @@ input[type=button], input[type=text], input[type=submit], input[type=image], tex
   margin-top: 30px;
 }
 
+.form__btn__wrap.search{
+  margin-top: 30px;
+}
+
 .question-btn.delete-btn {
   background-color: #ccc;
 }
@@ -2065,8 +2069,16 @@ input[type=button], input[type=text], input[type=submit], input[type=image], tex
   vertical-align: middle;
   display: inline-block;
 }
+.question__interest-btn span {
+  vertical-align: middle;
+  display: inline-block;
+  cursor: pointer;
+}
 @media screen and (max-width: 767px) {
   .question__interest-btn input {
+    font-size: 1rem;
+  }
+  .question__interest-btn span {
     font-size: 1rem;
   }
 }

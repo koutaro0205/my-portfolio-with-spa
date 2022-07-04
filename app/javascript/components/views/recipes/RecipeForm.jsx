@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 
-const RecipeForm = ({onSave, recipes}) => {
+const RecipeForm = ({onSave, recipes, categories}) => {
   const { id } = useParams();
   const initialRecipeState = useCallback(
     () => {
@@ -13,16 +13,21 @@ const RecipeForm = ({onSave, recipes}) => {
         duration: 0,
         cost: 0,
       };
-  
       const currRecipe = id ?
         recipes.find((e) => e.id === Number(id)) :
         {};
-  
       return { ...defaults, ...currRecipe }
     },
     [recipes, id]
   );
-  const [recipe, setRecipe] = useState(initialRecipeState);
+  const [ recipe, setRecipe ] = useState(initialRecipeState);
+  const [ selected, setSelected ] = useState(9);
+
+  const handleSelectedChange = e => {
+    setSelected(e.target.value);
+    const value = e.target.value
+    setRecipe({...recipe, category_id: value});
+  };
 
   const [formErrors, setFormErrors] = useState([]);
 
@@ -196,12 +201,17 @@ const RecipeForm = ({onSave, recipes}) => {
           </div>
           <div className="form__layout-item">
             <label className='form__label' htmlFor="category_id">カテゴリーを選択</label>
-            <select name="category_id" id="category_id" className="form__field">
-              <option value="o1">オプション1</option>
-              <option value="o2">オプション2</option>
-              <option value="o3">オプション3</option>
-              <option value="o4">オプション4</option>
-              <option value="o5">オプション5</option>
+            <span className="required">必須</span>
+            <select
+              name="category_id"
+              id="category_id"
+              className="form__field"
+              onChange={handleSelectedChange}
+              value={selected}
+            >
+              {categories.map(category => (
+                <option key={category.id} value={category.id}>{category.name}</option>
+              ))}
             </select>
           </div>
         </div>
