@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { DropDownMenu } from '../parts/animations';
+import { handleAjaxError } from '../parts/helpers';
 import { success } from "../parts/notifications";
 import { SearchForm } from '../views/recipes/SearchForm';
 
@@ -27,8 +28,7 @@ const Header = ({ setCurrentUser, setLoggedInStatus, currentUser, searchRecipe }
         navigate('/');
         handleLogout();
       } catch (error) {
-        // handleAjaxError(error);
-        console.log("ログアウトエラー", error);
+        handleAjaxError(error);
       }
     }
   };

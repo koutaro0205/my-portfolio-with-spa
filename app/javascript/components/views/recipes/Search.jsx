@@ -25,7 +25,6 @@ const Search = () => {
           <Link to={`/recipes`} className="read-more__btn btn">レシピ一覧へ</Link>
         </div>
       </section>
-
     </>
   );
 };

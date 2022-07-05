@@ -1,12 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { warn } from "../parts/notifications";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useUrl } from "../views/users/useUrl";
 
 const Auth = () => {
   const navigate = useNavigate();
 	const location = useLocation();
-	const { setUrl } = useUrl();
+	const [url, setUrl] = useState('');
 
   useEffect(() => {
     const checkLoginStatus = async () => {
@@ -19,15 +18,19 @@ const Auth = () => {
 				if (!userStatus.logged_in) {
 					setUrl(location.pathname);
 					warn("ログインが必要です");
-          navigate(`/login/`);
 				}
 			} catch (error) {
 				handleAjaxError(error);
 			};
 		};
-
     checkLoginStatus();
   }, []);
+
+	useEffect(() => {
+		if (url){
+			navigate(`/login`, {state: {url: url}});
+		}
+	}, [url]);
 };
 
 export default Auth;

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { success, warn } from "../../parts/notifications";
 import { handleAjaxError } from '../../parts/helpers';
 import { HeadBlock } from '../../HeadBlock';
@@ -15,6 +15,8 @@ const Login = () => {
     remember_me: false,
   });
   const navigate = useNavigate();
+  const location = useLocation();
+  const requestUrl = location.state.url;
   const [loginError, setLoginError] = useState([]);
 
   const handleInputChange = (e) => {
@@ -44,7 +46,11 @@ const Login = () => {
         setLoggedInStatus(true);
         setCurrentUser(authenticatedUserStatus.user);
         success('ログイン認証成功');
-        navigate(`/`);
+        if (requestUrl){
+          navigate(requestUrl);
+        } else {
+          navigate(`/`);
+        }
       } else if (authenticatedUserStatus.status === "unauthorized") {
         const errorMessage = authenticatedUserStatus.errors;
         setLoginError(errorMessage);
