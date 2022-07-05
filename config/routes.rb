@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 	get 'recipes/:id', to: 'site#index'
 	get 'recipes/:id/edit', to: 'site#index'
   get '/search', to: 'site#index'
+  get '/conditional_search', to: 'site#index'
 
   get 'categories/:id', to: 'site#index'
 

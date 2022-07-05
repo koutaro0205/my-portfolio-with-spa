@@ -28,8 +28,6 @@ class Api::RecipesController < ApplicationController
   end
 
   def edit
-    # @user = @recipe.user
-    # render json: { recipe: @recipe, user: @user, status: :ok, image: @recipe.image_url }
     render json: associate(@recipe)
   end
 
@@ -54,6 +52,17 @@ class Api::RecipesController < ApplicationController
     @recipes = json_with_image_and_user(Recipe.search(params[:keyword]))
     @keyword = params[:keyword]
     render json: {recipes: @recipes, keyword: @keyword}
+  end
+
+  def conditional_search
+    cost = params[:cost]
+    duration = params[:duration]
+    if cost != "undefined" && duration != "undefined"
+      @recipes = Recipe.where('cost <= ? and duration <= ?', cost, duration)
+    else
+      @recipes = Recipe.where('cost <= ? or duration <= ?', cost, duration)
+    end
+    render json: { recipes: associate(@recipes) }
   end
 
   private

@@ -8,14 +8,16 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import CategoriesList from "./categories/CategoriesList";
 import { useQuestion } from "./questions/useQuestion";
+import { timeStamp } from "../parts/helpers";
+import { ConditionalSearch } from "../parts/ConditionalSearch";
 
 const Home = () => {
   const [recentRecipes, setRecentRecipes] = useState([]);
   const [followingRecipes, setFollowingRecipes] = useState([]);
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
+  const [conditionalRecipes, setConditionalRecipes] = useState([]);
   const currentUser = useContext(CurrentUserContext);
   const { questions } = useQuestion();
-  const moment = require('moment');
 
   useEffect(() => {
     const getRecipes = async () => {
@@ -47,7 +49,7 @@ const Home = () => {
           <Link to={`/questions/${question.id}`} >{question.title}</Link>
         </h3>
         <span className="sidebar__questions-timestamp">
-          {moment(question.created_at).format('YYYY年 MM月 DD日')}
+          {timeStamp(question)}
         </span>
       </li>
     ));
@@ -114,70 +116,8 @@ const Home = () => {
           </Tabs>
         </div>
         <div className="sidebar">
-          <h2 className="subTitle">条件を絞って検索</h2>
-          <form action="">
-            <label className="form__label" htmlFor="cost">コストで絞り込む</label>
-            <div className="radio__wrap">
-              <input
-                className="form__radio"
-                type="radio"
-                id="cost"
-                name="cost_lteq"
-              />
-              <span className="form__radio-text">100円以内</span>
-            </div>
-            <div className="radio__wrap">
-              <input
-                className="form__radio"
-                type="radio"
-                id="cost"
-                name="cost_lteq"
-              />
-              <span className="form__radio-text">500円以内</span>
-            </div>
-            <div className="radio__wrap">
-              <input
-                className="form__radio"
-                type="radio"
-                id="cost"
-                name="cost_lteq"
-              />
-              <span className="form__radio-text">1000円以内</span>
-            </div>
-
-            <label className="form__label" htmlFor="duration">調理時間で絞り込む</label>
-            <div className="radio__wrap">
-              <input
-                className="form__radio"
-                type="radio"
-                id="duration"
-                name="duration_lteq"
-              />
-              <span className="form__radio-text">10分以内</span>
-            </div>
-            <div className="radio__wrap">
-              <input
-                className="form__radio"
-                type="radio"
-                id="duration"
-                name="duration_lteq"
-              />
-              <span className="form__radio-text">20分以内</span>
-            </div>
-            <div className="radio__wrap">
-              <input
-                className="form__radio"
-                type="radio"
-                id="duration"
-                name="duration_lteq"
-              />
-              <span className="form__radio-text">30分以内</span>
-            </div>
-            <input type="submit" value={"検索"} className="sidebar__btn btn" />
-          </form>
-
+          <ConditionalSearch/>
           <CategoriesList/>
-
           <div className="sidebar__questions">
             <h2 className="subTitle">みんなの質問</h2>
             <ul className="sidebar__questions-list">

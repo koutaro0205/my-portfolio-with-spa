@@ -22,6 +22,7 @@ import QuestionsList from '../views/questions/QuestionsList';
 import NewQuestion from '../views/questions/NewQuestion';
 import Question from '../views/questions/Question';
 import EditQuestion from '../views/questions/EditQuestion';
+import ConditionalSearchResult from '../views/recipes/ConditionalSearchResult';
 
 const Main = () => {
 
@@ -46,6 +47,7 @@ const Main = () => {
 				<Route path={`/recipes/new`} element={<NewRecipe/>} />
 				<Route path={`/recipes/:id/edit`} element={<EditRecipe/>}/>
 				<Route path={`/search`} element={<Search/>}/>
+				<Route path={`/conditional_search`} element={<ConditionalSearchResult/>}/>
 
 				<Route path={`/categories/:id`} element={<Category/>}/>
 
