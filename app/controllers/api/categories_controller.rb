@@ -3,7 +3,7 @@ class Api::CategoriesController < ApplicationController
   before_action :admin_user, only: %i[create edit update destroy]
 
   def show
-    @recipes = json_with_image_and_user(@category.recipes)
+    @recipes = associate(@category.recipes)
     render json: { recipes: @recipes, category: @category }
   end
 
@@ -39,7 +39,6 @@ class Api::CategoriesController < ApplicationController
   end
 
   private
-
     def set_category
       @category = Category.find(params[:id])
     end
@@ -52,5 +51,9 @@ class Api::CategoriesController < ApplicationController
       unless current_user.admin?
         render json: { user: current_user, admin: false }
       end
+    end
+
+    def associate(obj)
+      JSON.parse(obj.to_json(include: [:category, {user: {methods: [:image_url]}}], methods: [:image_url]))
     end
 end

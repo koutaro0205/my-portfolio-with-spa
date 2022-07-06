@@ -61,7 +61,6 @@ const EditUser = () => {
       if (!response.ok) throw Error(response.statusText);
 
       const updatedUserInfo = await response.json();
-      console.log(updatedUserInfo);
 
       if (updatedUserInfo.status === 'ok'){
         const newUsers = users;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 
@@ -12,6 +12,7 @@ const RecipeForm = ({onSave, recipes, categories}) => {
         body: '',
         duration: 0,
         cost: 0,
+        category_id: 0,
       };
       const currRecipe = id ?
         recipes.find((e) => e.id === Number(id)) :
@@ -21,10 +22,8 @@ const RecipeForm = ({onSave, recipes, categories}) => {
     [recipes, id]
   );
   const [ recipe, setRecipe ] = useState(initialRecipeState);
-  const [ selected, setSelected ] = useState(9);
 
   const handleSelectedChange = e => {
-    setSelected(e.target.value);
     const value = e.target.value
     setRecipe({...recipe, category_id: value});
   };
@@ -78,6 +77,10 @@ const RecipeForm = ({onSave, recipes, categories}) => {
 
     if (recipe.cost === 0) {
       errors.push("値段(円)を入力してください");
+    }
+
+    if (recipe.category_id === 0) {
+      errors.push("レシピのカテゴリを選択してください");
     }
 
     return errors;
@@ -207,8 +210,9 @@ const RecipeForm = ({onSave, recipes, categories}) => {
               id="category_id"
               className="form__field"
               onChange={handleSelectedChange}
-              value={selected}
+              value={recipe.category_id}
             >
+              <option value={0}>未選択</option>
               {categories.map(category => (
                 <option key={category.id} value={category.id}>{category.name}</option>
               ))}
