@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { success, warn } from "../../parts/notifications";
 import { handleAjaxError } from '../../parts/helpers';
@@ -9,15 +9,20 @@ const Login = () => {
   const ControllLoggedInFuncs = useContext(ControllLoggedInContext);
   const setCurrentUser = ControllLoggedInFuncs[0];
   const setLoggedInStatus = ControllLoggedInFuncs[1];
+  const [requestUrl, setRequesttUrl] = useState('');
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [loginError, setLoginError] = useState([]);
   const [loginInfo, setLoginInfo] = useState({
     email: '',
     password: '',
     remember_me: false,
   });
-  const navigate = useNavigate();
-  const location = useLocation();
-  const requestUrl = location.state.url;
-  const [loginError, setLoginError] = useState([]);
+  useEffect(() => {
+    if (location.state){
+      setRequesttUrl(location.state.url);
+    }
+  }, []);
 
   const handleInputChange = (e) => {
     const { target } = e;

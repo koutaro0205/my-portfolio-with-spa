@@ -4,6 +4,7 @@ import { HeadBlock } from '../../HeadBlock';
 import { useParams, Link } from 'react-router-dom';
 import { handleAjaxError } from '../../parts/helpers';
 import PartialRecipes from '../recipes/PartialRecipes';
+import PartialQuestions from '../questions/PartialQuestions';
 import FollowForm from '../relationships/FollowForm';
 import { Stats } from '../../parts/Stats';
 import { useFollow } from '../relationships/useFollow';
@@ -13,6 +14,7 @@ const User = () => {
   const [user, setUser] = useState({});
   const [myRecipes, setMyRecipes] = useState([]);
   const [recipesCount, setCount] = useState(0);
+  const [questions, setQuestions] = useState([]);
   const currentUser = useContext(CurrentUserContext);
   const { followerCount, followingCount, getFollowers, getFollowing, setFollowerCount} = useFollow();
   useEffect(() => {
@@ -32,6 +34,7 @@ const User = () => {
         setUser(userInfo.user);
         setMyRecipes(userInfo.recipes);
         setCount(userInfo.recipes_count);
+        setQuestions(userInfo.questions);
 			} catch (error) {
 				handleAjaxError(error);
 			};
@@ -73,9 +76,13 @@ const User = () => {
       <section className="section content-width">
         <h1 className="sectionTitle">私の質問一覧</h1>
         <ul className="questions__list">
-          <p className="nothing">現在投稿されている質問はありません</p>
+          <PartialQuestions questions={questions}/>
+          {questions.length === 0 && (
+            <p className="nothing">現在投稿されている質問はありません</p>
+          )}
         </ul>
-      </section>
+      {/* pagenate */}
+    </section>
     </>
   );
 };

@@ -2,7 +2,6 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 const PartialQuestions = ({questions}) => {
-  // const moment = require('moment');
 
   const renderQuestions = (questionArray) => {
     return questionArray.map((question) => (

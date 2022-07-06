@@ -49,7 +49,7 @@ class Api::RecipesController < ApplicationController
   end
 
   def search
-    @recipes = json_with_image_and_user(Recipe.search(params[:keyword]))
+    @recipes = associate(Recipe.search(params[:keyword]))
     @keyword = params[:keyword]
     render json: {recipes: @recipes, keyword: @keyword}
   end

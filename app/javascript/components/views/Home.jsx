@@ -7,7 +7,6 @@ import PartialRecipes from "./recipes/PartialRecipes";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import CategoriesList from "./categories/CategoriesList";
-import { useQuestion } from "./questions/useQuestion";
 import { timeStamp } from "../parts/helpers";
 import { ConditionalSearch } from "../parts/ConditionalSearch";
 
@@ -15,9 +14,8 @@ const Home = () => {
   const [recentRecipes, setRecentRecipes] = useState([]);
   const [followingRecipes, setFollowingRecipes] = useState([]);
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
-  const [conditionalRecipes, setConditionalRecipes] = useState([]);
+  const [questions, setQuestions] = useState([]);
   const currentUser = useContext(CurrentUserContext);
-  const { questions } = useQuestion();
 
   useEffect(() => {
     const getRecipes = async () => {
@@ -34,6 +32,7 @@ const Home = () => {
         setRecentRecipes(recipesData.recent_recipes);
         setFollowingRecipes(recipesData.following_recipes);
         setFavoriteRecipes(recipesData.favorite_recipes);
+        setQuestions(recipesData.questions);
 			} catch (error) {
 				handleAjaxError(error);
 			};

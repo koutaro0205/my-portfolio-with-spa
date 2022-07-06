@@ -1,9 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { timeStamp } from "../../parts/helpers";
 
 const PartialRecipes = ({recipes}) => {
-  const moment = require('moment');
-
   const renderRecipes = (recipeArray) => {
     return recipeArray.map((recipe) => (
       <li key={recipe.id} className="recipeCard">
@@ -20,8 +19,9 @@ const PartialRecipes = ({recipes}) => {
         </NavLink>
         <div className="recipeCard__info">
           <h2 className="recipeCard__title"><NavLink to={`/recipes/${recipe.id}`}>{recipe.title}</NavLink></h2>
-          <p className="recipeCard__tag">ズボラポイント：
-            <span className="recipeCard__tag-text1">nothing</span>
+          <p className="recipeCard__tag">
+            レシピカテゴリ：
+            <NavLink to={`/categories/${recipe.category_id}`} className="recipeCard__tag-text1">{recipe.category.name}</NavLink>
           </p>
           <div className="recipeCard__performance">
             <p className="recipeCard__duration">
@@ -35,7 +35,7 @@ const PartialRecipes = ({recipes}) => {
           </div>
 
           <span className="recipeCard__timestamp">
-            投稿日：{moment(recipe.created_at).format('YYYY年 MM月 DD日')}
+            投稿日：{timeStamp(recipe)}
           </span>
         </div>
       </li>

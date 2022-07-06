@@ -9,10 +9,11 @@ class Api::UsersController < ApplicationController
   end
 
   def show
-    @recipes = json_with_image_and_user(@user.recipes)
-    user = json_with_image(@user)
+    @recipes = associate_with_category(@user.recipes)
+    user = associate(@user)
+    @questions = associate_with_question_comments(@user.questions)
     recipes_count = @user.recipes.count
-    render json: { recipes: @recipes, user: user, recipes_count: recipes_count}
+    render json: { recipes: @recipes, user: user, questions: @questions ,recipes_count: recipes_count}
   end
 
   def create
@@ -78,7 +79,7 @@ class Api::UsersController < ApplicationController
 
   def favorite_recipes
     @title = "あなたのお気に入りレシピ"
-    @favorite_recipes = json_with_image_and_user(current_user.favorite_recipes)
+    @favorite_recipes = associate_with_category(current_user.favorite_recipes)
     render json: { favorite_recipes: @favorite_recipes, title: @title }
   end
 
@@ -144,6 +145,19 @@ class Api::UsersController < ApplicationController
 
     def decode(str)
       Base64.decode64(str.split(',').last)
+    end
+
+    def associate(obj)
+      # JSON.parse(obj.to_json(include: [:question, {recipe: {methods: [:image_url]}}], methods: [:image_url]))
+      JSON.parse(obj.to_json(methods: [:image_url], include: [:questions, { recipes: { methods: [:image_url] } }] ) )
+    end
+
+    def associate_with_question_comments(obj)
+      JSON.parse(obj.to_json(include: [:interests, :question_comments, {user: {methods: [:image_url]}}]))
+    end
+
+    def associate_with_category(obj)
+      JSON.parse(obj.to_json(include: [:category, {user: {methods: [:image_url]}}], methods: [:image_url]))
     end
 
     def correct_user

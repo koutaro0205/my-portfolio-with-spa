@@ -29,7 +29,6 @@ const NewRecipe = () => {
       if (!response.ok) throw Error(response.statusText);
 
       const newRecipeData = await response.json();
-      console.log(newRecipeData);
       if (newRecipeData.status === "created"){
         const savedRecipe = newRecipeData.recipe;
         const newRecipes = [...recipes, savedRecipe];
