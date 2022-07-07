@@ -8,6 +8,8 @@ export const handleAjaxError = (err) => {
 
 export const isEmptyObject = obj => Object.keys(obj).length === 0;
 
+export const isEmptyArray = obj => obj.length === 0;
+
 export const isCurrntUser = (user, currentUser) => {
   return user.id === currentUser.id;
 }

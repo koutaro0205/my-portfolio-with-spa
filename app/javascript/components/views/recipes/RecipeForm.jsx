@@ -229,7 +229,7 @@ const RecipeForm = ({onSave, recipes, categories}) => {
 export default RecipeForm;
 
 RecipeForm.propTypes = {
-  users: PropTypes.arrayOf(
+  recipes: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,

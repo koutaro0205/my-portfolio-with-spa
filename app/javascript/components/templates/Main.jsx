@@ -23,6 +23,8 @@ import NewQuestion from '../views/questions/NewQuestion';
 import Question from '../views/questions/Question';
 import EditQuestion from '../views/questions/EditQuestion';
 import ConditionalSearchResult from '../views/recipes/ConditionalSearchResult';
+import CategoriesIndex from '../views/categories/CategoriesIndex';
+import EditCategory from '../views/categories/EditCategory';
 
 const Main = () => {
 
@@ -49,7 +51,9 @@ const Main = () => {
 				<Route path={`/search`} element={<Search/>}/>
 				<Route path={`/conditional_search`} element={<ConditionalSearchResult/>}/>
 
+				<Route path={`/categories`} element={<CategoriesIndex/>}/>
 				<Route path={`/categories/:id`} element={<Category/>}/>
+				<Route path={`/categories/:id/edit`} element={<EditCategory/>}/>
 
 				<Route path={`/questions`} element={<QuestionsList/>}/>
 				<Route path={`/questions/new`} element={<NewQuestion/>}/>

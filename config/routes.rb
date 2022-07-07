@@ -21,7 +21,9 @@ Rails.application.routes.draw do
   get '/search', to: 'site#index'
   get '/conditional_search', to: 'site#index'
 
+  get 'categories', to: 'site#index'
   get 'categories/:id', to: 'site#index'
+  get 'categories/:id/edit', to: 'site#index'
 
   get 'questions', to: 'site#index'
   get 'questions/new', to: 'site#index'

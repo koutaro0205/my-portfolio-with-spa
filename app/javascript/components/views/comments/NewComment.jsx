@@ -55,10 +55,10 @@ const NewComments = ({recipeId, questionId}) => {
         if (!response.ok) throw Error(response.statusText);
         const removeData = await response.json();
         if (removeData.status === "ok"){
-          success(removeData.message);
           const newComments = [...comments];
           const idx = newComments.findIndex((comment) => comment.id === commentId);
           newComments.splice(idx, 1);
+          success(removeData.message);
           setComments(newComments);
         } else {
           warn(removeData.message);

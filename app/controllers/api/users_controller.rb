@@ -24,7 +24,7 @@ class Api::UsersController < ApplicationController
 
     if @user.save
       @user.send_activation_email
-      render json: { user: @user, message: "アカウントの有効化を行うため、メールをご確認ください" }
+      render json: { user: associate(@user), message: "アカウントの有効化を行うため、メールをご確認ください" }
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -148,7 +148,6 @@ class Api::UsersController < ApplicationController
     end
 
     def associate(obj)
-      # JSON.parse(obj.to_json(include: [:question, {recipe: {methods: [:image_url]}}], methods: [:image_url]))
       JSON.parse(obj.to_json(methods: [:image_url], include: [:questions, { recipes: { methods: [:image_url] } }] ) )
     end
 

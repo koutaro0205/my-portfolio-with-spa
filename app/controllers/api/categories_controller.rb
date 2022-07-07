@@ -8,7 +8,6 @@ class Api::CategoriesController < ApplicationController
   end
 
   def index
-    # @category = Category.new
     @categories = Category.all
     render json: { categories: @categories }
   end
@@ -24,11 +23,12 @@ class Api::CategoriesController < ApplicationController
   end
 
   def edit
+    render json: { category: @category, status: :ok }
   end
 
   def update
     if @category.update(category_params)
-      { status: :ok, category: @category}
+      render json: { status: :ok, category: @category}
     else
       render json: { status: :unprocessable_entity, category: @category }
     end
@@ -36,6 +36,7 @@ class Api::CategoriesController < ApplicationController
 
   def destroy
     @category.destroy
+    render json: { status: :ok }
   end
 
   private

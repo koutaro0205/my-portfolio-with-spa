@@ -87,7 +87,7 @@ const App = () => {
 					</ControllLoggedInContext.Provider>
 				</LoggedInStatusContext.Provider>
 			</CurrentUserContext.Provider>
-			<Footer />
+			<Footer currentUser={currentUser} />
 			<ToastContainer />
 		</>
 	);
