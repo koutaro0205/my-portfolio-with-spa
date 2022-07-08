@@ -107,7 +107,7 @@ const Home = () => {
                   )}
                 </ul>
                 <div className="read-more">
-                  <Link to={`/`} className="read-more__btn btn">もっと見る</Link>
+                  <Link to={`/recipes/following_recipes`} className="read-more__btn btn">もっと見る</Link>
                 </div>
               </section>
             </TabPanel>

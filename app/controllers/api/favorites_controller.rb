@@ -1,4 +1,5 @@
 class Api::FavoritesController < ApplicationController
+  before_action :logged_in_user
   def create
     @recipe = Recipe.find(params[:id])
     current_user.favorite(@recipe)

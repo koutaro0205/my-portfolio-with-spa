@@ -1,13 +1,14 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { CurrentUserContext } from "../../App";
 import { HeadBlock } from '../../HeadBlock';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { handleAjaxError } from '../../parts/helpers';
-import PartialRecipes from '../recipes/PartialRecipes';
 import PartialQuestions from '../questions/PartialQuestions';
 import FollowForm from '../relationships/FollowForm';
 import { Stats } from '../../parts/Stats';
 import { useFollow } from '../relationships/useFollow';
+import { RecipesFormat } from '../recipes/RecipesFormat';
+import Pagination from '../../parts/Pagination';
 
 const User = () => {
   const { id } = useParams();
@@ -17,13 +18,20 @@ const User = () => {
   const [questions, setQuestions] = useState([]);
   const currentUser = useContext(CurrentUserContext);
   const { followerCount, followingCount, getFollowers, getFollowing, setFollowerCount} = useFollow();
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [questionsPerPage] = useState(10);
+  const indexOfLastQuestion = currentPage * questionsPerPage;
+  const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
+  const currentQuestions = questions.slice(indexOfFirstQuestion, indexOfLastQuestion);
+  const paginate = pageNumber => setCurrentPage(pageNumber);
   useEffect(() => {
     getFollowers(id);
   }, [followerCount]);
 
   useEffect(() => {
     getFollowing(id);
-  }, [followingCount])
+  }, [followingCount]);
 
   useEffect(() => {
     const getUser = async () => {
@@ -64,24 +72,20 @@ const User = () => {
           )}
         </div>
       </section>
-      <section className="section content-width">
-        <h1 className="sectionTitle">私のレシピ一覧</h1>
-        <ul className="recipes">
-          <PartialRecipes recipes={myRecipes}/>
-          {myRecipes.length === 0 && (
-            <p className="nothing">現在投稿されているレシピはありません</p>
-          )}
-        </ul>
-      </section>
+      <RecipesFormat sectionTitle={"私のレシピ一覧"} recipes={myRecipes}/>
       <section className="section content-width">
         <h1 className="sectionTitle">私の質問一覧</h1>
         <ul className="questions__list">
-          <PartialQuestions questions={questions}/>
+          <PartialQuestions questions={currentQuestions}/>
           {questions.length === 0 && (
             <p className="nothing">現在投稿されている質問はありません</p>
           )}
         </ul>
-      {/* pagenate */}
+        <Pagination
+          postsPerPage={questionsPerPage}
+          totalPosts={questions.length}
+          paginate={paginate}
+        />
     </section>
     </>
   );

@@ -4,7 +4,6 @@ import RecipeForm from "./RecipeForm";
 import { useRecipe } from "./useRecipe";
 import { success, warn } from "../../parts/notifications";
 import { handleAjaxError } from "../../parts/helpers";
-import Auth from "../../providers/Auth";
 import { HeadBlock } from "../../HeadBlock";
 import { CurrentUserContext } from "../../App";
 import { useCategories } from "../categories/useCategories";
@@ -46,17 +45,13 @@ const NewRecipe = () => {
 
   return (
     <>
-      {!currentUser.id ? <Auth/> : (
-        <>
-          <HeadBlock title={"レシピ投稿"}/>
-          <section className="section content-width">
-            <div className="form__inner-newPage">
-              <h1 className="sectionTitle">レシピを投稿する</h1>
-              <RecipeForm onSave={addRecipe} recipes={recipes} categories={categories}/>
-            </div>
-          </section>
-        </>
-      )}
+      <HeadBlock title={"レシピ投稿"}/>
+      <section className="section content-width">
+        <div className="form__inner-newPage">
+          <h1 className="sectionTitle">レシピを投稿する</h1>
+          <RecipeForm onSave={addRecipe} recipes={recipes} categories={categories}/>
+        </div>
+      </section>
     </>
   );
 };

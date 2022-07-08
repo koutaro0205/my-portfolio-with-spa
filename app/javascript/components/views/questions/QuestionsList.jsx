@@ -5,11 +5,19 @@ import { Link } from 'react-router-dom';
 import PartialQuestions from './PartialQuestions';
 import { SearchForm } from './SearchForm';
 import { handleAjaxError } from '../../parts/helpers';
+import Pagination from '../../parts/Pagination';
 
 const QuestionsList = () => {
   const { questions } = useQuestion();
   const [searchedQuestions, setSearchedQuestions] = useState([]);
 	const [ keyword, setKeyword ] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [questionsPerPage] = useState(10);
+  const indexOfLastQuestion = currentPage * questionsPerPage;
+  const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
+  const currentQuestions = questions.slice(indexOfFirstQuestion, indexOfLastQuestion);
+  const currentSearchedQuestions = searchedQuestions.slice(indexOfFirstQuestion, indexOfLastQuestion);
+  const paginate = pageNumber => setCurrentPage(pageNumber);
 
   const searchQuestion = async (keyword) => {
     try {
@@ -58,14 +66,18 @@ const QuestionsList = () => {
             <SearchForm searchQuestion={searchQuestion}/>
           </div>
           <ul className="questions__list">
-            {keyword ? renderQuestions(searchedQuestions) : renderQuestions(questions)}
+            {keyword ? renderQuestions(currentSearchedQuestions) : renderQuestions(currentQuestions)}
           </ul>
           {keyword && (
             <div className='form__btn__wrap search'>
               <span className='form__btn btn question-btn' onClick={handleClick}>質問一覧へ戻る</span>
             </div>
           )}
-          {/* pagenation */}
+          <Pagination
+            postsPerPage={questionsPerPage}
+            totalPosts={keyword ? searchedQuestions.length : questions.length}
+            paginate={paginate}
+          />
         </div>
       </section>
     </>

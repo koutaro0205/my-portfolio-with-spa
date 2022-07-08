@@ -1,6 +1,7 @@
 class Api::QuestionsController < ApplicationController
-  before_action :logged_in_user, only: %i[new create edit update destroy]
+  before_action :logged_in_user, only: %i[new create update destroy]
   before_action :set_question, only: %i[show edit update destroy]
+  before_action :correct_user, only: %i[edit update destroy]
 
   def index
     @questions = associate(Question.all)
@@ -54,6 +55,11 @@ class Api::QuestionsController < ApplicationController
 
     def question_params
       params.require(:question).permit(:title, :content)
+    end
+
+    def correct_user
+      @user = @question.user
+      render json: { status: :forbidden, message: '権限がありません' } unless current_user?(@user)
     end
 
     def associate(obj)

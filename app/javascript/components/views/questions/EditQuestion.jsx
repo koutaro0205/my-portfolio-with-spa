@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { CurrentUserContext } from '../../App';
 import { handleAjaxError } from '../../parts/helpers';
 import { warn, success } from '../../parts/notifications';
@@ -6,7 +6,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { HeadBlock } from '../../HeadBlock';
 import { QuestionForm } from './QuestionForm';
 import { useQuestion } from './useQuestion';
-import { isCurrntUser } from '../../parts/helpers';
+import { isCurrntUser, isEmptyObject } from '../../parts/helpers';
+import Auth from '../../providers/Auth';
 
 const EditQuestion = () => {
   const { id } = useParams();
@@ -15,7 +16,7 @@ const EditQuestion = () => {
   const [user, setUser] = useState({});
   const currentUser = useContext(CurrentUserContext);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const getQuestion = async (questionId) => {
       try {
         const response = await window.fetch(`/api/questions/${questionId}/edit`);
@@ -104,7 +105,7 @@ const EditQuestion = () => {
         <div className="form__inner-newPage">
           <h1 className="sectionTitle">質問を編集する</h1>
           <QuestionForm questions={questions} onSave={updateQuestion}/>
-          {isCurrntUser(user, currentUser) && (
+          {!isEmptyObject(currentUser) && isCurrntUser(user, currentUser) && (
             <div className="form__btn__wrap delete-wrap">
               <span className='btn question-btn delete-btn' onClick={() => handleRemoveQuestion(id)}>質問を削除する</span>
             </div>

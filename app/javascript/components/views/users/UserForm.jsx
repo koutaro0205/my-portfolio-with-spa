@@ -1,38 +1,18 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
+import { isEmptyArray } from '../../parts/helpers';
 
 const UserForm = ({onSave, users, setIsLoading, isLoading}) => {
-
   const { id } = useParams();
-
   const defaults = {
     name: '',
     email: '',
     password: '',
     password_confirmation: '',
   };
-
   const currUser = id? users.find((e) => e.id === Number(id)) : {};
   const initialUserState = { ...defaults, ...currUser };
-
-  // const initialUserState = useCallback(
-  //   () => {
-  //     const defaults = {
-  //       name: '',
-  //       email: '',
-  //       password: '',
-  //       password_confirmation: '',
-  //     };
-  
-  //     const currUser = id ?
-  //       users.find((e) => e.id === Number(id)) :
-  //       {};
-  
-  //     return { ...defaults, ...currUser }
-  //   },
-  //   [users, id]
-  // );
   const [user, setUser] = useState(initialUserState);
 
   const [formErrors, setFormErrors] = useState([]);
@@ -107,10 +87,8 @@ const UserForm = ({onSave, users, setIsLoading, isLoading}) => {
     return errors;
   };
 
-  const isEmptyObject = (array) => array.length === 0;
-
   const renderErrors = () => {
-    if (isEmptyObject(formErrors)) {
+    if (isEmptyArray(formErrors)) {
       return null;
     }
 
@@ -132,7 +110,7 @@ const UserForm = ({onSave, users, setIsLoading, isLoading}) => {
     e.preventDefault();
     const errors = validateUser(user);
 
-    if (!isEmptyObject(errors)) {
+    if (!isEmptyArray(errors)) {
       setFormErrors(errors);
     } else {
       onSave(user);
@@ -188,7 +166,7 @@ const UserForm = ({onSave, users, setIsLoading, isLoading}) => {
             onChange={handleInputChange}
           />
 
-          <label className='form__label' htmlFor="image">イメージ画像</label>
+          <label className='form__label form__label-image' htmlFor="image">イメージ画像</label>
           <input
             className='image__field'
             type="file"

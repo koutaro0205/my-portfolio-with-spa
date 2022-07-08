@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useLayoutEffect } from "react";
 import { warn } from "../parts/notifications";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -7,7 +7,7 @@ const Auth = () => {
 	const location = useLocation();
 	const [url, setUrl] = useState('');
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const checkLoginStatus = async () => {
 			try {
 				const response = await window.fetch('/api/logged_in');

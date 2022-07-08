@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 
-const Pagination = ({recipesPerPage, totalRecipes, paginate}) => {
+const Pagination = ({postsPerPage, totalPosts, paginate}) => {
   const [currentNumber, setCurrentNumber] = useState(1);
   const pageNumbers = [];
 
-  for (let i = 1; i <= Math.ceil(totalRecipes / recipesPerPage); i++) {
+  for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
     pageNumbers.push(i);
   }
 
@@ -16,7 +16,7 @@ const Pagination = ({recipesPerPage, totalRecipes, paginate}) => {
   return (
     <>
       {(() => {
-        if (totalRecipes <= recipesPerPage) {
+        if (totalPosts <= postsPerPage) {
           return (
             <></>
           );

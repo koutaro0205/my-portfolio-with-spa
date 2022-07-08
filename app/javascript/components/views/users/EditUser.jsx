@@ -6,9 +6,11 @@ import UserForm from "./UserForm";
 import { success, warn } from "../../parts/notifications";
 import { handleAjaxError, isEmptyObject } from "../../parts/helpers";
 import { HeadBlock } from '../../HeadBlock';
+import { useImage } from './useImage';
 
 const EditUser = () => {
   const { users, setUsers } = useUser();
+  const { currentImage } = useImage();
   const navigate = useNavigate();
   const { id } = useParams();
   const ControllLoggedInFuncs = useContext(ControllLoggedInContext);
@@ -87,7 +89,7 @@ const EditUser = () => {
           <h1 className="sectionTitle">現在の登録情報</h1>
           <ul className="profileCard__info">
             <li className="profileCard__image">
-              <img src={currentUser.image_url ? currentUser.image_url : '/assets/default.jpeg'} alt="" />
+              <img src={currentImage ? currentImage : '/assets/default.jpeg'} alt="" />
             </li>
             <li className="profileCard__user">
               <p className="profileCard__user-name">{!isEmptyObject(currentUser) ? currentUser.name : null}</p>

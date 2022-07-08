@@ -1,16 +1,13 @@
-import React, { useContext } from 'react';
-import { CurrentUserContext } from '../../App';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { HeadBlock } from "../../HeadBlock";
 import { handleAjaxError } from '../../parts/helpers';
 import { QuestionForm } from './QuestionForm';
 import { useQuestion } from './useQuestion';
 import { success } from '../../parts/notifications';
-import Auth from '../../providers/Auth';
 
 const NewQuestion = () => {
   const { questions, setQuestions } = useQuestion();
-  const currentUser = useContext(CurrentUserContext);
   const navigate = useNavigate();
 
   const addQuestion = async (newQuestion) => {
@@ -42,17 +39,13 @@ const NewQuestion = () => {
 
   return (
     <>
-      {!currentUser.id ? <Auth/> : (
-        <>
-          <HeadBlock title={"質問を投稿"}/>
-          <section className="section content-width">
-            <div className="form__inner-newPage">
-              <h1 className="sectionTitle">質問を投稿する</h1>
-              <QuestionForm questions={questions} onSave={addQuestion}/>
-            </div>
-          </section>
-        </>
-      )}
+      <HeadBlock title={"質問を投稿"}/>
+      <section className="section content-width">
+        <div className="form__inner-newPage">
+          <h1 className="sectionTitle">質問を投稿する</h1>
+          <QuestionForm questions={questions} onSave={addQuestion}/>
+        </div>
+      </section>
     </>
   );
 };

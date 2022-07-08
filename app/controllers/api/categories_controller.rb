@@ -49,8 +49,10 @@ class Api::CategoriesController < ApplicationController
     end
 
     def admin_user
-      unless current_user.admin?
-        render json: { user: current_user, admin: false }
+      if current_user
+        unless current_user.admin?
+          render json: { user: current_user, admin: false }
+        end
       end
     end
 

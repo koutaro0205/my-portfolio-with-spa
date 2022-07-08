@@ -3,12 +3,11 @@ import { HeadBlock } from '../../HeadBlock';
 import { Link } from 'react-router-dom';
 import { useCategories } from './useCategories';
 import { handleAjaxError } from '../../parts/helpers';
-import { success } from '../../parts/notifications';
+import { success, warn } from '../../parts/notifications';
 import AuthAdmin from '../../providers/AuthAdmin';
 import { CategoryForm } from './CategoryForm';
 
 const CategoriesIndex = () => {
-  AuthAdmin();
   const { categories, setCategories } = useCategories();
 
   const addCategory = async (newCat) => {
@@ -24,10 +23,15 @@ const CategoriesIndex = () => {
       if (!response.ok) throw Error(response.statusText);
 
       const newCategory = await response.json();
-      const savedCategory = newCategory.category;
-      const newCategories = [...categories, savedCategory];
-      setCategories(newCategories);
-      success('カテゴリーを追加しました');
+      if(newCategory.admin === false){
+        navigate('/')
+        warn('権限がありません');
+      } else {
+        const savedCategory = newCategory.category;
+        const newCategories = [...categories, savedCategory];
+        setCategories(newCategories);
+        success('カテゴリーを追加しました');
+      }
     } catch (error) {
       handleAjaxError(error);
     }
@@ -49,7 +53,9 @@ const CategoriesIndex = () => {
           newCategories.splice(idx, 1);
           success("カテゴリを削除しました");
           setCategories(newCategories);
-        };
+        } else {
+          warn('削除に失敗しました');
+        }
       } catch (error) {
         handleAjaxError(error);
       };

@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { timeStamp } from "../../parts/helpers";
+import { noImage, timeStamp } from "../../parts/helpers";
 
 const PartialRecipes = ({recipes}) => {
   const renderRecipes = (recipeArray) => {
@@ -15,7 +15,7 @@ const PartialRecipes = ({recipes}) => {
           </span>
         </div>
         <NavLink to={`/recipes/${recipe.id}`} className="recipeCard__image">
-          <img src={recipe.image_url ? recipe.image_url : '/assets/sampleRecipe.jpeg'} alt="" />
+          <img src={recipe.image_url ? recipe.image_url : noImage()} alt="" />
         </NavLink>
         <div className="recipeCard__info">
           <h2 className="recipeCard__title"><NavLink to={`/recipes/${recipe.id}`}>{recipe.title}</NavLink></h2>

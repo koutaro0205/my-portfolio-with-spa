@@ -60,9 +60,6 @@ const FollowList = () => {
         <div className="user__name">
           <NavLink to={`/users/${user.id}`} className="user__name-link">{user.name}</NavLink>
         </div>
-        <div className="user__follow">
-          フォロー
-        </div>
       </li>
     ));
   };

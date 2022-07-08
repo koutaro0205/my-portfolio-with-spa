@@ -25,8 +25,12 @@ import EditQuestion from '../views/questions/EditQuestion';
 import ConditionalSearchResult from '../views/recipes/ConditionalSearchResult';
 import CategoriesIndex from '../views/categories/CategoriesIndex';
 import EditCategory from '../views/categories/EditCategory';
+import FollowingRecipes from '../views/recipes/FollowingRecipes';
+import { isEmptyObject } from '../parts/helpers';
+import Auth from '../providers/Auth';
+import AuthAdmin from '../providers/AuthAdmin';
 
-const Main = () => {
+const Main = ({currentUser}) => {
 
   return (
     <main className='main'>
@@ -36,27 +40,28 @@ const Main = () => {
 				<Route path={`/login/`} element={<Login/>}/>
 				<Route path={`/users/:id/`} element={<User />} />
 				<Route path={`/users/:id/edit`} element={<EditUser/>} />
-				<Route path={`/users/`} element={<UserList/>}/>
+				<Route path={`/users/`} element={isEmptyObject(currentUser) ? <Auth/> : <UserList/>}/>
 				<Route path={`/users/:id/following`} element={<FollowList/>}/>
 				<Route path={`/users/:id/followers`} element={<FollowList/>}/>
-				<Route path={`/users/:id/favorite_recipes`} element={<FavoriteList/>}/>
+				<Route path={`/users/:id/favorite_recipes`} element={isEmptyObject(currentUser) ? <Auth/> : <FavoriteList/>}/>
 				<Route path={`/password_resets/new`} element={<PasswordResetForm/>} />
 				<Route path={`/password_resets/:token/edit`} element={<EditPassword/>} />
 				<Route path={`/account_activations/:token/edit`} element={<AccountActivation/>} />
 
 				<Route path={`/recipes/`} element={<RecipesList/>}/>
 				<Route path={`/recipes/:id`} element={<Recipe/>} />
-				<Route path={`/recipes/new`} element={<NewRecipe/>} />
+				<Route path={`/recipes/new`} element={isEmptyObject(currentUser) ? <Auth/> : <NewRecipe/>} />
 				<Route path={`/recipes/:id/edit`} element={<EditRecipe/>}/>
 				<Route path={`/search`} element={<Search/>}/>
+				<Route path={`/recipes/following_recipes`} element={isEmptyObject(currentUser) ? <Auth/> : <FollowingRecipes/>}/>
 				<Route path={`/conditional_search`} element={<ConditionalSearchResult/>}/>
 
-				<Route path={`/categories`} element={<CategoriesIndex/>}/>
+				<Route path={`/categories`} element={!currentUser.admin ? <AuthAdmin/> : <CategoriesIndex/>}/>
 				<Route path={`/categories/:id`} element={<Category/>}/>
-				<Route path={`/categories/:id/edit`} element={<EditCategory/>}/>
+				<Route path={`/categories/:id/edit`} element={!currentUser.admin ? <AuthAdmin/> : <EditCategory/>}/>
 
 				<Route path={`/questions`} element={<QuestionsList/>}/>
-				<Route path={`/questions/new`} element={<NewQuestion/>}/>
+				<Route path={`/questions/new`} element={isEmptyObject(currentUser) ? <Auth/> : <NewQuestion/>}/>
 				<Route path={`/questions/:id`} element={<Question/>}/>
 				<Route path={`/questions/:id/edit`} element={<EditQuestion/>}/>
 

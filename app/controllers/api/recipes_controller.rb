@@ -1,6 +1,7 @@
 class Api::RecipesController < ApplicationController
   before_action :set_recipe, only: %i[show edit update destroy]
   before_action :correct_user, only: %i[edit update destroy]
+  before_action :logged_in_user, only: %i[create update destroy following_recipes]
 
   def index
     @recipes = associate(Recipe.all)
@@ -63,6 +64,11 @@ class Api::RecipesController < ApplicationController
       @recipes = Recipe.where('cost <= ? or duration <= ?', cost, duration)
     end
     render json: { recipes: associate(@recipes) }
+  end
+
+  def following_recipes
+    @following_recipes = Recipe.where(user_id: [current_user.following_ids])
+    render json: { following_recipes: @following_recipes }
   end
 
   private

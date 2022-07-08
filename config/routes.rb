@@ -40,7 +40,7 @@ Rails.application.routes.draw do
 		resources :recipes, format: 'json' do
       resources :comments, only: [:create, :destroy], format: 'json'
       collection do
-        get :user_favorites, :following_user, :conditional_search
+        get :user_favorites, :following_recipes, :conditional_search
       end
     end
     resources :questions, format: 'json' do
@@ -66,9 +66,6 @@ Rails.application.routes.draw do
     get '/interest_status/:id', to: 'users#interest_status', format: 'json'
     get '/recipes/:recipe_id/comments', to: 'comments#show_comments', format: 'json'
     get '/search', to: 'recipes#search', format: 'json'
+    get '/current_image', to: 'users#current_image?', format: 'json'
 	end
-
-
-  # get '/short_time', to: 'recipes#short_time'
-  # get '/low_cost', to: 'recipes#low_cost'
 end

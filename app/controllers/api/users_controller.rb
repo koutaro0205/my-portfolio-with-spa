@@ -1,11 +1,11 @@
 class Api::UsersController < ApplicationController
   before_action :set_user, only: %i[show edit update destroy follow_status following followers interesting_questions]
-  before_action :correct_user, only: %i[edit update]
-  before_action :logged_in_user, only: %i[follow_status interest_status]
+  before_action :correct_user, only: %i[edit update favorite_recipes]
+  before_action :logged_in_user, only: %i[follow_status interest_status update destroy]
 
   def index
-    @users = User.all
-    render json: @users, methods: [:image_url]
+    @users = associate(User.all)
+    render json: { users: @users }
   end
 
   def show
@@ -40,7 +40,7 @@ class Api::UsersController < ApplicationController
     end
 
     if @user.update(user_params)
-      render json: { user: @user, status: :ok, message: "ユーザー情報が更新されました", image: @user.image_url}
+      render json: { user: associate(@user), status: :ok, message: "ユーザー情報が更新されました", image: @user.image_url}
     else
       render json: { user: @user.errors, status: :unprocessable_entity }
     end
@@ -124,6 +124,10 @@ class Api::UsersController < ApplicationController
     else
       render json: { logged_in: false, message: 'ユーザーが存在しません' }
     end
+  end
+
+  def current_image?
+    render json: { image: current_user.image_url }
   end
 
   private

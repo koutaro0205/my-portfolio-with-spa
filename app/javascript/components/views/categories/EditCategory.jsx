@@ -2,13 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { HeadBlock } from '../../HeadBlock';
 import { useParams, useNavigate } from 'react-router-dom';
 import { handleAjaxError } from '../../parts/helpers';
-import AuthAdmin from '../../providers/AuthAdmin';
 import { useCategories } from './useCategories';
 import { success, warn } from '../../parts/notifications';
 import { CategoryForm } from './CategoryForm';
 
 const EditCategory = () => {
-  AuthAdmin();
   const navigate = useNavigate();
   const { categories, setCategories } = useCategories();
   const { id } = useParams();
@@ -20,7 +18,12 @@ const EditCategory = () => {
         const response = await window.fetch(`/api/categories/${id}/edit`);
         if (!response.ok) throw Error(response.statusText);
         const data = await response.json();
-        setCat(data.category)
+        if(data.admin === false){
+          navigate('/')
+          warn('権限がありません');
+        } else {
+          setCat(data.category);
+        }
 
       } catch (error) {
         handleAjaxError(error);

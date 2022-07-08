@@ -32,7 +32,6 @@ const App = () => {
 				if (userStatus.logged_in && loggedInStatus === false) {
 					setLoggedInStatus(true);
 					setCurrentUser(userStatus.user);
-					// setRecipesCount(userStatus.recipes_count);
 				} else if (!userStatus.logged_in && loggedInStatus === true) {
 					setLoggedInStatus(false);
 					setCurrentUser({});
@@ -82,7 +81,7 @@ const App = () => {
 				<LoggedInStatusContext.Provider value={loggedInStatus}>
 					<ControllLoggedInContext.Provider value={[setCurrentUser, setLoggedInStatus]}>
 						<SearchRecipesContext.Provider value={{recipes: recipes, keyword: keyword}}>
-							<Main/>
+							<Main currentUser={currentUser}/>
 						</SearchRecipesContext.Provider>
 					</ControllLoggedInContext.Provider>
 				</LoggedInStatusContext.Provider>
