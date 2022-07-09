@@ -41,7 +41,6 @@ const PasswordResetForm = () => {
       } else {
         const errorMessage = authenticatedEmailStatus.error;
         setResetError(errorMessage);
-        console.log(errorMessage);
       }
     } catch (error) {
       handleAjaxError(error);
@@ -65,7 +64,9 @@ const PasswordResetForm = () => {
             <li key={error} className="message">{error}</li>
           ))}
         </ul>
-        <button onClick={setResetError([])}>再入力</button>
+        <div className='reset-errors-wrap'>
+          <button onClick={setResetError([])} className="reset-errors">再入力</button>
+        </div>
       </div>
     );
   }
@@ -82,7 +83,12 @@ const PasswordResetForm = () => {
     <>
       <HeadBlock title={"パスワードをお忘れですか？"}/>
       {isLoading ? (
-          <p className='loading'>メールを送信中です。今しばらくお待ちください。</p>
+          <>
+            <p className='loading'>メールを送信中です。今しばらくお待ちください。</p>
+            <div className="loading-image">
+              <img src="/assets/loading.gif" alt="" />
+            </div>
+          </>
         ) : (
           <section className="section content-width">
             <div className="form__inner">

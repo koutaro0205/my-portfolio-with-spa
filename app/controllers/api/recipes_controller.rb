@@ -38,7 +38,7 @@ class Api::RecipesController < ApplicationController
     end
 
     if @recipe.update(recipe_params)
-      render json: { recipe: @recipe, status: :ok, message: "レシピの内容が更新されました", image: @recipe.image_url}
+      render json: { recipe: @recipe, status: :ok, message: "レシピの内容が更新されました"}
     else
       render json: { errors: @recipe.errors, status: :unprocessable_entity }
     end

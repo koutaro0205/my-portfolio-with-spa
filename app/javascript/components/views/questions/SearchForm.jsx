@@ -24,7 +24,7 @@ export const SearchForm = ({searchQuestion}) => {
       placeholder="質問のキーワードを入力"
       onChange={handleInputChange}
       />
-      <input type="submit" value={"質問を検索する"} className="questions__search-submit btn" />
+      <input type="submit" value={"質問検索"} className="questions__search-submit btn" />
     </form>
   );
 };

@@ -29,6 +29,7 @@ const RecipeForm = ({onSave, recipes, categories}) => {
   };
 
   const [formErrors, setFormErrors] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setRecipe(initialRecipeState);
@@ -115,113 +116,118 @@ const RecipeForm = ({onSave, recipes, categories}) => {
       setFormErrors(errors);
     } else {
       onSave(recipe);
+      if ( id ) {
+        setIsLoading(true);
+      }
     }
   };
 
   return (
     <>
-      <form className="form" onSubmit={handleSubmit}>
-        {renderErrors()}
-
-        <label className="form__label" htmlFor="title">レシピタイトル</label><span className="required">必須</span>
-        <input
-          className="form__field"
-          type="text"
-          id="title"
-          name="title"
-          placeholder='レシピタイトルを入力'
-          onChange={handleInputChange}
-          value={recipe.title}
-        />
-
-        <label className="form__label" htmlFor="ingredient">材料</label><span className="required">必須</span>
-        <textarea
-          className="form__field form__textarea"
-          type="text"
-          id="ingredient"
-          name="ingredient"
-          placeholder='レシピに用いる具材や調味料を入力'
-          onChange={handleInputChange}
-          value={recipe.ingredient}
-        />
-
-        <label className="form__label" htmlFor="body">作り方・説明</label>
-        <textarea
-          className="form__field form__textarea"
-          type="text"
-          id="body"
-          name="body"
-          placeholder='作り方やレシピについての説明を入力（※任意）'
-          onChange={handleInputChange}
-          value={recipe.body}
-        />
-
-        <div className="form__layout">
-          <div className="form__layout-item">
-            <label className="form__label-short" htmlFor="duration">所要時間(分)</label>
-            <span className="required">必須</span>
-            <input
-              className="form__field-short"
-              type="number"
-              id="duration"
-              name="duration"
-              onChange={handleInputChange}
-              value={recipe.duration}
-            />
+      {isLoading ? (
+        <>
+          <p className='loading'>レシピを更新中です。今しばらくお待ちください。</p>
+          <div className="loading-image">
+            <img src="/assets/loading.gif" alt="" />
           </div>
-          <div className="form__layout-item">
-            <label className="form__label-short" htmlFor="cost">値段(円)</label>
-            <span className="required">必須</span>
-            <input
-              className="form__field-short"
-              type="number"
-              id="cost"
-              name="cost"
-              onChange={handleInputChange}
-              value={recipe.cost}
-            />
-          </div>
-          <div className="form__layout-item">
-            <label className="form__label-short" htmlFor="tag">ズボラポイント</label>
-            <select name="tag" id="tag" className="form__field-short">
-              <option value="short_time">時短レシピ</option>
-              <option value="low_cost">格安レシピ</option>
-            </select>
-          </div>
-        </div>
-    
-        <div className="form__layout">
-          <div className="form__layout-item">
-            <label className='form__label form__label-image' htmlFor="image">イメージ画像</label>
-            <input
-              className='image__field'
-              type="file"
-              name="image"
-              id="image"
-              accept="image/*,.png,.jpg,.jpeg,.gif"
-              onChange={handleFileChange}
-            />
-          </div>
-          <div className="form__layout-item">
-            <label className='form__label' htmlFor="category_id">カテゴリーを選択</label>
-            <span className="required">必須</span>
-            <select
-              name="category_id"
-              id="category_id"
-              className="form__field"
-              onChange={handleSelectedChange}
-              value={recipe.category_id}
-            >
-              <option value={0}>未選択</option>
-              {categories.map(category => (
-                <option key={category.id} value={category.id}>{category.name}</option>
-              ))}
-            </select>
-          </div>
-        </div>
+        </>
+      ) : (
+        <form className="form" onSubmit={handleSubmit}>
+          {renderErrors()}
 
-        <input type="submit" value={id ? "レシピを更新" : "レシピを投稿"} className="form__btn btn" />
-      </form>
+          <label className="form__label" htmlFor="title">レシピタイトル</label><span className="required">必須</span>
+          <input
+            className="form__field"
+            type="text"
+            id="title"
+            name="title"
+            placeholder='レシピタイトルを入力'
+            onChange={handleInputChange}
+            value={recipe.title}
+          />
+
+          <label className="form__label" htmlFor="ingredient">材料</label><span className="required">必須</span>
+          <textarea
+            className="form__field form__textarea"
+            type="text"
+            id="ingredient"
+            name="ingredient"
+            placeholder='レシピに用いる具材や調味料を入力'
+            onChange={handleInputChange}
+            value={recipe.ingredient}
+          />
+
+          <label className="form__label" htmlFor="body">作り方・説明</label>
+          <textarea
+            className="form__field form__textarea"
+            type="text"
+            id="body"
+            name="body"
+            placeholder='作り方やレシピについての説明を入力（※任意）'
+            onChange={handleInputChange}
+            value={recipe.body}
+          />
+
+          <div className="form__layout">
+            <div className="form__layout-item">
+              <label className="form__label-short" htmlFor="duration">所要時間(分)</label>
+              <span className="required">必須</span>
+              <input
+                className="form__field-short"
+                type="number"
+                id="duration"
+                name="duration"
+                onChange={handleInputChange}
+                value={recipe.duration}
+              />
+            </div>
+            <div className="form__layout-item">
+              <label className="form__label-short" htmlFor="cost">値段(円)</label>
+              <span className="required">必須</span>
+              <input
+                className="form__field-short"
+                type="number"
+                id="cost"
+                name="cost"
+                onChange={handleInputChange}
+                value={recipe.cost}
+              />
+            </div>
+            <div className="form__layout-item">
+              <label className='form__label-short' htmlFor="category_id">カテゴリーを選択</label>
+              <span className="required">必須</span>
+              <select
+                name="category_id"
+                id="category_id"
+                className="form__field-short"
+                onChange={handleSelectedChange}
+                value={recipe.category_id}
+              >
+                <option value={0}>未選択</option>
+                {categories.map(category => (
+                  <option key={category.id} value={category.id}>{category.name}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className="form__layout">
+            <div className="form__layout-item">
+              <label className='form__label form__label-image' htmlFor="image">イメージ画像</label>
+              <input
+                className='image__field'
+                type="file"
+                name="image"
+                id="image"
+                accept="image/*,.png,.jpg,.jpeg,.gif"
+                onChange={handleFileChange}
+              />
+            </div>
+          </div>
+
+          <input type="submit" value={id ? "レシピを更新" : "レシピを投稿"} className="form__btn btn" />
+        </form>
+      )}
     </>
   );
 };

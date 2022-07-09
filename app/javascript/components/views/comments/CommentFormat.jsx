@@ -39,7 +39,7 @@ const CommentFormat = ({Id, handleClick, comments, saveComment}) => {
           </span>
           {comment.user.id === currentUser.id && (
             <span className="comments__delete">
-              <span onClick={() => handleClick(comment.id)} className="comments__delete-btn">コメントを削除</span>
+              <span onClick={() => handleClick(comment.id)} className="comments__delete-btn">削除</span>
             </span>
           )}
         </p>

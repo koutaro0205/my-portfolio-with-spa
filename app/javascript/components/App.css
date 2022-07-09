@@ -245,6 +245,11 @@ input[type=button], input[type=text], input[type=submit], input[type=image], tex
   margin-top: 60px;
 }
 
+.loading-image{
+  margin-top: 15px;
+  text-align: center;
+}
+
 /* form */
 .form__inner {
   width: 50%;
@@ -353,6 +358,19 @@ input[type=button], input[type=text], input[type=submit], input[type=image], tex
 
 .form__btn__wrap {
   text-align: center;
+}
+
+.reset-errors-wrap{
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.reset-errors{
+  display: inline-block;
+  padding: 4px 20px;
+  background-color: #DED36E;
+  border: 0.5px solid #000;
+  border-radius: 4px;
 }
 
 /* flash message */
@@ -817,6 +835,7 @@ input[type=button], input[type=text], input[type=submit], input[type=image], tex
   width: 31%;
   padding: 15px 0;
   margin-right: 20px;
+  background-color: #fff;
 }
 .recipeCard:nth-child(n+4) {
   margin-top: 35px;
@@ -1306,6 +1325,7 @@ input[type=button], input[type=text], input[type=submit], input[type=image], tex
   display: flex;
   align-items: center;
   font-weight: bold;
+  cursor: pointer;
 }
 .recipe__favorite img {
   width: 20px;
@@ -1497,8 +1517,8 @@ input[type=button], input[type=text], input[type=submit], input[type=image], tex
 @media screen and (max-width: 767px) {
   .comments__content {
     font-size: 1.2rem;
-    padding: 8px 10px;
-    border-radius: 5px;
+    padding: 10px;
+    border-radius: 8px;
   }
 }
 
@@ -1642,34 +1662,6 @@ input[type=button], input[type=text], input[type=submit], input[type=image], tex
     padding: 6px;
   }
 }
-/* .pagination .next_page::after {
-  content: "次へ";
-}
-.pagination .previous_page::before {
-  content: "前へ";
-}
-.pagination .current, .pagination a {
-  font-size: 1.4rem;
-  display: inline-block;
-  padding: 10px;
-  margin-right: 8px;
-  margin-top: 5px;
-  border: #000 solid 0.5px;
-  background-color: #DED36E;
-}
-@media screen and (max-width: 767px) {
-  .pagination .current, .pagination a {
-    font-size: 1rem;
-    padding: 6px;
-  }
-}
-.pagination span {
-  display: inline-block;
-  margin-right: 8px;
-}
-.pagination a {
-  color: #000;
-} */
 
 /* questions page */
 .questions-page .sectionTitle {

@@ -8,7 +8,7 @@ class Api::SessionsController < ApplicationController
       if user.activated?
         log_in user
         params[:session][:remember_me] ? remember(user) : forget(user)
-        render json: { logged_in: true, user: json_with_image(user), status: :ok, activated: true }
+        render json: { logged_in: true, user: associate(user), status: :ok, activated: true }
       else
         render json: { logged_in: false, status: :unprocessable_entity, activated: false, message: "アカウントが有効化されていません。メールに記載されている有効化リンクを確認して下さい。" }
       end

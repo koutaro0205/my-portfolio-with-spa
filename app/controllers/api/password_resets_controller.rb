@@ -27,7 +27,7 @@ class Api::PasswordResetsController < ApplicationController
     elsif @user.update(user_params)
       log_in @user
       @user.update_attribute(:reset_digest, nil)
-      render json: { status: :ok, user: @user, logged_in: true}
+      render json: { status: :ok, user: associate(@user), logged_in: true}
     else
       render json: { status: :unprocessable_entity, user: @user }
     end
@@ -50,5 +50,9 @@ class Api::PasswordResetsController < ApplicationController
 
     def user_params
       params.permit(:password, :password_confirmation)
+    end
+
+    def associate(obj)
+      JSON.parse(obj.to_json(methods: [:image_url], include: [:questions, { recipes: { methods: [:image_url] } }] ) )
     end
 end

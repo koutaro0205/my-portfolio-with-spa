@@ -33,7 +33,6 @@ const EditPassword = () => {
 
   const validatePassword = () => {
     const errors = [];
-    // const existedUser = users.find((e) => e.email === user.email);
     if (password.password === '' || password.password_confirmation === ''){
       errors.push('パスワードを入力してください');
     }
@@ -63,7 +62,6 @@ const EditPassword = () => {
       if (!response.ok) throw Error(response.statusText);
 
       const updatedPasswoedStatus = await response.json();
-      console.log(updatedPasswoedStatus);
 
       if (updatedPasswoedStatus.status === "ok") {
 
@@ -73,7 +71,6 @@ const EditPassword = () => {
         setCurrentUser(updatedPasswoedStatus.user);
       } else if (updatedPasswoedStatus.errors) {
         const errorMessage = updatedPasswoedStatus.errors;
-        console.log(errorMessage);
         warn("新しいパスワードを入力してください。")
       }
     } catch (error) {
@@ -109,8 +106,6 @@ const EditPassword = () => {
       setPasswordError(errors);
     } else {
       UpdatePassword(password);
-      console.log("submit...");
-      console.log(`送信された情報：${password}`);
     }
   };
 

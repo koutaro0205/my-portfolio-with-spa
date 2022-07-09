@@ -103,7 +103,9 @@ const UserList = () => {
               </li>
               <li className="profileCard__user">
                 <p className="profileCard__user-name">{currentUser.name}</p>
-                <p className="profileCard__user-postsCounts">投稿数：{currentUser.recipes.length}</p>
+                <p className="profileCard__user-postsCounts">
+                  投稿数：{currentUser.recipes.length}
+                </p>
               </li>
             </ul>
           </div>

@@ -32,7 +32,7 @@ class Api::CommentsController < ApplicationController
     end
 
     def comment_params
-      params.permit(:content).merge(user_id: current_user.id, recipe_id: params[:recipe_id])
+      params.require(:comment).permit(:content).merge(user_id: current_user.id, recipe_id: params[:recipe_id])
     end
 
     def correct_user

@@ -12,6 +12,6 @@ class Api::AccountActivationsController < ApplicationController
 
   private
   def associate(obj)
-    JSON.parse(obj.to_json(methods: [:image_url]))
+    JSON.parse(obj.to_json(methods: [:image_url], include: [:questions, { recipes: { methods: [:image_url] } }] ) )
   end
 end

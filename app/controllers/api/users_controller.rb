@@ -4,7 +4,7 @@ class Api::UsersController < ApplicationController
   before_action :logged_in_user, only: %i[follow_status interest_status update destroy]
 
   def index
-    @users = associate(User.all)
+    @users = associate(User.where(activated: true))
     render json: { users: @users }
   end
 

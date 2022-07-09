@@ -123,7 +123,12 @@ const UserForm = ({onSave, users, setIsLoading, isLoading}) => {
   return (
     <>
       {isLoading ? (
-        <p className='loading'>メールを送信中です。今しばらくお待ちください。</p>
+        <>
+          <p className='loading'>メールを送信中です。今しばらくお待ちください。</p>
+          <div className="loading-image">
+            <img src="/assets/loading.gif" alt="" />
+          </div>
+        </>
         ) : (
           <form className="form" onSubmit={handleSubmit}>
           {renderErrors()}

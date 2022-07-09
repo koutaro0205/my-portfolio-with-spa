@@ -50,7 +50,7 @@ const Login = () => {
       if (authenticatedUserStatus.logged_in && authenticatedUserStatus.activated) {
         setLoggedInStatus(true);
         setCurrentUser(authenticatedUserStatus.user);
-        success('ログイン認証成功');
+        success('ログインしました!');
         if (requestUrl){
           navigate(requestUrl);
         } else {
@@ -85,7 +85,9 @@ const Login = () => {
             <li key={error} className="message">{error}</li>
           ))}
         </ul>
-        <button onClick={() => setLoginError([])}>再入力</button>
+        <div className='reset-errors-wrap'>
+          <button className='reset-errors' onClick={() => setLoginError([])}>再入力</button>
+        </div>
       </div>
     );
   }

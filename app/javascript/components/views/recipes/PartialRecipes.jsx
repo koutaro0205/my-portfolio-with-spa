@@ -20,7 +20,7 @@ const PartialRecipes = ({recipes}) => {
         <div className="recipeCard__info">
           <h2 className="recipeCard__title"><NavLink to={`/recipes/${recipe.id}`}>{recipe.title}</NavLink></h2>
           <p className="recipeCard__tag">
-            レシピカテゴリ：
+            カテゴリ：
             <NavLink to={`/categories/${recipe.category_id}`} className="recipeCard__tag-text1">{recipe.category.name}</NavLink>
           </p>
           <div className="recipeCard__performance">

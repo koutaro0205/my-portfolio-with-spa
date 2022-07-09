@@ -74,9 +74,6 @@ const App = () => {
 				currentUser={currentUser}
 				searchRecipe={searchRecipe}
 			/>
-			<h1>デバッグ</h1>
-			<p>ログイン状況：{loggedInStatus ? "ログイン中" : "未ログイン"}</p>
-			<p>ログイン中のユーザー：{currentUser.name ? currentUser.name : "ログイン中のユーザーはいません"}</p>
 			<CurrentUserContext.Provider value={currentUser}>
 				<LoggedInStatusContext.Provider value={loggedInStatus}>
 					<ControllLoggedInContext.Provider value={[setCurrentUser, setLoggedInStatus]}>

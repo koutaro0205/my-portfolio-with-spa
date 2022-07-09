@@ -6,12 +6,13 @@ import { HeadBlock } from "../../HeadBlock";
 import { success, warn } from "../../parts/notifications";
 import FavoriteForm from "../favorites/FavoriteForm";
 import NewComments from "../comments/NewComment";
-import { timeStamp, isCurrntUser } from "../../parts/helpers";
+import { timeStamp, isCurrntUser, noImage } from "../../parts/helpers";
 
 const Recipe = () => {
   const { id } = useParams();
   const [recipe, setRecipe] = useState({});
   const [user, setUser] = useState({});
+  const [category, setCategory] = useState({});
   const currentUser = useContext(CurrentUserContext);
   const navigate = useNavigate();
 
@@ -23,6 +24,7 @@ const Recipe = () => {
 				const recipeData = await response.json();
         setRecipe(recipeData);
         setUser(recipeData.user);
+        setCategory(recipeData.category);
 			} catch (error) {
 				handleAjaxError(error);
 			};
@@ -81,6 +83,9 @@ const Recipe = () => {
           </span>
         </div>
         <div className="recipe__layout-points">
+        <p className="recipeCard__tag">カテゴリ：
+          <Link to={`/categories/${recipe.category_id}`} className="recipeCard__tag-text1">{category.name}</Link>
+        </p>
           <div className="recipeCard__performance">
             <p className="recipeCard__duration">
               <img src="/assets/timer.svg" alt="" />
@@ -96,7 +101,7 @@ const Recipe = () => {
 
       <div className="recipe">
         <div className="recipe__image">
-          <img src={recipe.image_url ? recipe.image_url : "/assets/sampleRecipe.jpeg"} alt="" />
+          <img src={recipe.image_url ? recipe.image_url : noImage()} alt="" />
           {!isCurrntUser(user, currentUser) && currentUser.id && (
             <FavoriteForm recipe={recipe} recipeId={id}/>
           )}
