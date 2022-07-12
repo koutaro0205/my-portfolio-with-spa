@@ -1,7 +1,7 @@
 class Api::RecipesController < ApplicationController
   before_action :set_recipe, only: %i[show edit update destroy]
   before_action :correct_user, only: %i[edit update destroy]
-  before_action :logged_in_user, only: %i[create update destroy following_recipes]
+  before_action :logged_in_user, only: %i[new edit create update destroy following_recipes]
 
   def index
     @recipes = associate(Recipe.all)
@@ -24,7 +24,7 @@ class Api::RecipesController < ApplicationController
     if @recipe.save
       render json: { recipe: @recipe, status: :created }
     else
-      render json: { errors: @recipe.errors, status: :unprocessable_entity }
+      render json: { errors: @recipe.errors, status: :unprocessable_entity, recipe: @recipe }
     end
   end
 
@@ -77,7 +77,7 @@ class Api::RecipesController < ApplicationController
     end
 
     def recipe_params
-      params.require(:recipe).permit(:title, :ingredient, :body, :image, :duration, :cost, :category_id)
+      params.require(:recipe).permit(:title, :ingredient, :body, :image, :duration, :cost).merge(category_id: params[:category_id])
     end
 
     def attach_image(recipe)

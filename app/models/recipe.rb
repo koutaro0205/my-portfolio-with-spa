@@ -7,7 +7,6 @@ class Recipe < ApplicationRecord
   has_many :user_favorites, through: :favorites, source: :user
 
   belongs_to :user
-
   belongs_to :category
 
   default_scope -> { order(created_at: :desc) }
@@ -16,6 +15,7 @@ class Recipe < ApplicationRecord
   validates :ingredient, presence: true
   validates :duration, presence: true
   validates :cost, presence: true
+  validates :category_id, presence: true
 
   def self.search(keyword)
     Recipe.where(["title like? OR body like?", "%#{keyword}%", "%#{keyword}%"])

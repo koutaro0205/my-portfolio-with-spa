@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
+import { isEmptyArray } from '../../parts/helpers';
 
 const RecipeForm = ({onSave, recipes, categories}) => {
   const { id } = useParams();
@@ -87,8 +87,6 @@ const RecipeForm = ({onSave, recipes, categories}) => {
     return errors;
   };
 
-  const isEmptyArray = (array) => array.length === 0;
-
   const renderErrors = () => {
     if (isEmptyArray(formErrors)) {
       return null;
@@ -128,7 +126,7 @@ const RecipeForm = ({onSave, recipes, categories}) => {
         <>
           <p className='loading'>レシピを更新中です。今しばらくお待ちください。</p>
           <div className="loading-image">
-            <img src="/assets/loading.gif" alt="" />
+            <img src="/assets/loading.gif" alt="" className='image'/>
           </div>
         </>
       ) : (
@@ -233,21 +231,3 @@ const RecipeForm = ({onSave, recipes, categories}) => {
 };
 
 export default RecipeForm;
-
-RecipeForm.propTypes = {
-  recipes: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      title: PropTypes.string.isRequired,
-      ingredient: PropTypes.string.isRequired,
-      body: PropTypes.string.isRequired,
-      duration: PropTypes.number.isRequired,
-      cost: PropTypes.number.isRequired,
-    })
-  ),
-  onSave: PropTypes.func.isRequired,
-};
-
-RecipeForm.defaultProps = {
-  recipes: [],
-};

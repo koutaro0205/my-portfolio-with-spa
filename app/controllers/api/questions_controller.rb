@@ -1,5 +1,5 @@
 class Api::QuestionsController < ApplicationController
-  before_action :logged_in_user, only: %i[new create update destroy]
+  before_action :logged_in_user, only: %i[new create edit update destroy]
   before_action :set_question, only: %i[show edit update destroy]
   before_action :correct_user, only: %i[edit update destroy]
 

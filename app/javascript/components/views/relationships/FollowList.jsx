@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import { HeadBlock } from "../../HeadBlock";
 import { useParams, useLocation, NavLink } from "react-router-dom";
-import { handleAjaxError } from "../../parts/helpers";
+import { handleAjaxError, defaultImage } from "../../parts/helpers";
 
 const FollowList = () => {
   const { id } = useParams();
@@ -55,7 +55,7 @@ const FollowList = () => {
     return userArray.map((user) => (
       <li key={user.id} className="user__item">
         <div className="user__image">
-          <img src={user.image_url ? user.image_url : '/assets/default.jpeg'} alt="" />
+          <img src={user.image_url ? user.image_url : defaultImage()} alt="" />
         </div>
         <div className="user__name">
           <NavLink to={`/users/${user.id}`} className="user__name-link">{user.name}</NavLink>
@@ -73,7 +73,7 @@ const FollowList = () => {
           <h2 className="subTitle">ユーザー情報</h2>
             <ul className="profileCard__info">
               <li className="profileCard__image">
-                <img src={user.image_url ? user.image_url : "/assets/default.jpeg"} alt=""/>
+                <img src={user.image_url ? user.image_url : defaultImage()} alt=""/>
               </li>
               <li className="profileCard__user">
                 <p className="profileCard__user-name">{user.name}</p>

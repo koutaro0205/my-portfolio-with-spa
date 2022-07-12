@@ -19,15 +19,7 @@ class ApplicationController < ActionController::Base
   private
     def logged_in_user
       unless logged_in_now?
-        render json: { logged_in: false, message: 'ユーザーが存在しません' }
+        render json: { status: :forbidden, logged_in: false, message: 'ユーザーが存在しません' }
       end
     end
-
-    # def logged_in_user
-    #   unless logged_in?
-    #     session[:forwarding_url] = request.original_url if request.get?
-    #     flash[:danger] = "ログインが必要です"
-    #     redirect_to login_url
-    #   end
-    # end
 end

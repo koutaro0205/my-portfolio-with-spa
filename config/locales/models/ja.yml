@@ -1,0 +1,16 @@
+ja:
+  activerecord:
+    models:
+      user: ユーザー
+    attributes:
+      user:
+        name: 名前
+        email: メールアドレス
+        password: パスワード
+        password_confirmation: 確認用パスワード
+
+      recipe:
+        title: レシピタイトル
+        ingredient: 材料
+        duration: 所要時間
+        cost: 値段

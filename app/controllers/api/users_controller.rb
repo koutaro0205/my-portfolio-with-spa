@@ -1,7 +1,8 @@
 class Api::UsersController < ApplicationController
+  before_action :logged_in_user, only: %i[follow_status interest_status update destroy index edit]
   before_action :set_user, only: %i[show edit update destroy follow_status following followers interesting_questions]
   before_action :correct_user, only: %i[edit update favorite_recipes]
-  before_action :logged_in_user, only: %i[follow_status interest_status update destroy]
+  before_action :activated_user, only: %i[show]
 
   def index
     @users = associate(User.where(activated: true))
@@ -13,7 +14,7 @@ class Api::UsersController < ApplicationController
     user = associate(@user)
     @questions = associate_with_question_comments(@user.questions)
     recipes_count = @user.recipes.count
-    render json: { recipes: @recipes, user: user, questions: @questions ,recipes_count: recipes_count}
+    render json: { status: :ok, recipes: @recipes, user: user, questions: @questions ,recipes_count: recipes_count}
   end
 
   def create
@@ -24,7 +25,8 @@ class Api::UsersController < ApplicationController
 
     if @user.save
       @user.send_activation_email
-      render json: { user: associate(@user), message: "アカウントの有効化を行うため、メールをご確認ください" }
+      render json: { status: :created, user: associate(@user),
+                      message: "アカウントの有効化を行うため、メールをご確認ください" }
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -133,6 +135,12 @@ class Api::UsersController < ApplicationController
   private
     def set_user
       @user = User.find(params[:id])
+    end
+
+    def activated_user
+      unless @user.activated?
+        render json: { status: :forbidden, activated: false }
+      end
     end
 
     def attach_image(user)

@@ -3,7 +3,7 @@ import { CurrentUserContext } from "../../App";
 import { useUser } from "./useUser";
 import { HeadBlock } from '../../HeadBlock';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { handleAjaxError } from '../../parts/helpers';
+import { handleAjaxError, isCurrntUser, defaultImage } from '../../parts/helpers';
 import { success, warn } from '../../parts/notifications';
 import FollowForm from '../relationships/FollowForm';
 import { useImage } from './useImage';
@@ -63,25 +63,21 @@ const UserList = () => {
     RemoveUser(userId);
   }
 
-  const isCurrntUser = (user) => {
-    return user.id === currentUser.id;
-  }
-
   const renderUsers = (userArray) => {
     return userArray.map((user) => (
       <li key={user.id} className="user__item">
         <div className="user__image">
-          <img src={user.image_url ? user.image_url : '/assets/default.jpeg'} alt="" />
+          <img src={user.image_url ? user.image_url : defaultImage()} alt="" />
         </div>
         <div className="user__name">
           <NavLink to={`/users/${user.id}`} className="user__name-link">{user.name}</NavLink>
         </div>
-        {admin && !isCurrntUser(user) && (
+        {admin && !isCurrntUser(user, currentUser) && (
           <div className="user__delete">
-            <span onClick={() => handleRemoveUser(user.id)}>ユーザーを削除（管理者権限）</span>
+            <span onClick={() => handleRemoveUser(user.id)}>削除</span>
           </div>
         )}
-        {!isCurrntUser(user) && (
+        {!isCurrntUser(user, currentUser) && (
           <div className="user__follow">
             <FollowForm user={user} userId={user.id}/>
           </div>
@@ -99,7 +95,7 @@ const UserList = () => {
           <h2 className="subTitle">現在のユーザー</h2>
             <ul className="profileCard__info">
               <li className="profileCard__image">
-                <img src={currentImage ? currentImage : '/assets/default.jpeg'} alt="" />
+                <img src={currentImage ? currentImage : defaultImage()} alt="" />
               </li>
               <li className="profileCard__user">
                 <p className="profileCard__user-name">{currentUser.name}</p>

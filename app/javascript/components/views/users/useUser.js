@@ -3,8 +3,6 @@ import { handleAjaxError } from '../../parts/helpers';
 
 export const useUser = () => {
   const [users, setUsers] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -14,11 +12,8 @@ export const useUser = () => {
         const data = await response.json();
         setUsers(data.users);
       } catch (error) {
-        setIsError(true);
         handleAjaxError(error);
       }
-
-      setIsLoading(false);
     };
     fetchData();
 
@@ -26,9 +21,6 @@ export const useUser = () => {
 
   return {
     users,
-    setIsLoading,
-    isLoading,
-    isError,
     setUsers,
   };
 };

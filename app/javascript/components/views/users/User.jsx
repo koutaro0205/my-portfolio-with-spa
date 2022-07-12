@@ -1,17 +1,19 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { CurrentUserContext } from "../../App";
 import { HeadBlock } from '../../HeadBlock';
-import { useParams } from 'react-router-dom';
-import { handleAjaxError } from '../../parts/helpers';
+import { useNavigate, useParams } from 'react-router-dom';
+import { handleAjaxError, defaultImage } from '../../parts/helpers';
 import PartialQuestions from '../questions/PartialQuestions';
 import FollowForm from '../relationships/FollowForm';
 import { Stats } from '../../parts/Stats';
 import { useFollow } from '../relationships/useFollow';
 import { RecipesFormat } from '../recipes/RecipesFormat';
 import Pagination from '../../parts/Pagination';
+import { warn } from '../../parts/notifications';
 
 const User = () => {
   const { id } = useParams();
+  const navigate = useNavigate
   const [user, setUser] = useState({});
   const [myRecipes, setMyRecipes] = useState([]);
   const [recipesCount, setCount] = useState(0);
@@ -39,10 +41,15 @@ const User = () => {
 				const response = await window.fetch(`/api/users/${id}`);
 				if (!response.ok) throw Error(response.statusText);
 				const userInfo = await response.json();
-        setUser(userInfo.user);
-        setMyRecipes(userInfo.recipes);
-        setCount(userInfo.recipes_count);
-        setQuestions(userInfo.questions);
+        if (userInfo.status === "forbidden"){
+          navigate('/');
+          warn('有効化されていないユーザーです');
+        } else {
+          setUser(userInfo.user);
+          setMyRecipes(userInfo.recipes);
+          setCount(userInfo.recipes_count);
+          setQuestions(userInfo.questions);
+        }
 			} catch (error) {
 				handleAjaxError(error);
 			};
@@ -59,7 +66,7 @@ const User = () => {
         <div className="profileCard profileCard--margin-top">
           <ul className="profileCard__info">
             <li className="profileCard__image">
-              <img src={user.image_url ? user.image_url : "/assets/default.jpeg"} alt="" />
+              <img src={user.image_url ? user.image_url : defaultImage()} alt="" />
             </li>
             <li className="profileCard__user">
               <p className="profileCard__user-name">{user.name}</p>

@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { success, warn } from "../../parts/notifications";
-import { handleAjaxError } from '../../parts/helpers';
+import { handleAjaxError, isEmptyArray } from '../../parts/helpers';
 import { HeadBlock } from '../../HeadBlock';
 import { ControllLoggedInContext } from '../../App';
 
@@ -68,10 +68,8 @@ const Login = () => {
     }
   };
 
-  const isEmptyError = (errors) => errors.length === 0;
-
   const renderError = () => {
-    if (isEmptyError(loginError)) {
+    if (isEmptyArray(loginError)) {
       return null;
     }
 
@@ -94,7 +92,7 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (isEmptyError(loginError)){
+    if (isEmptyArray(loginError)){
       LoginUser(loginInfo);
     };
   };

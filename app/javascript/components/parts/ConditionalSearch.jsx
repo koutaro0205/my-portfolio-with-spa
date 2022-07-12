@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { isEmptyObject } from './helpers';
+import { isEmptyObject, isEmptyArray } from './helpers';
 
 export const ConditionalSearch = () => {
   const [query, setQuery] = useState({});
   const [conditionalRecipes, setConditionalRecipes] = useState([]);
+  const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -27,6 +28,9 @@ export const ConditionalSearch = () => {
       if (!response.ok) throw Error(response.statusText);
       const data = await response.json();
       setConditionalRecipes(data.recipes);
+      if(isEmptyArray(data.recipes)){
+        setMessage('条件に一致するレシピが見つかりません');
+      }
     } catch (error) {
       handleAjaxError(error);
     }
@@ -36,7 +40,13 @@ export const ConditionalSearch = () => {
     if (conditionalRecipes.length !== 0){
       navigate('/conditional_search', {state: {recipes: conditionalRecipes}});
     }
-  }, [conditionalRecipes])
+  }, [conditionalRecipes]);
+
+  const renderMessage = () => {
+    return (
+      <p className='not-found'>{message}</p>
+    );
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -49,6 +59,7 @@ export const ConditionalSearch = () => {
     <>
       <h2 className="subTitle">条件を絞って検索</h2>
       <form onSubmit={handleSubmit}>
+        {message && renderMessage()}
         <label className="form__label" htmlFor="cost">コストで絞り込む</label>
         <div className="radio__wrap">
           <input

@@ -18,6 +18,7 @@ class Api::PasswordResetsController < ApplicationController
   end
 
   def edit
+    render json: { status: :ok }
   end
 
   def update
@@ -35,7 +36,7 @@ class Api::PasswordResetsController < ApplicationController
 
   def check_expiration
     if @user.password_reset_expired?
-      render json: { status: :unprocessable_entity, to: 'password_resets/new', message: "再設定されたパスワードの有効期限が切れました"}
+      render json: { status: :unprocessable_entity, to: '/password_resets/new', message: "再設定されたパスワードの有効期限が切れました"}
     end
   end
 
