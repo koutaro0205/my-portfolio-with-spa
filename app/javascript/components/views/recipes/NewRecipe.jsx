@@ -1,15 +1,13 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import RecipeForm from "./RecipeForm";
 import { useRecipe } from "./useRecipe";
 import { success, warn } from "../../parts/notifications";
 import { handleAjaxError } from "../../parts/helpers";
 import { HeadBlock } from "../../HeadBlock";
-import { CurrentUserContext } from "../../App";
 import { useCategories } from "../categories/useCategories";
 
 const NewRecipe = () => {
-  const currentUser = useContext(CurrentUserContext);
   const { categories } = useCategories();
 
   const { recipes, setRecipes } = useRecipe();

@@ -39,7 +39,7 @@ const Main = ({currentUser}) => {
 				<Route path={`/users/new/`} element={<Signup/>}/>
 				<Route path={`/login/`} element={<Login/>}/>
 				<Route path={`/users/:id/`} element={<User />} />
-				<Route path={`/users/:id/edit`} element={<EditUser/>} />
+				<Route path={`/users/:id/edit`} element={isEmptyObject(currentUser) ? <Auth/> : <EditUser/>} />
 				<Route path={`/users/`} element={isEmptyObject(currentUser) ? <Auth/> : <UserList/>}/>
 				<Route path={`/users/:id/following`} element={<FollowList/>}/>
 				<Route path={`/users/:id/followers`} element={<FollowList/>}/>
@@ -51,7 +51,7 @@ const Main = ({currentUser}) => {
 				<Route path={`/recipes/`} element={<RecipesList/>}/>
 				<Route path={`/recipes/:id`} element={<Recipe/>} />
 				<Route path={`/recipes/new`} element={isEmptyObject(currentUser) ? <Auth/> : <NewRecipe/>} />
-				<Route path={`/recipes/:id/edit`} element={<EditRecipe/>}/>
+				<Route path={`/recipes/:id/edit`} element={isEmptyObject(currentUser) ? <Auth/> : <EditRecipe/>}/>
 				<Route path={`/search`} element={<Search/>}/>
 				<Route path={`/recipes/following_recipes`} element={isEmptyObject(currentUser) ? <Auth/> : <FollowingRecipes/>}/>
 				<Route path={`/conditional_search`} element={<ConditionalSearchResult/>}/>
@@ -63,7 +63,7 @@ const Main = ({currentUser}) => {
 				<Route path={`/questions`} element={<QuestionsList/>}/>
 				<Route path={`/questions/new`} element={isEmptyObject(currentUser) ? <Auth/> : <NewQuestion/>}/>
 				<Route path={`/questions/:id`} element={<Question/>}/>
-				<Route path={`/questions/:id/edit`} element={<EditQuestion/>}/>
+				<Route path={`/questions/:id/edit`} element={isEmptyObject(currentUser) ? <Auth/> : <EditQuestion/>}/>
 
 				<Route path="*" element={<NotFound/>}/>
 			</Routes>

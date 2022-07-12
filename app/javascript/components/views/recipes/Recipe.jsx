@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import { CurrentUserContext } from "../../App";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { handleAjaxError } from "../../parts/helpers";
 import { HeadBlock } from "../../HeadBlock";
 import { success, warn } from "../../parts/notifications";
 import FavoriteForm from "../favorites/FavoriteForm";
 import NewComments from "../comments/NewComment";
-import { timeStamp, isCurrntUser, noImage } from "../../parts/helpers";
+import { timeStamp, isCurrntUser, noImage, defaultImage, handleAjaxError } from "../../parts/helpers";
 
 const Recipe = () => {
   const { id } = useParams();
@@ -72,7 +71,7 @@ const Recipe = () => {
         <div className="recipe__layout-userInfo">
           <div className="recipe__user">
             <Link to={`/users/${recipe.user_id}`} className="recipe__user-image">
-              <img src={user.image_url ? user.image_url : '/assets/default.jpeg'} alt="" />
+              <img src={user.image_url ? user.image_url : defaultImage()} alt="" />
             </Link>
             <span className="recipe__user-name">
               <Link to={`/users/${recipe.user_id}`} className="recipe__user-image">{user.name}</Link>

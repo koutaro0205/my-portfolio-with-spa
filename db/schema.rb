@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_30_043810) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_12_081216) do
   create_table "active_storage_attachments", charset: "utf8mb4", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -100,7 +100,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_30_043810) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "category_id"
+    t.bigint "category_id"
+    t.index ["category_id"], name: "index_recipes_on_category_id"
     t.index ["user_id", "created_at"], name: "index_recipes_on_user_id_and_created_at"
     t.index ["user_id"], name: "index_recipes_on_user_id"
   end
@@ -140,5 +141,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_30_043810) do
   add_foreign_key "question_comments", "questions"
   add_foreign_key "question_comments", "users"
   add_foreign_key "questions", "users"
+  add_foreign_key "recipes", "categories"
   add_foreign_key "recipes", "users"
 end

@@ -238,6 +238,10 @@ input[type=button], input[type=text], input[type=submit], input[type=image], tex
   text-align: center;
 }
 
+.not-found{
+  color: #C6020C;
+}
+
 .loading{
   text-align: center;
   font-size: 2rem;
@@ -248,6 +252,13 @@ input[type=button], input[type=text], input[type=submit], input[type=image], tex
 .loading-image{
   margin-top: 15px;
   text-align: center;
+}
+
+@media screen and (max-width: 767px){
+  .loading-image .image{
+    height: 25px;
+    width: 25px;
+  }
 }
 
 /* form */

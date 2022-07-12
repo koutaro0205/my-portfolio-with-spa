@@ -3,7 +3,7 @@ import { useRecipe } from './useRecipe';
 import { useNavigate, useParams } from 'react-router-dom';
 import RecipeForm from './RecipeForm';
 import { success, warn } from "../../parts/notifications";
-import { handleAjaxError } from "../../parts/helpers";
+import { handleAjaxError, noImage } from "../../parts/helpers";
 import { HeadBlock } from '../../HeadBlock';
 import { useCategories } from "../categories/useCategories";
 
@@ -86,7 +86,7 @@ const EditRecipe = () => {
         <h2 className="recipe__title">{recipe.title}</h2>
         <div className="recipe">
           <div className="recipe__image">
-            <img src={recipe.image_url ? recipe.image_url : "/assets/sampleRecipe.jpeg"} alt="" />
+            <img src={recipe.image_url ? recipe.image_url : noImage()} alt="" />
           </div>
           <div className="recipe__info">
             <div className="recipe__ingredient">

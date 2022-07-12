@@ -1,26 +1,55 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { ControllLoggedInContext } from '../../App';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { success, warn } from "../../parts/notifications";
 import { handleAjaxError } from '../../parts/helpers';
 import { HeadBlock } from '../../HeadBlock';
+import { isEmptyArray } from '../../parts/helpers';
 
 const EditPassword = () => {
   const { token } = useParams();
-  const ControllLoggedInFuncs = useContext(ControllLoggedInContext);
-  const setCurrentUser = ControllLoggedInFuncs[0];
-  const setLoggedInStatus = ControllLoggedInFuncs[1];
-
+  const navigate = useNavigate();
   const search = useLocation().search;
   const query = new URLSearchParams(search);
   const exsistedEmail = query.get('email');
+
+  useEffect(() => {
+    const fetchData = async (token) => {
+      try {
+        const response = await window.fetch(`/api/password_resets/${token}/edit?${query}`,
+          {
+            method: 'GET',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        if (!response.ok) throw Error(response.statusText);
+        const data = await response.json();
+        if (data.status === 'unprocessable_entity'){
+          warn('トークンまたはメールアドレスが無効です');
+          navigate(`/`);
+        } else if (data.status === 'unprocessable_entity' && data.message){
+          warn(data.message);
+          navigate(data.to);
+        }
+      } catch (error) {
+        handleAjaxError(error);
+      }
+    };
+
+    fetchData(token);
+  }, []);
+  const ControllLoggedInFuncs = useContext(ControllLoggedInContext);
+  const setCurrentUser = ControllLoggedInFuncs[0];
+  const setLoggedInStatus = ControllLoggedInFuncs[1];
 
   const [password, setPassword] = useState({
     password: '',
     password_confirmation: '',
     email: exsistedEmail,
   });
-  const navigate = useNavigate();
   const [passwordError, setPasswordError] = useState([]);
 
   const handleInputChange = (e) => {
@@ -78,10 +107,8 @@ const EditPassword = () => {
     }
   };
 
-  const isEmptyError = (errors) => errors.length === 0;
-
   const renderError = () => {
-    if (isEmptyError(passwordError)) {
+    if (isEmptyArray(passwordError)) {
       return null;
     }
 
@@ -102,7 +129,7 @@ const EditPassword = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const errors = validatePassword(password);
-    if (!isEmptyError(errors)) {
+    if (!isEmptyArray(errors)) {
       setPasswordError(errors);
     } else {
       UpdatePassword(password);

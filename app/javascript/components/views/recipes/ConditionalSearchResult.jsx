@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { HeadBlock } from '../../HeadBlock';
 import { RecipesFormat } from './RecipesFormat';
 
 const ConditionalSearchResult = () => {
+  const [recipes, setRecipes] = useState([]);
   const location = useLocation();
-  const recipes = location.state.recipes;
+  useEffect(() => {
+    if (location.state){
+      setRecipes(location.state.recipes);
+    }
+  }, [])
   return (
     <>
       <HeadBlock title={"条件を絞って検索"}/>

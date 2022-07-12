@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { noImage, timeStamp } from "../../parts/helpers";
+import { defaultImage, noImage, timeStamp } from "../../parts/helpers";
 
 const PartialRecipes = ({recipes}) => {
   const renderRecipes = (recipeArray) => {
@@ -8,7 +8,7 @@ const PartialRecipes = ({recipes}) => {
       <li key={recipe.id} className="recipeCard">
         <div className="recipeCard__user">
           <NavLink to={`/users/${recipe.user_id}`} className='recipeCard__user-image'>
-            <img src={recipe.user.image_url ? recipe.user.image_url : "/assets/default.jpeg"} alt="" />
+            <img src={recipe.user.image_url ? recipe.user.image_url : defaultImage()} alt="" />
           </NavLink>
           <span className="recipeCard__user-name">
             {recipe.user.name}

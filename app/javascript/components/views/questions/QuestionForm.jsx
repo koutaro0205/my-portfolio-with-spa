@@ -1,5 +1,6 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { isEmptyArray } from '../../parts/helpers';
 
 export const QuestionForm = ({questions, onSave}) => {
   const { id } = useParams();
@@ -40,8 +41,6 @@ export const QuestionForm = ({questions, onSave}) => {
 
     return errors;
   };
-
-  const isEmptyArray = (array) => array.length === 0;
 
   const renderErrors = () => {
     if (isEmptyArray(formErrors)) {
