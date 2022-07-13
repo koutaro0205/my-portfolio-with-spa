@@ -90,13 +90,14 @@ Rails.application.configure do
 
   ### Addition
   ## 追加(本番仕様に合わせる<画像URL参照先>)
-  # Rails.application.routes.default_url_options[:host] = 'localhost'
+  host = 'https://testapp235722.herokuapp.com/'
+  Rails.application.routes.default_url_options[:host] = host
   # Rails.application.routes.default_url_options[:port] = 3000
 
   config.action_mailer.raise_delivery_errors = true
 
   ## 追加・変更(本番仕様に合わせる<画像URL参照先>)
-  config.action_mailer.default_url_options = {  host: 'https://testapp235722.herokuapp.com/' }
+  config.action_mailer.default_url_options = {  host: host }
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
   config.assets.compile = true
