@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
-import { isEmptyArray } from '../../parts/helpers';
+import { isEmptyArray, isEmptyObject } from '../../parts/helpers';
 
 const UserForm = ({onSave, users, setIsLoading, isLoading}) => {
   const { id } = useParams();
@@ -60,7 +60,7 @@ const UserForm = ({onSave, users, setIsLoading, isLoading}) => {
       errors.push("メールアドレスを入力してください");
     }
 
-    if (existedUser !== undefined && Object.keys(currUser).length === 0){
+    if (existedUser !== undefined && isEmptyObject(currUser)){
       if (user.email === existedUser.email) {
         errors.push("入力されたメールアドレスは既に使われています。");
       }
@@ -197,8 +197,6 @@ UserForm.propTypes = {
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
       email: PropTypes.string.isRequired,
-      // password: PropTypes.string.isRequired,
-      // password_confirmation: PropTypes.string.isRequired
     })
   ),
   onSave: PropTypes.func.isRequired,

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useUser } from "./useUser";
 import { HeadBlock } from '../../HeadBlock';
@@ -7,10 +7,24 @@ import UserForm from "./UserForm";
 import { handleAjaxError } from '../../parts/helpers';
 
 const Signup = () => {
-  const { users, setUsers } = useUser();
+  const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await window.fetch('/api/show_users');
+        if (!response.ok) throw Error(response.statusText);
+        const data = await response.json();
+        setUsers(data.users);
+      } catch (error) {
+        handleAjaxError(error);
+      }
+    };
+    fetchData();
+
+  }, []);
 
   const addUser = async (newUser) => {
     try {
@@ -25,6 +39,7 @@ const Signup = () => {
       if (!response.ok) throw Error(response.statusText);
 
       const newUserData = await response.json();
+      console.log(newUserData);
       const savedUser = newUserData.user;
       const newUsers = [...users, savedUser];
       setUsers(newUsers);

@@ -1,5 +1,4 @@
 import { error, warn } from './notifications';
-import { useNavigate } from 'react-router-dom';
 
 export const handleAjaxError = (err) => {
   error('Something went wrong');
@@ -32,12 +31,3 @@ export const unPermitted = () => {
   navigate('/')
   warn('権限がありません');
 }
-
-// export const loggedInNow = (jsonData) => {
-//   // return Object.keys(loggedInUser).length !== 0;
-//   const navigate = useNavigate();
-//   if (jsonData.logged_in === false){
-//     navigate('/login');
-//     warn("ログインが必要です");
-//   }
-// }

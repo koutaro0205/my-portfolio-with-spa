@@ -60,6 +60,7 @@ Rails.application.routes.draw do
     delete '/logout', to: 'sessions#destroy', format: 'json'
     get '/logged_in', to: 'sessions#logged_in?', format: 'json'
     get '/admin_user', to: 'users#admin_user?', format: 'json'
+    get '/show_users', to: 'users#show_users?', format: 'json'
     get '/home', to: 'home#index', format: 'json'
     get '/follow_status/:id', to: 'users#follow_status', format: 'json'
     get '/favorite_status/:id', to: 'users#favorite_status', format: 'json'

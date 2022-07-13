@@ -1,11 +1,16 @@
 class Api::UsersController < ApplicationController
-  before_action :logged_in_user, only: %i[follow_status interest_status update destroy index edit]
+  before_action :logged_in_user, only: %i[follow_status interest_status update destroy edit]
   before_action :set_user, only: %i[show edit update destroy follow_status following followers interesting_questions]
   before_action :correct_user, only: %i[edit update favorite_recipes]
   before_action :activated_user, only: %i[show]
 
   def index
     @users = associate(User.where(activated: true))
+    render json: { users: @users }
+  end
+
+  def show_users?
+    @users = associate(User.all)
     render json: { users: @users }
   end
 

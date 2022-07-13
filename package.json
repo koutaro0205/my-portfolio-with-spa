@@ -18,8 +18,5 @@
   "scripts": {
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --loader:.js=jsx",
     "watch": "esbuild app/javascript/*.* --watch --bundle --outdir=app/assets/builds --loader:.js=jsx"
-  },
-  "devDependencies": {
-    "@babel/preset-react": "^7.18.6"
   }
 }
