@@ -6,11 +6,20 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-User.create!(name:  "Admin User",
+User.create!(
+  name:  "AdminUser",
   email: "testuser@example.com",
   password:              "password",
   password_confirmation: "password",
   admin: true,
+  activated: true,
+)
+
+User.create!(
+  name: "GuestUser",
+  email: "guestuser@example.com",
+  password: "guestuser",
+  password_confirmation: "guestuser",
   activated: true,
 )
 
@@ -41,43 +50,3 @@ Category.create!(
 Category.create!(
   name: 'その他'
 )
-
-User.create!(name:  "Example User2",
-  email: "testuser2@example.com",
-  password:              "password",
-  password_confirmation: "password",
-  activated: true,
-)
-
-User.create!(name:  "Example User3",
-  email: "testuser3@example.com",
-  password:              "password",
-  password_confirmation: "password",
-  activated: true,
-)
-
-User.create!(name:  "Example User4",
-  email: "testuser4@example.com",
-  password:              "password",
-  password_confirmation: "password",
-  activated: true,
-)
-
-5.times do |n|
-  Recipe.create!(
-    title: "質問のタイトル",
-    ingredient: "材料",
-    cost: 600,
-    duration: 20,
-    user_id: 1,
-    category_id: 1,
-  )
-end
-
-5.times do |n|
-  Question.create!(
-    title: "質問のタイトル",
-    content: "質問内容を入力します。",
-    user_id: 1,
-  )
-end
