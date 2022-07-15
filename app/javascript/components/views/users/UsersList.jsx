@@ -10,7 +10,7 @@ import { useImage } from './useImage';
 
 const UserList = () => {
   const currentUser = useContext(CurrentUserContext);
-  const { users } = useUser();
+  const { users, isLoading } = useUser();
   const { currentImage } = useImage();
   const [admin, setAdmin] = useState(false);
   const navigate = useNavigate();
@@ -105,12 +105,18 @@ const UserList = () => {
               </li>
             </ul>
           </div>
-          <div className="users">
-            <h2 className="subTitle">登録ユーザー一覧</h2>
-            <ul className="users__list">
-              {renderUsers(users)}
-            </ul>
-          </div>
+          {isLoading ? (
+            <div className="loading-image">
+              <img src="/assets/loading.gif" alt="" className='image'/>
+            </div>
+          ) : (
+            <div className="users">
+              <h2 className="subTitle">登録ユーザー一覧</h2>
+              <ul className="users__list">
+                {renderUsers(users)}
+              </ul>
+            </div>
+          )}
         </div>
       </section>
     </>

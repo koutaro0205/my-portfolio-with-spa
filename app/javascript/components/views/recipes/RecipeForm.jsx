@@ -114,9 +114,7 @@ const RecipeForm = ({onSave, recipes, categories}) => {
       setFormErrors(errors);
     } else {
       onSave(recipe);
-      if ( id ) {
-        setIsLoading(true);
-      }
+      setIsLoading(true);
     }
   };
 
@@ -124,7 +122,7 @@ const RecipeForm = ({onSave, recipes, categories}) => {
     <>
       {isLoading ? (
         <>
-          <p className='loading'>レシピを更新中です。今しばらくお待ちください。</p>
+          <p className='loading'>レシピを投稿中です。今しばらくお待ちください。</p>
           <div className="loading-image">
             <img src="/assets/loading.gif" alt="" className='image'/>
           </div>

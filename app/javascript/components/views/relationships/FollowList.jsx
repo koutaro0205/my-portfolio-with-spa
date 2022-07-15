@@ -5,6 +5,7 @@ import { handleAjaxError, defaultImage } from "../../parts/helpers";
 
 const FollowList = () => {
   const { id } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
   const location = useLocation();
   const [user, setUser] = useState({});
   const [followers, setFollowers] = useState([]);
@@ -20,26 +21,32 @@ const FollowList = () => {
 
   useEffect(() => {
     const fetchFollowers = async () => {
+      setIsLoading(true);
       try {
         const response = await window.fetch(`/api/users/${id}/followers`);
         if (!response.ok) throw Error(response.statusText);
         const data = await response.json();
+        setIsLoading(false);
         setInfo(data);
         setFollowers(data.users);
       } catch (error) {
         handleAjaxError(error);
+        setIsLoading(false);
       }
     };
 
     const fetchFollowing = async () => {
+      setIsLoading(true);
       try {
         const response = await window.fetch(`/api/users/${id}/following`);
         if (!response.ok) throw Error(response.statusText);
         const data = await response.json();
+        setIsLoading(false);
         setInfo(data);
         setFollowing(data.users);
       } catch (error) {
         handleAjaxError(error);
+        setIsLoading(false);
       }
     };
 
@@ -81,18 +88,24 @@ const FollowList = () => {
               </li>
             </ul>
           </div>
-          <div className="users">
-            <h2 className="subTitle">{title}</h2>
-            <ul className="users__list">
-              {(() => {
-                if (location.pathname === `/users/${id}/following`) {
-                  return renderUsers(following);
-                } else if (location.pathname === `/users/${id}/followers`) {
-                  return renderUsers(followers);
-                }
-              })()}
-            </ul>
-          </div>
+          {isLoading ? (
+            <div className="loading-image">
+              <img src="/assets/loading.gif" alt="" className='image'/>
+            </div>
+          ) : (
+            <div className="users">
+              <h2 className="subTitle">{title}</h2>
+              <ul className="users__list">
+                {(() => {
+                  if (location.pathname === `/users/${id}/following`) {
+                    return renderUsers(following);
+                  } else if (location.pathname === `/users/${id}/followers`) {
+                    return renderUsers(followers);
+                  }
+                })()}
+              </ul>
+            </div>
+          )}
         </div>
       </section>
     </>

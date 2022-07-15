@@ -15,10 +15,12 @@ const Home = () => {
   const [followingRecipes, setFollowingRecipes] = useState([]);
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
   const [questions, setQuestions] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const currentUser = useContext(CurrentUserContext);
 
   useEffect(() => {
     const getRecipes = async () => {
+      setIsLoading(true);
 			try {
 				const response = await window.fetch(`/api/home`,{
           method: 'GET',
@@ -29,12 +31,14 @@ const Home = () => {
         });
 				if (!response.ok) throw Error(response.statusText);
 				const recipesData = await response.json();
+        setIsLoading(false);
         setRecentRecipes(recipesData.recent_recipes);
         setFollowingRecipes(recipesData.following_recipes);
         setFavoriteRecipes(recipesData.favorite_recipes);
         setQuestions(recipesData.questions);
 			} catch (error) {
 				handleAjaxError(error);
+        setIsLoading(false);
 			};
 		};
 
@@ -58,62 +62,68 @@ const Home = () => {
     <>
       <HeadBlock title={"ホーム"}/>
       <div className="container content-width">
-        <div className="main-contents">
-          <Tabs>
-            <TabList className="tab-group">
-              <Tab className="tab"><span>新着レシピ</span></Tab>
-              <Tab className="tab"><span>みんなのお気に入りレシピ</span></Tab>
-              {currentUser.id && (
-                <Tab className="tab"><span>フォローユーザーのレシピ</span></Tab>
-              )}
-            </TabList>
-            <TabPanel>
-              <section className="section">
-                <h1 className="sectionTitle">新着レシピ</h1>
-                <ul className="recipes recipes-latest">
-                  {recentRecipes.length === 0 ? (
-                    <p className="nothing">現在投稿されているレシピはありません</p>
-                  ) : (
-                    <PartialRecipes recipes={recentRecipes}/>
-                  )}
-                </ul>
-                <div className="read-more">
-                  <Link to={`/recipes`} className="read-more__btn btn">レシピ一覧へ</Link>
-                </div>
-              </section>
-            </TabPanel>
+        {isLoading ? (
+          <div className="loading-image">
+            <img src="/assets/loading.gif" alt="" className='image'/>
+          </div>
+        ) : (
+          <div className="main-contents">
+            <Tabs>
+              <TabList className="tab-group">
+                <Tab className="tab"><span>新着レシピ</span></Tab>
+                <Tab className="tab"><span>みんなのお気に入りレシピ</span></Tab>
+                {currentUser.id && (
+                  <Tab className="tab"><span>フォローユーザーのレシピ</span></Tab>
+                )}
+              </TabList>
+              <TabPanel>
+                <section className="section">
+                  <h1 className="sectionTitle">新着レシピ</h1>
+                  <ul className="recipes recipes-latest">
+                    {recentRecipes.length === 0 ? (
+                      <p className="nothing">現在投稿されているレシピはありません</p>
+                    ) : (
+                      <PartialRecipes recipes={recentRecipes}/>
+                    )}
+                  </ul>
+                  <div className="read-more">
+                    <Link to={`/recipes`} className="read-more__btn btn">レシピ一覧へ</Link>
+                  </div>
+                </section>
+              </TabPanel>
 
-            <TabPanel>
-              <section className="section">
-                <h1 className="sectionTitle">みんなのお気に入りレシピ</h1>
-                <ul className="recipes recipes-favorites">
-                  {favoriteRecipes.length === 0 ? (
-                    <p className="nothing">現在投稿されているレシピはありません</p>
-                  ) : (
-                    <PartialRecipes recipes={favoriteRecipes}/>
-                  )}
-                </ul>
-              </section>
-            </TabPanel>
-            {currentUser.id && (
-            <TabPanel>
-              <section className="section">
-                <h1 className="sectionTitle">フォローしているユーザーのレシピ</h1>
-                <ul className="recipes recipes-following">
-                  {followingRecipes.length === 0 ? (
-                    <p className="nothing">現在投稿されているレシピはありません</p>
-                  ) : (
-                    <PartialRecipes recipes={followingRecipes}/>
-                  )}
-                </ul>
-                <div className="read-more">
-                  <Link to={`/recipes/following_recipes`} className="read-more__btn btn">もっと見る</Link>
-                </div>
-              </section>
-            </TabPanel>
-            )}
-          </Tabs>
-        </div>
+              <TabPanel>
+                <section className="section">
+                  <h1 className="sectionTitle">みんなのお気に入りレシピ</h1>
+                  <ul className="recipes recipes-favorites">
+                    {favoriteRecipes.length === 0 ? (
+                      <p className="nothing">現在投稿されているレシピはありません</p>
+                    ) : (
+                      <PartialRecipes recipes={favoriteRecipes}/>
+                    )}
+                  </ul>
+                </section>
+              </TabPanel>
+              {currentUser.id && (
+              <TabPanel>
+                <section className="section">
+                  <h1 className="sectionTitle">フォローしているユーザーのレシピ</h1>
+                  <ul className="recipes recipes-following">
+                    {followingRecipes.length === 0 ? (
+                      <p className="nothing">現在投稿されているレシピはありません</p>
+                    ) : (
+                      <PartialRecipes recipes={followingRecipes}/>
+                    )}
+                  </ul>
+                  <div className="read-more">
+                    <Link to={`/recipes/following_recipes`} className="read-more__btn btn">もっと見る</Link>
+                  </div>
+                </section>
+              </TabPanel>
+              )}
+            </Tabs>
+          </div>
+        )}
         <div className="sidebar">
           <ConditionalSearch/>
           <CategoriesList/>

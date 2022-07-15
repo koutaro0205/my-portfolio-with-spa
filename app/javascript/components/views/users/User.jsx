@@ -15,6 +15,7 @@ const User = () => {
   const { id } = useParams();
   const navigate = useNavigate
   const [user, setUser] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const [myRecipes, setMyRecipes] = useState([]);
   const [recipesCount, setCount] = useState(0);
   const [questions, setQuestions] = useState([]);
@@ -37,10 +38,12 @@ const User = () => {
 
   useEffect(() => {
     const getUser = async () => {
+      setIsLoading(true);
 			try {
 				const response = await window.fetch(`/api/users/${id}`);
 				if (!response.ok) throw Error(response.statusText);
 				const userInfo = await response.json();
+        setIsLoading(false);
         if (userInfo.status === "forbidden"){
           navigate('/');
           warn('有効化されていないユーザーです');
@@ -52,6 +55,7 @@ const User = () => {
         }
 			} catch (error) {
 				handleAjaxError(error);
+        setIsLoading(false);
 			};
 		};
 
@@ -79,21 +83,29 @@ const User = () => {
           )}
         </div>
       </section>
-      <RecipesFormat sectionTitle={"私のレシピ一覧"} recipes={myRecipes}/>
-      <section className="section content-width">
-        <h1 className="sectionTitle">私の質問一覧</h1>
-        <ul className="questions__list">
-          <PartialQuestions questions={currentQuestions}/>
-          {questions.length === 0 && (
-            <p className="nothing">現在投稿されている質問はありません</p>
-          )}
-        </ul>
-        <Pagination
-          postsPerPage={questionsPerPage}
-          totalPosts={questions.length}
-          paginate={paginate}
-        />
-    </section>
+      {isLoading ? (
+        <div className="loading-image">
+          <img src="/assets/loading.gif" alt="" className='image'/>
+        </div>
+      ) : (
+        <>
+          <RecipesFormat sectionTitle={"私のレシピ一覧"} recipes={myRecipes}/>
+          <section className="section content-width">
+            <h1 className="sectionTitle">私の質問一覧</h1>
+            <ul className="questions__list">
+              <PartialQuestions questions={currentQuestions}/>
+              {questions.length === 0 && (
+                <p className="nothing">現在投稿されている質問はありません</p>
+              )}
+            </ul>
+            <Pagination
+              postsPerPage={questionsPerPage}
+              totalPosts={questions.length}
+              paginate={paginate}
+            />
+          </section>
+        </>
+      )}
     </>
   );
 };

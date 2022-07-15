@@ -8,7 +8,7 @@ import { handleAjaxError } from '../../parts/helpers';
 import Pagination from '../../parts/Pagination';
 
 const QuestionsList = () => {
-  const { questions } = useQuestion();
+  const { questions, isLoading } = useQuestion();
   const [searchedQuestions, setSearchedQuestions] = useState([]);
 	const [ keyword, setKeyword ] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -61,24 +61,30 @@ const QuestionsList = () => {
             <Link className='questions__new-link' to="/questions/new">質問してみる</Link>
           </div>
         </h1>
-        <div className="questions">
-          <div className="questions__search">
-            <SearchForm searchQuestion={searchQuestion}/>
+        {isLoading ? (
+          <div className="loading-image">
+            <img src="/assets/loading.gif" alt="" className='image'/>
           </div>
-          <ul className="questions__list">
-            {keyword ? renderQuestions(currentSearchedQuestions) : renderQuestions(currentQuestions)}
-          </ul>
-          {keyword && (
-            <div className='form__btn__wrap search'>
-              <span className='form__btn btn question-btn' onClick={handleClick}>質問一覧へ戻る</span>
+        ) : (
+          <div className="questions">
+            <div className="questions__search">
+              <SearchForm searchQuestion={searchQuestion}/>
             </div>
-          )}
-          <Pagination
-            postsPerPage={questionsPerPage}
-            totalPosts={keyword ? searchedQuestions.length : questions.length}
-            paginate={paginate}
-          />
-        </div>
+            <ul className="questions__list">
+              {keyword ? renderQuestions(currentSearchedQuestions) : renderQuestions(currentQuestions)}
+            </ul>
+            {keyword && (
+              <div className='form__btn__wrap search'>
+                <span className='form__btn btn question-btn' onClick={handleClick}>質問一覧へ戻る</span>
+              </div>
+            )}
+            <Pagination
+              postsPerPage={questionsPerPage}
+              totalPosts={keyword ? searchedQuestions.length : questions.length}
+              paginate={paginate}
+            />
+          </div>
+        )}
       </section>
     </>
   );

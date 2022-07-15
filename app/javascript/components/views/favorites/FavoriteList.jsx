@@ -7,16 +7,19 @@ import { warn } from "../../parts/notifications";
 
 const FavoriteList = () => {
   const { id } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
   const [recipes, setRecipes] = useState([]);
   const [title, setTitle] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchFaviriteRecipes = async () => {
+      setIsLoading(true);
       try {
         const response = await window.fetch(`/api/users/${id}/favorite_recipes`);
         if (!response.ok) throw Error(response.statusText);
         const data = await response.json();
+        setIsLoading(false);
         if (data.status === 'forbidden'){
           warn(data.message);
           navigate(`/`);
@@ -26,6 +29,7 @@ const FavoriteList = () => {
         }
       } catch (error) {
         handleAjaxError(error);
+        setIsLoading(false);
       }
     };
     fetchFaviriteRecipes();
@@ -35,7 +39,13 @@ const FavoriteList = () => {
   return (
     <>
       <HeadBlock title={title}/>
-      <RecipesFormat sectionTitle={title} recipes={recipes}/>
+      {isLoading ? (
+        <div className="loading-image">
+          <img src="/assets/loading.gif" alt="" className='image'/>
+        </div>
+      ) : (
+        <RecipesFormat sectionTitle={title} recipes={recipes}/>
+      )}
     </>
   );
 };
