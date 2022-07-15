@@ -3,11 +3,10 @@ import { handleAjaxError } from '../../parts/helpers';
 
 export const useQuestion = () => {
   const [questions, setQuestions] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const getAllQuestions = async () => {
-      setIsLoading(true);
       try {
         const response = await window.fetch('/api/questions');
         if (!response.ok) throw Error(response.statusText);

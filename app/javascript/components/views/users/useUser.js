@@ -3,11 +3,10 @@ import { handleAjaxError } from '../../parts/helpers';
 
 export const useUser = () => {
   const [users, setUsers] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
-      setIsLoading(true);
       try {
         const response = await window.fetch('/api/users');
         if (!response.ok) throw Error(response.statusText);

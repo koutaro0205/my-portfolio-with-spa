@@ -15,7 +15,7 @@ const User = () => {
   const { id } = useParams();
   const navigate = useNavigate
   const [user, setUser] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [myRecipes, setMyRecipes] = useState([]);
   const [recipesCount, setCount] = useState(0);
   const [questions, setQuestions] = useState([]);
@@ -38,7 +38,6 @@ const User = () => {
 
   useEffect(() => {
     const getUser = async () => {
-      setIsLoading(true);
 			try {
 				const response = await window.fetch(`/api/users/${id}`);
 				if (!response.ok) throw Error(response.statusText);

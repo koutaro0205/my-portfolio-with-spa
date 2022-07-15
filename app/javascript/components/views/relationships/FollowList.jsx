@@ -5,7 +5,7 @@ import { handleAjaxError, defaultImage } from "../../parts/helpers";
 
 const FollowList = () => {
   const { id } = useParams();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
   const [user, setUser] = useState({});
   const [followers, setFollowers] = useState([]);
@@ -21,7 +21,6 @@ const FollowList = () => {
 
   useEffect(() => {
     const fetchFollowers = async () => {
-      setIsLoading(true);
       try {
         const response = await window.fetch(`/api/users/${id}/followers`);
         if (!response.ok) throw Error(response.statusText);
@@ -36,7 +35,6 @@ const FollowList = () => {
     };
 
     const fetchFollowing = async () => {
-      setIsLoading(true);
       try {
         const response = await window.fetch(`/api/users/${id}/following`);
         if (!response.ok) throw Error(response.statusText);

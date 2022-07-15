@@ -15,12 +15,11 @@ const Home = () => {
   const [followingRecipes, setFollowingRecipes] = useState([]);
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
   const [questions, setQuestions] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const currentUser = useContext(CurrentUserContext);
 
   useEffect(() => {
     const getRecipes = async () => {
-      setIsLoading(true);
 			try {
 				const response = await window.fetch(`/api/home`,{
           method: 'GET',

@@ -6,13 +6,12 @@ import { RecipesFormat } from '../recipes/RecipesFormat';
 
 const Category = () => {
   const { id } = useParams();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [category, setCategory] = useState({});
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
     const fetchCategory = async () => {
-      setIsLoading(true);
       try {
         const response = await window.fetch(`/api/categories/${id}`);
         if (!response.ok) throw Error(response.statusText);

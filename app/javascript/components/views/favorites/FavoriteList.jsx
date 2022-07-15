@@ -7,14 +7,13 @@ import { warn } from "../../parts/notifications";
 
 const FavoriteList = () => {
   const { id } = useParams();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [recipes, setRecipes] = useState([]);
   const [title, setTitle] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchFaviriteRecipes = async () => {
-      setIsLoading(true);
       try {
         const response = await window.fetch(`/api/users/${id}/favorite_recipes`);
         if (!response.ok) throw Error(response.statusText);

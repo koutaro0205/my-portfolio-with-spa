@@ -5,6 +5,7 @@ import { RecipesFormat } from './RecipesFormat';
 
 const FollowingRecipes = () => {
   const [recipes, setRecipes] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -12,9 +13,11 @@ const FollowingRecipes = () => {
         const response = await window.fetch('/api/recipes/following_recipes');
         if (!response.ok) throw Error(response.statusText);
         const recipesData = await response.json();
+        setIsLoading(false);
         setRecipes(recipesData.following_recipes);
       } catch (error) {
         handleAjaxError(error);
+        setIsLoading(false);
       }
     };
     fetchRecipes();
@@ -23,7 +26,13 @@ const FollowingRecipes = () => {
   return (
     <>
       <HeadBlock title={"フォローしているユーザーのレシピ一覧"}/>
-      <RecipesFormat sectionTitle={"フォローしているユーザーのレシピ一覧"} recipes={recipes}/>
+      {isLoading ? (
+        <div className="loading-image">
+          <img src="/assets/loading.gif" alt="" className='image'/>
+        </div>
+      ) : (
+        <RecipesFormat sectionTitle={"フォローしているユーザーのレシピ一覧"} recipes={recipes}/>
+      )}
     </>
   )
 }
