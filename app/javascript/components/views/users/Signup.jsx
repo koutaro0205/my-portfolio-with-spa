@@ -39,7 +39,6 @@ const Signup = () => {
       if (!response.ok) throw Error(response.statusText);
 
       const newUserData = await response.json();
-      console.log(newUserData);
       const savedUser = newUserData.user;
       const newUsers = [...users, savedUser];
       setUsers(newUsers);

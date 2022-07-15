@@ -30,14 +30,6 @@ module SessionsHelper
     !current_user.nil?
   end
 
-  # def logged_in?
-  #   if @current_user
-  #       render json: { logged_in: true, user: current_user }
-  #   else
-  #       render json: { logged_in: false, message: 'ユーザーが存在しません' }
-  #   end
-  # end
-
   def redirect_back_or(default)
     if session[:forwarding_url]
       render json: { to: session[:forwarding_url] }

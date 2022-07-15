@@ -255,7 +255,13 @@ input[type=button], input[type=text], input[type=submit], input[type=image], tex
 }
 
 @media screen and (max-width: 767px){
-  .loading-image .image{
+  .loading{
+    font-size: 1.2rem;
+  }
+}
+
+@media screen and (max-width: 767px){
+  .loading-image img{
     height: 25px;
     width: 25px;
   }

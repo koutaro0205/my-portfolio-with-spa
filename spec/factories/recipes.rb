@@ -30,10 +30,6 @@ FactoryBot.define do
     cost {200}
     user { association :user, email: 'recent@example.com' }
     association :category
-
-    # trait :with_comments do
-    #   after(:create) { |recipe| create_list(:comment, 5, recipe: recipe) }
-    # end
   end
 
   factory :continuous_recipes, class: Recipe do

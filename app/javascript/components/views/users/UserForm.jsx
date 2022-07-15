@@ -62,19 +62,19 @@ const UserForm = ({onSave, users, setIsLoading, isLoading}) => {
 
     if (existedUser !== undefined && isEmptyObject(currUser)){
       if (user.email === existedUser.email) {
-        errors.push("入力されたメールアドレスは既に使われています。");
+        errors.push("入力されたメールアドレスは既に使われています");
       }
     }
 
     if (regex.test(user.email)) {
-      errors.push("正規表現パターンに一致していません。");
+      errors.push("メールアドレスに不正な値が含まれています");
     }
 
     if(!id){
       if (user.password === '' || user.password_confirmation === ''){
         errors.push('パスワードを入力してください');
       }
-  
+
       if (user.password.length < 6 || user.password_confirmation.length < 6) {
         errors.push('パスワードを6文字以上で入力してください');
       }

@@ -85,11 +85,6 @@ RSpec.describe "Users", type: :request do
         expect(json["status"]).to eq "created"
       end
 
-      # it 'contains one email sent' do
-      #   post api_users_path, params: user_params
-      #   expect(ActionMailer::Base.deliveries.size).to eq 1
-      # end
-
       it 'does not activate at registration' do
         post api_users_path, params: user_params
         expect(User.first).to_not be_activated

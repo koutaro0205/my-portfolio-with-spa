@@ -14,6 +14,9 @@ class Api::QuestionsController < ApplicationController
     render json: { user: @user, question: associate(@question), question_comment_count: @question_comment_count }
   end
 
+  def new
+  end
+
   def create
     @question = current_user.questions.build(question_params)
     if @question.save
@@ -63,7 +66,6 @@ class Api::QuestionsController < ApplicationController
     end
 
     def associate(obj)
-      # JSON.parse(obj.to_json(include: {user: {methods: [:image_url]}}))
       JSON.parse(obj.to_json(include: [:interests, :question_comments, {user: {methods: [:image_url]}}]))
     end
 end
