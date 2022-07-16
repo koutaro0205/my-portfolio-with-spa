@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import { isEmptyArray, isEmptyObject } from '../../parts/helpers';
 
-const UserForm = ({onSave, users, setIsLoading, isLoading}) => {
+const UserForm = ({onSave, users}) => {
   const { id } = useParams();
   const defaults = {
     name: '',
@@ -14,7 +14,7 @@ const UserForm = ({onSave, users, setIsLoading, isLoading}) => {
   const currUser = id? users.find((e) => e.id === Number(id)) : {};
   const initialUserState = { ...defaults, ...currUser };
   const [user, setUser] = useState(initialUserState);
-
+  const [isLoading, setIsLoading] = useState(false);
   const [formErrors, setFormErrors] = useState([]);
 
   useEffect(() => {
