@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import { useUser } from "./useUser";
 import { HeadBlock } from '../../HeadBlock';
 import { info } from "../../parts/notifications";
 import UserForm from "./UserForm";
@@ -8,7 +7,6 @@ import { handleAjaxError } from '../../parts/helpers';
 
 const Signup = () => {
   const [users, setUsers] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -55,7 +53,7 @@ const Signup = () => {
       <section className="section content-width">
         <div className="form__inner">
           <h1 className="sectionTitle">ユーザー登録</h1>
-          <UserForm onSave={addUser} users={users} setIsLoading={setIsLoading} isLoading={isLoading} />
+          <UserForm onSave={addUser} users={users}/>
         </div>
       </section>
     </>
