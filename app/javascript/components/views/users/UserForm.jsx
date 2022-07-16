@@ -114,9 +114,7 @@ const UserForm = ({onSave, users, setIsLoading, isLoading}) => {
       setFormErrors(errors);
     } else {
       onSave(user);
-      if ( !id ) {
-        setIsLoading(true);
-      }
+      setIsLoading(true);
     }
   };
 
@@ -124,7 +122,11 @@ const UserForm = ({onSave, users, setIsLoading, isLoading}) => {
     <>
       {isLoading ? (
         <>
-          <p className='loading'>メールを送信中です。今しばらくお待ちください。</p>
+          {id ? (
+            <p className='loading'>ユーザー情報を更新中です。今しばらくお待ちください。</p>
+          ) : (
+            <p className='loading'>メールを送信中です。今しばらくお待ちください。</p>
+          )}
           <div className="loading-image">
             <img src="/assets/loading.gif" alt="" />
           </div>

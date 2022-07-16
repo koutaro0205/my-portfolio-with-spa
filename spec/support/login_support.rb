@@ -12,11 +12,21 @@ module LoginSupport
 
   module System
     def log_in(user)
-      visit login_path
-
+      visit root_path
+      click_link "ログイン"
       fill_in 'メールアドレス', with: user.email
       fill_in 'パスワード', with: user.password
       click_button 'ログイン'
+    end
+
+    def to_user_path
+      find('.dropdown__menu').click #open
+      click_link '登録情報'
+      find('.dropdown__menu').click #close
+    end
+
+    def post
+      find('.form__btn').click
     end
   end
 end
