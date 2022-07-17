@@ -50,6 +50,7 @@ test:
 #
 production:
   <<: *default
+  database: my_project_production
   adapter: mysql2
   encoding: utf8mb4
   # For details on connection pooling, see Rails configuration guide
