@@ -22,7 +22,8 @@ Rails.application.configure do
 
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
-  config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
+  # config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
+  config.public_file_server.enabled = true
 
   # Compress CSS using a preprocessor.
   # config.assets.css_compressor = :sass
@@ -91,7 +92,7 @@ Rails.application.configure do
   ### Addition
   ## 追加(本番仕様に合わせる<画像URL参照先>)
   # host = 'https://testapp235722.herokuapp.com'
-  host = 'ec2-18-178-22-221.ap-northeast-1.compute.amazonaws.com'
+  host = 'http://18.178.22.221'
   Rails.application.routes.default_url_options[:host] = host
   # Rails.application.routes.default_url_options[:port] = 3000
 
