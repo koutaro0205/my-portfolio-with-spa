@@ -54,8 +54,6 @@ production:
   encoding: utf8mb4
   # For details on connection pooling, see Rails configuration guide
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  database: <%= ENV['MYSQL_DATABASE'] %>
-  host: <%= ENV['MYSQL_HOST'] %>
-  username: <%= ENV['MYSQL_USERNAME'] %>
-  password: <%= ENV['MYSQL_PASSWORD'] %>
-  url: <%= ENV['MYSQL_URL'] %>
+  username: <%= Rails.application.credentials[:db_user] %>
+  password: <%= Rails.application.credentials[:db_password] %>
+  host: <%= Rails.application.credentials[:endpoint] %>
