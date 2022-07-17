@@ -90,7 +90,8 @@ Rails.application.configure do
 
   ### Addition
   ## 追加(本番仕様に合わせる<画像URL参照先>)
-  host = 'https://testapp235722.herokuapp.com'
+  # host = 'https://testapp235722.herokuapp.com'
+  host = 'ec2-18-178-22-221.ap-northeast-1.compute.amazonaws.com'
   Rails.application.routes.default_url_options[:host] = host
   # Rails.application.routes.default_url_options[:port] = 3000
 

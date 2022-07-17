@@ -17,4 +17,13 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
           methods: [:get, :post, :put, :patch, :delete, :options, :head],
           credentials: true
   end
+
+  allow do
+      origins 'ec2-18-178-22-221.ap-northeast-1.compute.amazonaws.com'
+
+      resource '*',
+          headers: :any,
+          methods: [:get, :post, :put, :patch, :delete, :options, :head],
+          credentials: true
+  end
 end
