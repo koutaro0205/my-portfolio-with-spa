@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { success } from "../../parts/notifications";
-import { handleAjaxError } from '../../parts/helpers';
+import { handleAjaxError, loadingImage } from '../../parts/helpers';
 import { HeadBlock } from '../../HeadBlock';
 
 const PasswordResetForm = () => {
@@ -86,7 +86,7 @@ const PasswordResetForm = () => {
           <>
             <p className='loading'>メールを送信中です。今しばらくお待ちください。</p>
             <div className="loading-image">
-              <img src="/assets/loading.gif" alt="" />
+              <img src={loadingImage()} alt="" />
             </div>
           </>
         ) : (

@@ -70,14 +70,14 @@ const InterestForm = ({questionId, question, setInterestCount}) => {
         <div onClick={toggleInterestStatus}>
           <div className="question__interest-btn btn-opacity">
           <span>知りたい!(済)</span>
-            <img src={'/assets/interest.svg'} alt="" />
+            <img src={'/images/interest.svg'} alt="" />
           </div>
         </div>
       ) : (
         <div onClick={toggleInterestStatus}>
           <div className="question__interest-btn">
             <span>知りたい!</span>
-            <img src={'/assets/interest.svg'} alt="" />
+            <img src={'/images/interest.svg'} alt="" />
           </div>
         </div>
       )}

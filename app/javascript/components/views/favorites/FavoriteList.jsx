@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { HeadBlock } from "../../HeadBlock";
 import { useParams, useNavigate } from "react-router-dom";
-import { handleAjaxError } from "../../parts/helpers";
+import { handleAjaxError, loadingImage } from "../../parts/helpers";
 import { RecipesFormat } from "../recipes/RecipesFormat";
 import { warn } from "../../parts/notifications";
 
@@ -40,7 +40,7 @@ const FavoriteList = () => {
       <HeadBlock title={title}/>
       {isLoading ? (
         <div className="loading-image">
-          <img src="/assets/loading.gif" alt="" className='image'/>
+          <img src={loadingImage()} alt="" />
         </div>
       ) : (
         <RecipesFormat sectionTitle={title} recipes={recipes}/>

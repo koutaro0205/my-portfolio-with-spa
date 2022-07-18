@@ -3,7 +3,7 @@ import { CurrentUserContext } from "../../App";
 import { useUser } from "./useUser";
 import { HeadBlock } from '../../HeadBlock';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { handleAjaxError, isCurrntUser, defaultImage } from '../../parts/helpers';
+import { handleAjaxError, isCurrntUser, defaultImage, loadingImage } from '../../parts/helpers';
 import { success, warn } from '../../parts/notifications';
 import FollowForm from '../relationships/FollowForm';
 import { useImage } from './useImage';
@@ -107,7 +107,7 @@ const UserList = () => {
           </div>
           {isLoading ? (
             <div className="loading-image">
-              <img src="/assets/loading.gif" alt="" className='image'/>
+              <img src={loadingImage()} alt="" />
             </div>
           ) : (
             <div className="users">

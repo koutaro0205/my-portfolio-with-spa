@@ -15,11 +15,23 @@ export const isCurrntUser = (user, currentUser) => {
 }
 
 export const defaultImage = () => {
-  return '/assets/default.jpeg';
+  return '/images/default.jpeg';
 }
 
 export const noImage = () => {
-  return '/assets/noimage.jpg';
+  return '/images/noimage.jpg';
+}
+
+export const loadingImage = () => {
+  return '/images/loading.gif';
+}
+
+export const yenImage = () => {
+  return '/images/yen.svg';
+}
+
+export const timerImage = () => {
+  return '/images/timer.svg';
 }
 
 export const timeStamp = (obj) => {

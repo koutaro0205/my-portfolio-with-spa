@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
-import { isEmptyArray, isEmptyObject } from '../../parts/helpers';
+import { isEmptyArray, isEmptyObject, loadingImage } from '../../parts/helpers';
 
 const UserForm = ({onSave, users}) => {
   const { id } = useParams();
@@ -128,7 +128,7 @@ const UserForm = ({onSave, users}) => {
             <p className='loading'>メールを送信中です。今しばらくお待ちください。</p>
           )}
           <div className="loading-image">
-            <img src="/assets/loading.gif" alt="" />
+            <img src={loadingImage()} alt="" />
           </div>
         </>
         ) : (

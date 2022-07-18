@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import { HeadBlock } from "../../HeadBlock";
 import { useParams, useLocation, NavLink } from "react-router-dom";
-import { handleAjaxError, defaultImage } from "../../parts/helpers";
+import { handleAjaxError, defaultImage, loadingImage } from "../../parts/helpers";
 
 const FollowList = () => {
   const { id } = useParams();
@@ -88,7 +88,7 @@ const FollowList = () => {
           </div>
           {isLoading ? (
             <div className="loading-image">
-              <img src="/assets/loading.gif" alt="" className='image'/>
+              <img src={loadingImage()} alt="" />
             </div>
           ) : (
             <div className="users">

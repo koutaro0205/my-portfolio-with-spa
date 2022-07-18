@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { defaultImage, noImage, timeStamp } from "../../parts/helpers";
+import { defaultImage, noImage, timeStamp, yenImage, timerImage } from "../../parts/helpers";
 
 const PartialRecipes = ({recipes}) => {
   const renderRecipes = (recipeArray) => {
@@ -25,11 +25,11 @@ const PartialRecipes = ({recipes}) => {
           </p>
           <div className="recipeCard__performance">
             <p className="recipeCard__duration">
-              <img src="/assets/timer.svg" alt="所要時間" />
+            <img src={timerImage()} alt="" />
               {recipe.duration}分
             </p>
             <p className="recipeCard__cost">
-            <img src="/assets/yen.svg" alt="コスト" />
+            <img src={yenImage()} alt="" />
               {recipe.cost}円
             </p>
           </div>

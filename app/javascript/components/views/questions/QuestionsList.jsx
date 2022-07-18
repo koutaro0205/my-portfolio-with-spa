@@ -4,7 +4,7 @@ import { useQuestion } from './useQuestion';
 import { Link } from 'react-router-dom';
 import PartialQuestions from './PartialQuestions';
 import { SearchForm } from './SearchForm';
-import { handleAjaxError } from '../../parts/helpers';
+import { handleAjaxError, loadingImage } from '../../parts/helpers';
 import Pagination from '../../parts/Pagination';
 
 const QuestionsList = () => {
@@ -63,7 +63,7 @@ const QuestionsList = () => {
         </h1>
         {isLoading ? (
           <div className="loading-image">
-            <img src="/assets/loading.gif" alt="" className='image'/>
+            <img src={loadingImage()} alt="" />
           </div>
         ) : (
           <div className="questions">

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import { isEmptyArray } from '../../parts/helpers';
+import { isEmptyArray, loadingImage } from '../../parts/helpers';
 
 const RecipeForm = ({onSave, recipes, categories}) => {
   const { id } = useParams();
@@ -124,7 +124,7 @@ const RecipeForm = ({onSave, recipes, categories}) => {
         <>
           <p className='loading'>レシピを投稿中です。今しばらくお待ちください。</p>
           <div className="loading-image">
-            <img src="/assets/loading.gif" alt="" className='image'/>
+            <img src={loadingImage()} alt="" />
           </div>
         </>
       ) : (

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { CurrentUserContext } from "../../App";
 import { HeadBlock } from '../../HeadBlock';
 import { useNavigate, useParams } from 'react-router-dom';
-import { handleAjaxError, defaultImage } from '../../parts/helpers';
+import { handleAjaxError, defaultImage, loadingImage } from '../../parts/helpers';
 import PartialQuestions from '../questions/PartialQuestions';
 import FollowForm from '../relationships/FollowForm';
 import { Stats } from '../../parts/Stats';
@@ -84,7 +84,7 @@ const User = () => {
       </section>
       {isLoading ? (
         <div className="loading-image">
-          <img src="/assets/loading.gif" alt="" className='image'/>
+          <img src={loadingImage()} alt="" />
         </div>
       ) : (
         <>

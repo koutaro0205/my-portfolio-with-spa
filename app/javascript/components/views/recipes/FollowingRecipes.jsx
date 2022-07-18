@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { HeadBlock } from '../../HeadBlock';
-import { handleAjaxError } from '../../parts/helpers';
+import { handleAjaxError, loadingImage } from '../../parts/helpers';
 import { RecipesFormat } from './RecipesFormat';
 
 const FollowingRecipes = () => {
@@ -28,7 +28,7 @@ const FollowingRecipes = () => {
       <HeadBlock title={"フォローしているユーザーのレシピ一覧"}/>
       {isLoading ? (
         <div className="loading-image">
-          <img src="/assets/loading.gif" alt="" className='image'/>
+          <img src={loadingImage()} alt="" />
         </div>
       ) : (
         <RecipesFormat sectionTitle={"フォローしているユーザーのレシピ一覧"} recipes={recipes}/>

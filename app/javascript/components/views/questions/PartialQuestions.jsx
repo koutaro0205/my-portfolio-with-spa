@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { defaultImage } from '../../parts/helpers';
 
 const PartialQuestions = ({questions}) => {
 
@@ -21,7 +22,7 @@ const PartialQuestions = ({questions}) => {
           <div className="questions__user-info">
             <div className="questions__user-image">
               <NavLink to={`/users/${question.user_id}`} className="questions__user-link">
-                <img className='image' src={question.user.image_url ? question.user.image_url : "/assets/default.jpeg"} alt="" />
+                <img className='image' src={question.user.image_url ? question.user.image_url : defaultImage()} alt="" />
               </NavLink>
             </div>
             <p className="questions__user-name"><NavLink to={`/users/${question.user_id}`}>{question.user.name}</NavLink></p>

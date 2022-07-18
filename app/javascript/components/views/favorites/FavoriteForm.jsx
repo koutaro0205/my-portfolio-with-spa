@@ -69,14 +69,14 @@ const FavoriteForm = ({recipe, recipeId}) => {
         <div onClick={toggleFavoriteStatus}>
           <div className="recipe__favorite-layout">
           <span>お気に入り解除</span>
-            <img src={'/assets/favorite.svg'} alt="" />
+            <img src={'/images/favorite.svg'} alt="" />
           </div>
         </div>
       ) : (
         <div onClick={toggleFavoriteStatus}>
           <div className="recipe__favorite-layout">
             <span>お気に入り登録</span>
-            <img src={'/assets/unfavorite.svg'} alt="" />
+            <img src={'/images/unfavorite.svg'} alt="" />
           </div>
         </div>
       )}

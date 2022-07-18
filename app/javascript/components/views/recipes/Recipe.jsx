@@ -5,7 +5,7 @@ import { HeadBlock } from "../../HeadBlock";
 import { success, warn } from "../../parts/notifications";
 import FavoriteForm from "../favorites/FavoriteForm";
 import NewComments from "../comments/NewComment";
-import { timeStamp, isCurrntUser, noImage, defaultImage, handleAjaxError } from "../../parts/helpers";
+import { timeStamp, isCurrntUser, noImage, defaultImage, handleAjaxError, timerImage, yenImage } from "../../parts/helpers";
 
 const Recipe = () => {
   const { id } = useParams();
@@ -87,11 +87,11 @@ const Recipe = () => {
         </p>
           <div className="recipeCard__performance">
             <p className="recipeCard__duration">
-              <img src="/assets/timer.svg" alt="" />
+              <img src={timerImage()} alt="" />
               {recipe.duration}分
             </p>
             <p className="recipeCard__cost">
-              <img src="/assets/yen.svg" alt="" />
+              <img src={yenImage()} alt="" />
               {recipe.cost}円
             </p>
           </div>

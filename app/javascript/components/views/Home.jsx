@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useContext} from "react";
 import { CurrentUserContext } from "../App";
 import { Link } from "react-router-dom";
-import { handleAjaxError } from "../parts/helpers";
+import { handleAjaxError, loadingImage } from "../parts/helpers";
 import { HeadBlock } from "../HeadBlock";
 import PartialRecipes from "./recipes/PartialRecipes";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
@@ -63,7 +63,7 @@ const Home = () => {
       <div className="container content-width">
         {isLoading ? (
           <div className="loading-image">
-            <img src="/assets/loading.gif" alt="" className='image'/>
+            <img src={loadingImage()} alt="" />
           </div>
         ) : (
           <div className="main-contents">
