@@ -44,7 +44,7 @@ Rails.application.configure do
   # config.action_cable.allowed_request_origins = [ "http://example.com", /http:\/\/example.*/ ]
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = false
+  config.force_ssl = true
 
   # Include generic and useful information about system operation, but avoid logging too much
   # information to avoid inadvertent exposure of personally identifiable information (PII).
@@ -92,7 +92,7 @@ Rails.application.configure do
   ### Addition
   ## 追加(本番仕様に合わせる<画像URL参照先>)
   # host = 'https://testapp235722.herokuapp.com'
-  host = 'http://18.178.22.221'
+  host = 'https://my-portfolio.zuborecipes.click'
   Rails.application.routes.default_url_options[:host] = host
   # Rails.application.routes.default_url_options[:port] = 3000
 
