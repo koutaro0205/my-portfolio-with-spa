@@ -7,7 +7,7 @@
 ## 使用技術
 * HTML5/CSS3
 * JavaScript
-* React (完全SPA)
+* React (jsライブラリ) <完全SPA化>
 * Ruby 3.1.0
 * Ruby on Rails 7.0.2 (API提供)
 * MySQL 5.7.37
@@ -73,7 +73,7 @@ Amazon Web Services
 その他、コメントの追加・レシピのお気に入り登録・気に入ったユーザーのフォローなどができます。
 
 ## デプロイ先URL
-https://
+https://my-portfolio.zuborecipes.click
 ### ゲストログイン用情報
 * メールアドレス：guestuser@example.com
 * パスワード：guestuser
