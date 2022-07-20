@@ -67,7 +67,7 @@ class Api::RecipesController < ApplicationController
   end
 
   def following_recipes
-    @following_recipes = Recipe.where(user_id: [current_user.following_ids])
+    @following_recipes = associate(Recipe.where(user_id: [current_user.following_ids]))
     render json: { following_recipes: @following_recipes }
   end
 

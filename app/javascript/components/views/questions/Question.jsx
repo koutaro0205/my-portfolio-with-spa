@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { CurrentUserContext } from '../../App';
 import { useParams, Link } from 'react-router-dom';
 import { HeadBlock } from '../../HeadBlock';
-import { handleAjaxError } from '../../parts/helpers';
+import { defaultImage, handleAjaxError } from '../../parts/helpers';
 import NewQuestionComment from './NewQuestionComment';
 import InterestForm from '../interests/InterestForm';
 import { timeStamp, isCurrntUser } from '../../parts/helpers';
@@ -42,7 +42,7 @@ const Question = () => {
           <div className="question__user-info">
             <div className="question__user-image">
               <Link className="question__user-link" to={`/users/${user.id}`}>
-                <img src={user.image_url ? user.image_url : '/assets/default.jpeg'} alt="アバター画像" />
+                <img src={user.image_url ? user.image_url : defaultImage()} alt="アバター画像" className='image'/>
               </Link>
               <p className="question__user-name">{user.name}</p>
             </div>

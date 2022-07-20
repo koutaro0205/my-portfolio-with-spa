@@ -10,7 +10,7 @@ class Api::QuestionsController < ApplicationController
 
   def show
     @question_comment_count = @question.question_comments.count
-    @user = @question.user
+    @user = json_with_image(@question.user)
     render json: { user: @user, question: associate(@question), question_comment_count: @question_comment_count }
   end
 

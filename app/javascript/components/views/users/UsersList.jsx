@@ -7,6 +7,7 @@ import { handleAjaxError, isCurrntUser, defaultImage, loadingImage } from '../..
 import { success, warn } from '../../parts/notifications';
 import FollowForm from '../relationships/FollowForm';
 import { useImage } from './useImage';
+import Pagination from '../../parts/Pagination';
 
 const UserList = () => {
   const currentUser = useContext(CurrentUserContext);
@@ -14,6 +15,13 @@ const UserList = () => {
   const { currentImage } = useImage();
   const [admin, setAdmin] = useState(false);
   const navigate = useNavigate();
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [usersPerPage] = useState(10);
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+  const paginate = pageNumber => setCurrentPage(pageNumber);
 
   useEffect(() => {
     const checkAdminUser = async () => {
@@ -113,8 +121,13 @@ const UserList = () => {
             <div className="users">
               <h2 className="subTitle">登録ユーザー一覧</h2>
               <ul className="users__list">
-                {renderUsers(users)}
+                {renderUsers(currentUsers)}
               </ul>
+              <Pagination
+                postsPerPage={usersPerPage}
+                totalPosts={users.length}
+                paginate={paginate}
+              />
             </div>
           )}
         </div>
